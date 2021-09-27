@@ -3,6 +3,14 @@
 #include "ModuleSceneIntro.h"
 #include "Primitive.h"
 
+#include "ImGui/imgui.h"
+#include "ImGui/imgui_internal.h"
+#include "ImGui/imgui_impl_sdl.h"
+#include "ImGui/imgui_impl_opengl3.h"
+
+#include "Glew/include/GL/glew.h"
+#include "SDL/include/SDL_opengl.h"
+
 ModuleSceneIntro::ModuleSceneIntro(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
 }
