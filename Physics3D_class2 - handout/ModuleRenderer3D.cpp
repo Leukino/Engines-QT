@@ -3,8 +3,8 @@
 #include "ModuleRenderer3D.h"
 #include "SDL\include\SDL_opengl.h"
 
-#include <gl/GL.h>
-#include <gl/GLU.h>
+//#include <gl/GL.h>
+//#include <gl/GLU.h>
 
 #pragma comment (lib, "glu32.lib")    /* link OpenGL Utility lib     */
 #pragma comment (lib, "opengl32.lib") /* link Microsoft OpenGL lib   */
@@ -32,7 +32,7 @@ bool ModuleRenderer3D::Init()
 		LOG("OpenGL context could not be created! SDL_Error: %s\n", SDL_GetError());
 		ret = false;
 	}
-	
+	glewInit();
 	if(ret == true)
 	{
 		//Use Vsync
@@ -128,6 +128,8 @@ update_status ModuleRenderer3D::PreUpdate(float dt)
 // PostUpdate present buffer to screen
 update_status ModuleRenderer3D::PostUpdate(float dt)
 {
+
+	App->scene_intro->RenderImgui();
 	SDL_GL_SwapWindow(App->window->window);
 	return UPDATE_CONTINUE;
 }
