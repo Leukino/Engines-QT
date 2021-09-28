@@ -30,3 +30,15 @@
 *.exe
 *.out
 *.app
+Physics3D_class2 - handout/.vs/3D Physics/v16/Browse.VC.opendb
+*.opendb
+*.ipch
+*.tlog
+*.ilk
+*.pdb
+*.log
+*.idb
+*.pdb
+*.db-wal
+*.db-shm
+*.db

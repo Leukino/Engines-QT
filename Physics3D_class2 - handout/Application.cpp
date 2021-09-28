@@ -15,8 +15,8 @@ Application::Application()
 	// They will CleanUp() in reverse order
 	// 
 	// Module Editor
-	AddModule(scene_intro);
 	// Main Modules
+	AddModule(scene_intro);
 	AddModule(window);
 	AddModule(camera);
 	AddModule(input);
