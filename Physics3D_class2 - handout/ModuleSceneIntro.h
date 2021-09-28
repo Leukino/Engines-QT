@@ -10,8 +10,12 @@ public:
 	~ModuleSceneIntro();
 
 	bool Start();
+	bool Init() override;
+	update_status PreUpdate(float dt);
 	update_status Update(float dt);
 	bool CleanUp();
 
 public:
+
+	SDL_version sdlVersion;
 };

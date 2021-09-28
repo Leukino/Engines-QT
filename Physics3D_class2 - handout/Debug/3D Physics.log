@@ -1,2 +1,13 @@
-﻿  ModuleSceneIntro.cpp
-  3D Physics.vcxproj -> C:\Users\Usuario\Documents\GitHub\Engines-QT\Physics3D_class2 - handout\Debug\3D Physics - class2 Handout.exe
+﻿  Application.cpp
+  Main.cpp
+  ModuleAudio.cpp
+  ModuleCamera3D.cpp
+  ModuleInput.cpp
+  ModulePhysics3D.cpp
+C:\Users\miquelqg\Documents\GitHub\Engines-QT\Physics3D_class2 - handout\ModulePhysics3D.cpp(24,19): warning C4150: eliminación de puntero a tipo 'DebugDrawer' incompleto; no se ha llamado a un destructor
+C:\Users\miquelqg\Documents\GitHub\Engines-QT\Physics3D_class2 - handout\ModulePhysics3D.h(9): message : vea la declaración de 'DebugDrawer'
+  ModuleRenderer3D.cpp
+  ModuleSceneIntro.cpp
+  ModuleWindow.cpp
+  Generando código...
+  3D Physics.vcxproj -> C:\Users\miquelqg\Documents\GitHub\Engines-QT\Physics3D_class2 - handout\Debug\3D Physics - class2 Handout.exe

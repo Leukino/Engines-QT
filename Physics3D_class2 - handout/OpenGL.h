@@ -5,7 +5,7 @@
 #include <Windows.h>
 #include "Glew/include/GL/glew.h"			
 #include "SDL/include/SDL_opengl.h"
-#include <gl/GL.h>
-#include <gl/GLU.h>
+//#include <gl/GL.h>
+//#include <gl/GLU.h>
 
 #endif // !__OPEN_GL_H__

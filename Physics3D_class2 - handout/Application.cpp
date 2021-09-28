@@ -13,7 +13,9 @@ Application::Application()
 	// The order of calls is very important!
 	// Modules will Init() Start() and Update in this order
 	// They will CleanUp() in reverse order
-
+	// 
+	// Module Editor
+	AddModule(scene_intro);
 	// Main Modules
 	AddModule(window);
 	AddModule(camera);
@@ -21,8 +23,7 @@ Application::Application()
 	AddModule(audio);
 	AddModule(physics);
 	
-	// Scenes
-	AddModule(scene_intro);
+	
 
 	// Renderer last!
 	AddModule(renderer3D);

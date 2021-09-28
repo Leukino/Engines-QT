@@ -3,6 +3,12 @@
 #include "Globals.h"
 
 #include "SDL/include/SDL.h"
+
+#include "Glew/include/GL/glew.h"	
+
+#pragma comment (lib, "Glew/lib/libx86/glew32.lib")
+#pragma comment (lib, "Glew/lib/libx86/glew32s.lib")
+
 #pragma comment( lib, "SDL/libx86/SDL2.lib" )
 #pragma comment( lib, "SDL/libx86/SDL2main.lib" )
 
