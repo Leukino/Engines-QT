@@ -28,7 +28,7 @@ bool ModuleInput::Init()
 		LOG("SDL_EVENTS could not initialize! SDL_Error: %s\n", SDL_GetError());
 		ret = false;
 	}
-
+	mouse_z_motion = 0;
 	return ret;
 }
 
@@ -81,8 +81,17 @@ update_status ModuleInput::PreUpdate(float dt)
 		}
 	}
 
-	mouse_x_motion = mouse_y_motion = 0;
-
+	mouse_x_motion = 0;
+	mouse_y_motion = 0;
+	if (mouse_z_motion > 50)
+		mouse_z_motion = 50;
+	else if (mouse_z_motion < -50)
+		mouse_z_motion = -50;
+	if (mouse_z_motion < 0)
+	mouse_z_motion += 0.0005f;
+	else if (mouse_z_motion > 0)
+	mouse_z_motion -= 0.0005f;
+	
 	bool quit = false;
 	SDL_Event e;
 	while(SDL_PollEvent(&e))
@@ -91,6 +100,7 @@ update_status ModuleInput::PreUpdate(float dt)
 		{
 			case SDL_MOUSEWHEEL:
 			mouse_z = e.wheel.y;
+			mouse_z_motion += e.wheel.y * 4;
 			break;
 
 			case SDL_MOUSEMOTION:

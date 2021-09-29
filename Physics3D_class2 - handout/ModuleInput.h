@@ -57,6 +57,11 @@ public:
 	{
 		return mouse_y_motion;
 	}
+	int GetMouseZMotion() const
+	{
+		return mouse_z_motion;
+	}
+
 
 private:
 	KEY_STATE* keyboard;
@@ -66,5 +71,5 @@ private:
 	int mouse_z;
 	int mouse_x_motion;
 	int mouse_y_motion;
-	//int mouse_z_motion;
+	int mouse_z_motion;
 };

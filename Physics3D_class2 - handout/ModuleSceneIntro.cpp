@@ -23,23 +23,6 @@ bool ModuleSceneIntro::Init()
 {
 	bool ret = true;
 
-	//IMGUI_CHECKVERSION();
-	//SDL_GetVersion(&sdlVersion);
-	//ImGui::CreateContext();
-	//ImGuiIO& io = ImGui::GetIO();
-	//(void)io;
-	//io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
-	//
-	//ImGui::StyleColorsClassic();
-	//ImGui_ImplSDL2_InitForOpenGL(App->window->window, App->renderer3D->context);
-	//
-	//ImGui_ImplOpenGL3_Init(NULL);
-
-	//brightness = SDL_GetWindowBrightness(App->window->window);
-	
-	
-
-
 	return ret;
 }
 
@@ -52,7 +35,7 @@ update_status ModuleSceneIntro::PreUpdate(float dt)
 	ImGui::NewFrame();
 
 	// Any application code here
-	ImGui::Text("Hello, world!");
+	ImGui::Text("Hello, world! %d", App->input->GetMouseZMotion());
 
 	// Render dear imgui into screen
 	
