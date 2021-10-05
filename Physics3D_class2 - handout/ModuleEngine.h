@@ -20,4 +20,7 @@ public:
 public:
 
 	SDL_version sdlVersion;
+
+public:
+	bool dockingWindow = true;
 };
