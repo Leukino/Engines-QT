@@ -72,7 +72,7 @@
     <ClInclude Include="Light.h">
       <Filter>Sources\Helpers</Filter>
     </ClInclude>
-    <ClInclude Include="ModuleSceneIntro.h">
+    <ClInclude Include="ModuleEngine.h">
       <Filter>Sources\Modules\Game</Filter>
     </ClInclude>
     <ClInclude Include="Timer.h">
@@ -149,7 +149,7 @@
     <ClCompile Include="Light.cpp">
       <Filter>Sources\Helpers</Filter>
     </ClCompile>
-    <ClCompile Include="ModuleSceneIntro.cpp">
+    <ClCompile Include="ModuleEngine.cpp">
       <Filter>Sources\Modules\Game</Filter>
     </ClCompile>
     <ClCompile Include="ModulePhysics3D.cpp">

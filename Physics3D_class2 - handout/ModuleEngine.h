@@ -3,11 +3,11 @@
 #include "p2DynArray.h"
 #include "Globals.h"
 
-class ModuleSceneIntro : public Module
+class ModuleEngine : public Module
 {
 public:
-	ModuleSceneIntro(Application* app, bool start_enabled = true);
-	~ModuleSceneIntro();
+	ModuleEngine(Application* app, bool start_enabled = true);
+	~ModuleEngine();
 
 	bool Start();
 	bool Init() override;

@@ -1,6 +1,6 @@
 #include "Globals.h"
 #include "Application.h"
-#include "ModuleSceneIntro.h"
+#include "ModuleEngine.h"
 #include "Primitive.h"
 
 #include "SDL/include/SDL_opengl.h"
@@ -12,14 +12,14 @@
 
 
 
-ModuleSceneIntro::ModuleSceneIntro(Application* app, bool start_enabled) : Module(app, start_enabled)
+ModuleEngine::ModuleEngine(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
 }
 
-ModuleSceneIntro::~ModuleSceneIntro()
+ModuleEngine::~ModuleEngine()
 {}
 
-bool ModuleSceneIntro::Init()
+bool ModuleEngine::Init()
 {
 	bool ret = true;
 
@@ -27,7 +27,7 @@ bool ModuleSceneIntro::Init()
 }
 
 // Load assets
-update_status ModuleSceneIntro::PreUpdate(float dt)
+update_status ModuleEngine::PreUpdate(float dt)
 {
 	update_status ret = UPDATE_CONTINUE;
 	ImGui_ImplOpenGL3_NewFrame();
@@ -42,7 +42,7 @@ update_status ModuleSceneIntro::PreUpdate(float dt)
 	return ret;
 }
 
-bool ModuleSceneIntro::Start()
+bool ModuleEngine::Start()
 {
 	LOG("Loading Intro assets");
 	bool ret = true;
@@ -60,7 +60,7 @@ bool ModuleSceneIntro::Start()
 }
 
 // Load assets
-bool ModuleSceneIntro::CleanUp()
+bool ModuleEngine::CleanUp()
 {
 	LOG("Unloading Intro scene");
 	ImGui_ImplOpenGL3_Shutdown();
@@ -72,7 +72,7 @@ bool ModuleSceneIntro::CleanUp()
 	return true;
 }
 
-void ModuleSceneIntro::RenderImgui() {
+void ModuleEngine::RenderImgui() {
 	ImGui::EndFrame();
 	ImGui::Render();
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
@@ -80,7 +80,7 @@ void ModuleSceneIntro::RenderImgui() {
 }
 
 // Update: draw background
-update_status ModuleSceneIntro::Update(float dt)
+update_status ModuleEngine::Update(float dt)
 {
 	Plane p(0, 1, 0, 0);
 	p.axis = true;
