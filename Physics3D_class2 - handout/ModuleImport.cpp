@@ -1,7 +1,7 @@
 #include "Application.h"
 #include "ModuleRenderer3D.h"
 #include "ModuleImport.h"
-
+#include "stb_image.h"
 //assimp
 #include "Assimp/include/mesh.h"
 #include "Assimp/include/cimport.h"
@@ -100,7 +100,7 @@ GLuint textCoordToGL(aiVector3D* coord, size_t numTextCoor)
 
 	return textCoordID;
 }
-/*
+
 GLuint textureToGL(const char* path) //<-image texture path
 {
 	GLuint textureID;
@@ -125,5 +125,4 @@ GLuint textureToGL(const char* path) //<-image texture path
 	return textureID;
 
 } 
-*/
 
