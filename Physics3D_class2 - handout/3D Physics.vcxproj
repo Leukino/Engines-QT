@@ -84,7 +84,48 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Application.h" />
+    <ClInclude Include="Assimp\include\ai_assert.h" />
+    <ClInclude Include="Assimp\include\anim.h" />
+    <ClInclude Include="Assimp\include\camera.h" />
+    <ClInclude Include="Assimp\include\cexport.h" />
+    <ClInclude Include="Assimp\include\cfileio.h" />
+    <ClInclude Include="Assimp\include\cimport.h" />
+    <ClInclude Include="Assimp\include\color4.h" />
+    <ClInclude Include="Assimp\include\config.h" />
+    <ClInclude Include="Assimp\include\DefaultLogger.hpp" />
+    <ClInclude Include="Assimp\include\defs.h" />
+    <ClInclude Include="Assimp\include\Exporter.hpp" />
+    <ClInclude Include="Assimp\include\Importer.hpp" />
+    <ClInclude Include="Assimp\include\importerdesc.h" />
+    <ClInclude Include="Assimp\include\IOStream.hpp" />
+    <ClInclude Include="Assimp\include\IOSystem.hpp" />
+    <ClInclude Include="Assimp\include\light.h" />
+    <ClInclude Include="Assimp\include\Logger.hpp" />
+    <ClInclude Include="Assimp\include\LogStream.hpp" />
+    <ClInclude Include="Assimp\include\material.h" />
+    <ClInclude Include="Assimp\include\matrix3x3.h" />
+    <ClInclude Include="Assimp\include\matrix4x4.h" />
+    <ClInclude Include="Assimp\include\mesh.h" />
+    <ClInclude Include="Assimp\include\metadata.h" />
+    <ClInclude Include="Assimp\include\NullLogger.hpp" />
+    <ClInclude Include="Assimp\include\postprocess.h" />
+    <ClInclude Include="Assimp\include\ProgressHandler.hpp" />
+    <ClInclude Include="Assimp\include\quaternion.h" />
+    <ClInclude Include="Assimp\include\scene.h" />
+    <ClInclude Include="Assimp\include\texture.h" />
+    <ClInclude Include="Assimp\include\types.h" />
+    <ClInclude Include="Assimp\include\vector2.h" />
+    <ClInclude Include="Assimp\include\vector3.h" />
+    <ClInclude Include="Assimp\include\version.h" />
     <ClInclude Include="Color.h" />
+    <ClInclude Include="Devil\include\config.h" />
+    <ClInclude Include="Devil\include\devil_internal_exports.h" />
+    <ClInclude Include="Devil\include\il.h" />
+    <ClInclude Include="Devil\include\ilu.h" />
+    <ClInclude Include="Devil\include\ilut.h" />
+    <ClInclude Include="Devil\include\ilut_config.h" />
+    <ClInclude Include="Devil\include\ilu_region.h" />
+    <ClInclude Include="Devil\include\il_wrap.h" />
     <ClInclude Include="glmath.h" />
     <ClInclude Include="Globals.h" />
     <ClInclude Include="ImGui\imconfig.h" />
@@ -97,6 +138,7 @@
     <ClInclude Include="ImGui\imstb_truetype.h" />
     <ClInclude Include="Light.h" />
     <ClInclude Include="ModuleCamera3D.h" />
+    <ClInclude Include="ModuleImport.h" />
     <ClInclude Include="ModulePhysics3D.h" />
     <ClInclude Include="ModuleRenderer3D.h" />
     <ClInclude Include="OpenGL.h" />
@@ -126,6 +168,7 @@
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="ModuleAudio.cpp" />
     <ClCompile Include="ModuleCamera3D.cpp" />
+    <ClCompile Include="ModuleImport.cpp" />
     <ClCompile Include="ModuleInput.cpp" />
     <ClCompile Include="ModulePhysics3D.cpp" />
     <ClCompile Include="ModuleRenderer3D.cpp" />
@@ -136,6 +179,39 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="Glew\LICENSE.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Assimp\CHANGES" />
+    <None Include="Assimp\CREDITS" />
+    <None Include="Assimp\include\.editorconfig" />
+    <None Include="Assimp\include\color4.inl" />
+    <None Include="Assimp\include\material.inl" />
+    <None Include="Assimp\include\matrix3x3.inl" />
+    <None Include="Assimp\include\matrix4x4.inl" />
+    <None Include="Assimp\include\quaternion.inl" />
+    <None Include="Assimp\include\vector2.inl" />
+    <None Include="Assimp\include\vector3.inl" />
+    <None Include="Assimp\libx86\assimp.dll" />
+    <None Include="Assimp\libx86\assimp.exp" />
+    <None Include="Assimp\LICENSE" />
+    <None Include="Assimp\README" />
+    <None Include="Assimp\Readme.md" />
+    <None Include="Devil\AUTHORS" />
+    <None Include="Devil\ChangeLog" />
+    <None Include="Devil\COPYING" />
+    <None Include="Devil\CREDITS" />
+    <None Include="Devil\include\config.h.win" />
+    <None Include="Devil\libx86\DevIL.dll" />
+    <None Include="Devil\libx86\ILU.dll" />
+    <None Include="Devil\libx86\ILUT.dll" />
+    <None Include="Devil\README" />
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="Assimp\libx86\assimp.lib" />
+    <Library Include="Assimp\libx86\zlibstatic.lib" />
+    <Library Include="Devil\libx86\DevIL.lib" />
+    <Library Include="Devil\libx86\ILU.lib" />
+    <Library Include="Devil\libx86\ILUT.lib" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

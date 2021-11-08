@@ -100,3 +100,30 @@ GLuint textCoordToGL(aiVector3D* coord, size_t numTextCoor)
 
 	return textCoordID;
 }
+/*
+GLuint textureToGL(const char* path) //<-image texture path
+{
+	GLuint textureID;
+	int height;
+	int width;
+	int compPerPixel;
+	unsigned char* pixels = stbi_load(path, &width, &height, &compPerPixel, STBI_rgb);
+	GLint internalFormat = GL_RGBA;
+	if (compPerPixel == 3) internalFormat = GL_RGB;
+
+	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+	glGenTextures(1, &textureID);
+	glBindTexture(GL_TEXTURE_2D, textureID);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, internalFormat, GL_UNSIGNED_BYTE, pixels);
+
+	stbi_image_free(pixels);//DONT NEEDED MORE
+
+	return textureID;
+
+} 
+*/
+

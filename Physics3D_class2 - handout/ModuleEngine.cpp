@@ -3,6 +3,12 @@
 #include "ModuleEngine.h"
 #include "Primitive.h"
 
+#include "ModuleWindow.h"
+#include "ModuleRenderer3D.h"
+#include "ModuleImport.h"
+#include "ModuleInput.h"
+#include "ModuleCamera3D.h"
+
 #include "SDL/include/SDL_opengl.h"
 
 #include "ImGui/imgui.h"

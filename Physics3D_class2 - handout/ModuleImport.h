@@ -35,14 +35,14 @@ namespace Import {
 
 	namespace MeshImport {
 		//Assimp
-		//void MeshImport();
-		//vector<Mesh*> importedMeshes;
+		void MeshImport();
+		extern vector<Mesh*> importedMeshes;
 	}
 	namespace TextureImport {
 		//Devil
-		//uint TextureImport(char* file);
+		uint TextureImport(char* file);
 		void InitializeDevil();
-		//Texture importedTexture;
+		extern Texture importedTexture;
 	}
 }
 

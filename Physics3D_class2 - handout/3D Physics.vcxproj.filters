@@ -28,6 +28,21 @@
     <Filter Include="Sources\Tools\Devil">
       <UniqueIdentifier>{f51d51f8-291d-4ffd-9a1e-7c65aa2a7b51}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Sources\Tools\Devil\libx86">
+      <UniqueIdentifier>{0225a92e-047d-4c7f-9460-9619dfe90ee7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\Tools\Devil\include">
+      <UniqueIdentifier>{e0e04d29-b621-4950-ad7d-d06a24504a12}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\Tools\Assimp">
+      <UniqueIdentifier>{0ce9a9f8-1104-4042-833b-76daddac0d67}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\Tools\Assimp\include">
+      <UniqueIdentifier>{c76a1b56-37f5-4d86-bec8-e16d25cd1e3e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\Tools\Assimp\libx86">
+      <UniqueIdentifier>{110cc37b-c20a-442d-aa70-c64871966a27}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Module.h">
@@ -114,6 +129,129 @@
     <ClInclude Include="ModuleImport.h">
       <Filter>Sources\Modules</Filter>
     </ClInclude>
+    <ClInclude Include="Devil\include\config.h">
+      <Filter>Sources\Tools\Devil\include</Filter>
+    </ClInclude>
+    <ClInclude Include="Devil\include\devil_internal_exports.h">
+      <Filter>Sources\Tools\Devil\include</Filter>
+    </ClInclude>
+    <ClInclude Include="Devil\include\il.h">
+      <Filter>Sources\Tools\Devil\include</Filter>
+    </ClInclude>
+    <ClInclude Include="Devil\include\il_wrap.h">
+      <Filter>Sources\Tools\Devil\include</Filter>
+    </ClInclude>
+    <ClInclude Include="Devil\include\ilu.h">
+      <Filter>Sources\Tools\Devil\include</Filter>
+    </ClInclude>
+    <ClInclude Include="Devil\include\ilu_region.h">
+      <Filter>Sources\Tools\Devil\include</Filter>
+    </ClInclude>
+    <ClInclude Include="Devil\include\ilut.h">
+      <Filter>Sources\Tools\Devil\include</Filter>
+    </ClInclude>
+    <ClInclude Include="Devil\include\ilut_config.h">
+      <Filter>Sources\Tools\Devil\include</Filter>
+    </ClInclude>
+    <ClInclude Include="Assimp\include\ai_assert.h">
+      <Filter>Sources\Tools\Assimp\include</Filter>
+    </ClInclude>
+    <ClInclude Include="Assimp\include\anim.h">
+      <Filter>Sources\Tools\Assimp\include</Filter>
+    </ClInclude>
+    <ClInclude Include="Assimp\include\camera.h">
+      <Filter>Sources\Tools\Assimp\include</Filter>
+    </ClInclude>
+    <ClInclude Include="Assimp\include\cexport.h">
+      <Filter>Sources\Tools\Assimp\include</Filter>
+    </ClInclude>
+    <ClInclude Include="Assimp\include\cfileio.h">
+      <Filter>Sources\Tools\Assimp\include</Filter>
+    </ClInclude>
+    <ClInclude Include="Assimp\include\cimport.h">
+      <Filter>Sources\Tools\Assimp\include</Filter>
+    </ClInclude>
+    <ClInclude Include="Assimp\include\color4.h">
+      <Filter>Sources\Tools\Assimp\include</Filter>
+    </ClInclude>
+    <ClInclude Include="Assimp\include\config.h">
+      <Filter>Sources\Tools\Assimp\include</Filter>
+    </ClInclude>
+    <ClInclude Include="Assimp\include\DefaultLogger.hpp">
+      <Filter>Sources\Tools\Assimp\include</Filter>
+    </ClInclude>
+    <ClInclude Include="Assimp\include\defs.h">
+      <Filter>Sources\Tools\Assimp\include</Filter>
+    </ClInclude>
+    <ClInclude Include="Assimp\include\Exporter.hpp">
+      <Filter>Sources\Tools\Assimp\include</Filter>
+    </ClInclude>
+    <ClInclude Include="Assimp\include\Importer.hpp">
+      <Filter>Sources\Tools\Assimp\include</Filter>
+    </ClInclude>
+    <ClInclude Include="Assimp\include\importerdesc.h">
+      <Filter>Sources\Tools\Assimp\include</Filter>
+    </ClInclude>
+    <ClInclude Include="Assimp\include\IOStream.hpp">
+      <Filter>Sources\Tools\Assimp\include</Filter>
+    </ClInclude>
+    <ClInclude Include="Assimp\include\IOSystem.hpp">
+      <Filter>Sources\Tools\Assimp\include</Filter>
+    </ClInclude>
+    <ClInclude Include="Assimp\include\light.h">
+      <Filter>Sources\Tools\Assimp\include</Filter>
+    </ClInclude>
+    <ClInclude Include="Assimp\include\Logger.hpp">
+      <Filter>Sources\Tools\Assimp\include</Filter>
+    </ClInclude>
+    <ClInclude Include="Assimp\include\LogStream.hpp">
+      <Filter>Sources\Tools\Assimp\include</Filter>
+    </ClInclude>
+    <ClInclude Include="Assimp\include\material.h">
+      <Filter>Sources\Tools\Assimp\include</Filter>
+    </ClInclude>
+    <ClInclude Include="Assimp\include\matrix3x3.h">
+      <Filter>Sources\Tools\Assimp\include</Filter>
+    </ClInclude>
+    <ClInclude Include="Assimp\include\matrix4x4.h">
+      <Filter>Sources\Tools\Assimp\include</Filter>
+    </ClInclude>
+    <ClInclude Include="Assimp\include\mesh.h">
+      <Filter>Sources\Tools\Assimp\include</Filter>
+    </ClInclude>
+    <ClInclude Include="Assimp\include\metadata.h">
+      <Filter>Sources\Tools\Assimp\include</Filter>
+    </ClInclude>
+    <ClInclude Include="Assimp\include\NullLogger.hpp">
+      <Filter>Sources\Tools\Assimp\include</Filter>
+    </ClInclude>
+    <ClInclude Include="Assimp\include\postprocess.h">
+      <Filter>Sources\Tools\Assimp\include</Filter>
+    </ClInclude>
+    <ClInclude Include="Assimp\include\ProgressHandler.hpp">
+      <Filter>Sources\Tools\Assimp\include</Filter>
+    </ClInclude>
+    <ClInclude Include="Assimp\include\quaternion.h">
+      <Filter>Sources\Tools\Assimp\include</Filter>
+    </ClInclude>
+    <ClInclude Include="Assimp\include\scene.h">
+      <Filter>Sources\Tools\Assimp\include</Filter>
+    </ClInclude>
+    <ClInclude Include="Assimp\include\texture.h">
+      <Filter>Sources\Tools\Assimp\include</Filter>
+    </ClInclude>
+    <ClInclude Include="Assimp\include\types.h">
+      <Filter>Sources\Tools\Assimp\include</Filter>
+    </ClInclude>
+    <ClInclude Include="Assimp\include\vector2.h">
+      <Filter>Sources\Tools\Assimp\include</Filter>
+    </ClInclude>
+    <ClInclude Include="Assimp\include\vector3.h">
+      <Filter>Sources\Tools\Assimp\include</Filter>
+    </ClInclude>
+    <ClInclude Include="Assimp\include\version.h">
+      <Filter>Sources\Tools\Assimp\include</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleAudio.cpp">
@@ -187,5 +325,96 @@
     <Text Include="Glew\LICENSE.txt">
       <Filter>Sources\Tools\glew</Filter>
     </Text>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Devil\libx86\DevIL.dll">
+      <Filter>Sources\Tools\Devil\libx86</Filter>
+    </None>
+    <None Include="Devil\libx86\ILU.dll">
+      <Filter>Sources\Tools\Devil\libx86</Filter>
+    </None>
+    <None Include="Devil\libx86\ILUT.dll">
+      <Filter>Sources\Tools\Devil\libx86</Filter>
+    </None>
+    <None Include="Devil\include\config.h.win">
+      <Filter>Sources\Tools\Devil\include</Filter>
+    </None>
+    <None Include="Devil\AUTHORS">
+      <Filter>Sources\Tools\Devil</Filter>
+    </None>
+    <None Include="Devil\ChangeLog">
+      <Filter>Sources\Tools\Devil</Filter>
+    </None>
+    <None Include="Devil\COPYING">
+      <Filter>Sources\Tools\Devil</Filter>
+    </None>
+    <None Include="Devil\CREDITS">
+      <Filter>Sources\Tools\Devil</Filter>
+    </None>
+    <None Include="Devil\README">
+      <Filter>Sources\Tools\Devil</Filter>
+    </None>
+    <None Include="Assimp\CHANGES">
+      <Filter>Sources\Tools\Assimp</Filter>
+    </None>
+    <None Include="Assimp\CREDITS">
+      <Filter>Sources\Tools\Assimp</Filter>
+    </None>
+    <None Include="Assimp\LICENSE">
+      <Filter>Sources\Tools\Assimp</Filter>
+    </None>
+    <None Include="Assimp\README">
+      <Filter>Sources\Tools\Assimp</Filter>
+    </None>
+    <None Include="Assimp\Readme.md">
+      <Filter>Sources\Tools\Assimp</Filter>
+    </None>
+    <None Include="Assimp\include\.editorconfig">
+      <Filter>Sources\Tools\Assimp\include</Filter>
+    </None>
+    <None Include="Assimp\include\color4.inl">
+      <Filter>Sources\Tools\Assimp\include</Filter>
+    </None>
+    <None Include="Assimp\include\material.inl">
+      <Filter>Sources\Tools\Assimp\include</Filter>
+    </None>
+    <None Include="Assimp\include\matrix3x3.inl">
+      <Filter>Sources\Tools\Assimp\include</Filter>
+    </None>
+    <None Include="Assimp\include\matrix4x4.inl">
+      <Filter>Sources\Tools\Assimp\include</Filter>
+    </None>
+    <None Include="Assimp\include\quaternion.inl">
+      <Filter>Sources\Tools\Assimp\include</Filter>
+    </None>
+    <None Include="Assimp\include\vector2.inl">
+      <Filter>Sources\Tools\Assimp\include</Filter>
+    </None>
+    <None Include="Assimp\include\vector3.inl">
+      <Filter>Sources\Tools\Assimp\include</Filter>
+    </None>
+    <None Include="Assimp\libx86\assimp.dll">
+      <Filter>Sources\Tools\Assimp\libx86</Filter>
+    </None>
+    <None Include="Assimp\libx86\assimp.exp">
+      <Filter>Sources\Tools\Assimp\libx86</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="Devil\libx86\DevIL.lib">
+      <Filter>Sources\Tools\Devil\libx86</Filter>
+    </Library>
+    <Library Include="Devil\libx86\ILU.lib">
+      <Filter>Sources\Tools\Devil\libx86</Filter>
+    </Library>
+    <Library Include="Devil\libx86\ILUT.lib">
+      <Filter>Sources\Tools\Devil\libx86</Filter>
+    </Library>
+    <Library Include="Assimp\libx86\assimp.lib">
+      <Filter>Sources\Tools\Assimp\libx86</Filter>
+    </Library>
+    <Library Include="Assimp\libx86\zlibstatic.lib">
+      <Filter>Sources\Tools\Assimp\libx86</Filter>
+    </Library>
   </ItemGroup>
 </Project>
