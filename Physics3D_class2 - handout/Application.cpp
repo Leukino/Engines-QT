@@ -77,6 +77,31 @@ void Application::PrepareUpdate()
 // ---------------------------------------------
 void Application::FinishUpdate()
 {
+	if (last_sec_frame_time.Read() > 1000)
+	{
+		last_sec_frame_time.Start();
+		prev_last_sec_frame_count = last_sec_frame_count;
+		last_sec_frame_count = 0;
+	}
+
+	uint last_frame_ms = frame_time.Read();
+	uint frames_on_last_update = prev_last_sec_frame_count;
+
+	fpsVec.push_back(frames_on_last_update);
+	if (fpsVec.size() > totalBars)
+		fpsVec.erase(fpsVec.begin());
+
+	msVec.push_back(last_frame_ms);
+	if (msVec.size() > totalBars)
+		msVec.erase(msVec.begin());
+
+	if (framerateCap > 0)
+		capped_ms = 1000 / framerateCap;
+	else
+		capped_ms = 0;
+
+	if (capped_ms > 0 && last_frame_ms < capped_ms)
+		SDL_Delay(capped_ms - last_frame_ms);
 }
 
 // Call PreUpdate, Update and PostUpdate on all modules

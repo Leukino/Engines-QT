@@ -1,5 +1,8 @@
 #pragma once
 
+#include <vector>
+#include <string>
+
 #include "p2List.h"
 #include "Globals.h"
 #include "Timer.h"
@@ -24,6 +27,20 @@ public:
 	ModulePhysics3D* physics;
 
 private:
+
+	uint					frame_count = 0;
+	Timer					startup_time;
+	Timer					frame_time;
+	Timer					last_sec_frame_time;
+	uint					last_sec_frame_count = 0;
+	uint					prev_last_sec_frame_count = 0;
+	uint					framerate_cap = 0;
+	int						capped_ms = -1;
+	int						framerateCap = 144; // Max amount of FPS
+	int						totalBars = 100; // Number of bars that appear in the histogram
+
+	std::vector<float> fpsVec;
+	std::vector<float> msVec;
 
 	Timer	ms_timer;
 	float	dt;

@@ -88,9 +88,9 @@ update_status ModuleInput::PreUpdate(float dt)
 	else if (mouse_z_motion < -50)
 		mouse_z_motion = -50;
 	if (mouse_z_motion < 0)
-	mouse_z_motion += 0.0005f;
+	mouse_z_motion += 0.0001f;
 	else if (mouse_z_motion > 0)
-	mouse_z_motion -= 0.0005f;
+	mouse_z_motion -= 0.0001f;
 	
 	bool quit = false;
 	SDL_Event e;

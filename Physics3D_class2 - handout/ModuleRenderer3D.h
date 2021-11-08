@@ -34,5 +34,9 @@ public:
 	bool lighting = false;
 	bool color_material = false;
 	bool texture2D = false;
+	bool wireframeMode = true;
 
+
+	GLuint VertexArrayID;
+	GLuint vertexbuffer;
 };

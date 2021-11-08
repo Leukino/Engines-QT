@@ -53,7 +53,7 @@ update_status ModuleEngine::PreUpdate(float dt)
 	ImGui::NewFrame();
 
 	// Any application code here
-	ImGui::Text("Hello, world! %d", App->input->GetMouseZMotion());
+	ImGui::Text("Hello, world! %d %f ", App->input->GetMouseZMotion(), dt);
 
 	// Render dear imgui into screen
 	
@@ -63,9 +63,9 @@ update_status ModuleEngine::PreUpdate(float dt)
 // Update: draw background
 update_status ModuleEngine::Update(float dt)
 {
-	Plane p(0, 1, 0, 0);
+	/*Plane p(0, 1, 3, 0);
 	p.axis = true;
-	p.Render();
+	p.Render();*/
 
 	ImGuiWindowFlags window = ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoDocking | ImGuiWindowFlags_NoTitleBar |
 		ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoNavFocus;
@@ -94,6 +94,16 @@ update_status ModuleEngine::Update(float dt)
 	return UPDATE_CONTINUE;
 }
 
+update_status ModuleEngine::PostUpdate(float dt)
+{
+
+	Plane p(0, 1, 3, 0);
+	p.axis = true;
+	p.Render();
+
+	return UPDATE_CONTINUE;
+}
+
 // Load assets
 bool ModuleEngine::CleanUp()
 {
@@ -113,3 +123,4 @@ void ModuleEngine::RenderImgui() {
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 	return;
 }
+
