@@ -85,6 +85,12 @@ update_status ModuleEngine::Update(float dt)
 	ImGuiID dockspace_id = ImGui::GetID("Dockspace");
 	ImGui::DockSpace(dockspace_id, ImVec2(0.0f, 0.0f), ImGuiDockNodeFlags_PassthruCentralNode);
 
+	ImGui::StyleColorsDark();
+
+	MainMenuBar();
+	Config();
+	Console();
+
 	ImGui::End();
 	ImGui::Render();
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
@@ -124,3 +130,176 @@ void ModuleEngine::RenderImgui() {
 	return;
 }
 
+void ModuleEngine::MainMenuBar()
+{
+	if (ImGui::BeginMainMenuBar())
+	{
+		if (ImGui::BeginMenu("File"))
+		{
+
+			if (ImGui::BeginMenu("New"))
+			{
+				if (ImGui::MenuItem("New File", "Ctrl + N"))
+				{
+				}
+
+				ImGui::EndMenu();
+			}
+			ImGui::Spacing();
+			if (ImGui::BeginMenu("Load File"))
+			{
+				if (ImGui::MenuItem("Load File", "Ctrl + A"))
+				{
+				}
+
+				ImGui::EndMenu();
+			}
+
+			ImGui::Separator();
+			ImGui::Spacing();
+			if (ImGui::MenuItem("Exit", "ESC"))
+			{
+				//App->escape = true;
+			}
+			ImGui::EndMenu();
+		}
+		ImGui::Spacing();
+
+		if (ImGui::BeginMenu("Edit"))
+		{
+			ImGui::EndMenu();
+		}
+		ImGui::Spacing();
+
+		if (ImGui::BeginMenu("View"))
+		{
+			if (ImGui::MenuItem("Settings"))
+			{
+				showConfig = !showConfig;
+			}
+			if (ImGui::MenuItem("Console")) {
+				showConsole = !showConsole;
+			}
+			if (ImGui::MenuItem("Hierarchy"))
+			{
+				showHierarchy = !showHierarchy;
+			}
+			if (ImGui::MenuItem("Inspector"))
+			{
+				showInspector = !showInspector;
+			}
+
+			ImGui::EndMenu();
+		}
+		ImGui::Spacing();
+
+		if (ImGui::BeginMenu("Help"))
+		{
+			if (ImGui::MenuItem("GitHub"))
+			{
+				ShellExecuteA(NULL, "open", "https://github.com/Leukino/Engines-QT", NULL, NULL, SW_SHOWMAXIMIZED);
+			}
+			ImGui::EndMenu();
+		}
+
+		ImGui::EndMainMenuBar();
+	}
+}
+
+void ModuleEngine::Config()
+{
+	if (showConfig)
+	{
+		ImGui::Begin("Settings", &showConfig);
+
+		if (ImGui::CollapsingHeader("Window Settings"))
+		{
+			if (ImGui::Checkbox("Fullscreen", &fullscreen))
+			{
+				App->window->SetFullscreen(fullscreen);
+			}
+			if (ImGui::Checkbox("Borderless", &borderless))
+			{
+				App->window->SetBorderless(borderless);
+			}
+			if (ImGui::Checkbox("Full Desktop", &full_desktop))
+			{
+				App->window->SetFullscreenBorderless(full_desktop);
+			}
+			ImGui::Separator();
+
+			if (ImGui::SliderInt("Width", &window_width, 500, 1920, "%d"))
+			{
+				SDL_SetWindowSize(App->window->window, window_width, window_height);
+			}
+			if (ImGui::SliderInt("Height", &window_height, 500, 1080, "%d"))
+			{
+				SDL_SetWindowSize(App->window->window, window_width, window_height);
+			}
+		}
+		ImGui::Spacing();
+
+		ImGui::Text("VSync: ");
+		ImGui::SameLine();
+		ImGui::Checkbox("", &vsync);
+
+		ImGui::Spacing();
+
+		ImGui::Text("MinFPS");
+		ImGui::SameLine();
+		ImGui::SliderInt(" MaxFPS", &fps, 0, 240);
+		ImGui::Spacing();
+		ImGui::Separator();
+		ImGui::Spacing();
+		ImGui::Text("CPU cores: ");
+		ImGui::SameLine();
+		//ImGui::TextColored(ImVec4(1.0f, 0.0f, 0.47f, 1.0f), "%d", App->cpuCores);
+
+		ImGui::Text("RAM: ");
+		ImGui::SameLine();
+		//ImGui::TextColored(ImVec4(1.0f, 0.0f, 0.47f, 1.0f), "%d gb", App->systemRAM);
+
+		ImGui::Separator();
+		ImGui::Spacing();
+		ImGui::Text("Graphic card: ");
+		ImGui::SameLine();
+		//ImGui::TextColored(ImVec4(1.0f, 0.0f, 0.47f, 1.0f), "%s", App->rendererChar);
+
+		ImGui::Text("Vendor: ");
+		ImGui::SameLine();
+		//ImGui::TextColored(ImVec4(1.0f, 0.0f, 0.47f, 1.0f), "%s", App->vendorChar);
+
+		ImGui::Text("Graphic card features: ");
+		ImGui::SameLine();
+		//ImGui::TextColored(ImVec4(1.0f, 0.0f, 0.47f, 1.0f), "%s%s%s%s%s%s%s%s", (App->RDTSC) ? "RDTSC " : "", (App->MMX) ? "MMX " : "", (App->SSE) ? "SSE " : "", (App->SSE2) ? "SSE2 " : "", (App->SSE3) ? "SSE3 " : "", (App->SSE41) ? "SSE41 " : "", (App->SSE42) ? "SSE42 " : "", (App->AVX) ? "AVX " : "");
+
+		char title[25];
+		//sprintf_s(title, 25, "Framerate %.1f", App->fps_log[App->fps_log.size() - 1]);
+		//ImGui::PlotHistogram("##framerate", &App->fps_log[0], App->fps_log.size(), 0, title, 0.0f, 100.0f, ImVec2(310, 100));
+		//sprintf_s(title, 25, "Milliseconds %.1f", App->ms_log[App->ms_log.size() - 1]);
+		//ImGui::PlotHistogram("##milliseconds", &App->ms_log[0], App->ms_log.size(), 0, title, 0.0f, 100.0f, ImVec2(310, 100));
+		//LOG("%d", App->fps_log[0]);
+		ImGui::End();
+	}
+}
+
+void ModuleEngine::Console()
+{
+	if (showConsole)
+	{
+		ImGui::Begin("Console", &showConsole);
+
+		for (int i = 0; i < console_log.size(); i++)
+		{
+			ImGui::Text("%s", console_log[i].c_str());
+		}
+		ImGui::End();
+	}
+}
+
+void ModuleEngine::ConsoleLog(std::string log) {
+
+	if (&console_log != NULL) {
+		console_log.push_back(log);
+	}
+}
