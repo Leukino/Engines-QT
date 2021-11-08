@@ -1,15 +1,20 @@
 #include "Globals.h"
 #include "Application.h"
+#include "ModuleWindow.h"
+#include "ModuleCamera3D.h"
 #include "ModuleRenderer3D.h"
 #include "SDL\include\SDL_opengl.h"
+#include "ModuleEngine.h"
 
-//#include <gl/GL.h>
-//#include <gl/GLU.h>
+#include "ModuleImport.h"
+
+
 
 #pragma comment (lib, "glu32.lib")    /* link OpenGL Utility lib     */
 #pragma comment (lib, "opengl32.lib") /* link Microsoft OpenGL lib   */
 
 #pragma comment (lib, "Glew/lib/libx86/glew32.lib")
+
 
 ModuleRenderer3D::ModuleRenderer3D(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
@@ -102,6 +107,8 @@ bool ModuleRenderer3D::Init()
 		glEnable(GL_COLOR_MATERIAL);
 		glEnable(GL_TEXTURE_2D);
 	}
+
+	Import::TextureImport::InitializeDevil();
 
 	// Projection matrix for
 	OnResize(SCREEN_WIDTH, SCREEN_HEIGHT);

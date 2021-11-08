@@ -25,6 +25,9 @@
     <Filter Include="Sources\Tools\glew">
       <UniqueIdentifier>{813ebd77-d18a-4d69-b16a-40924403677f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Sources\Tools\Devil">
+      <UniqueIdentifier>{f51d51f8-291d-4ffd-9a1e-7c65aa2a7b51}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Module.h">
@@ -108,6 +111,9 @@
     <ClInclude Include="ImGui\imstb_truetype.h">
       <Filter>Sources\Tools\Imgui</Filter>
     </ClInclude>
+    <ClInclude Include="ModuleImport.h">
+      <Filter>Sources\Modules</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleAudio.cpp">
@@ -172,6 +178,9 @@
     </ClCompile>
     <ClCompile Include="ImGui\imgui_widgets.cpp">
       <Filter>Sources\Tools\Imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="ModuleImport.cpp">
+      <Filter>Sources\Modules</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -1,4 +1,5 @@
-#pragma once
+#ifndef __Application__
+#define __Application__
 
 #include <vector>
 #include <string>
@@ -6,25 +7,24 @@
 #include "p2List.h"
 #include "Globals.h"
 #include "Timer.h"
-#include "Module.h"
-#include "ModuleWindow.h"
-#include "ModuleInput.h"
-#include "ModuleAudio.h"
-#include "ModuleEngine.h"
-#include "ModuleRenderer3D.h"
-#include "ModuleCamera3D.h"
-#include "ModulePhysics3D.h"
+
+class Module;
+class ModuleWindow;
+class ModuleInput;
+class ModuleRenderer3D;
+class ModuleEngine;
+class ModuleCamera3D;
 
 class Application
 {
 public:
 	ModuleWindow* window;
 	ModuleInput* input;
-	ModuleAudio* audio;
+	//ModuleAudio* audio;
 	ModuleEngine* scene_intro;
 	ModuleRenderer3D* renderer3D;
 	ModuleCamera3D* camera;
-	ModulePhysics3D* physics;
+	//ModulePhysics3D* physics;
 
 private:
 
@@ -61,3 +61,5 @@ private:
 	void PrepareUpdate();
 	void FinishUpdate();
 };
+
+#endif __Application__

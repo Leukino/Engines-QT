@@ -1,3 +1,5 @@
+/*
+
 #include "Globals.h"
 #include "Application.h"
 #include "ModulePhysics3D.h"
@@ -89,6 +91,9 @@ bool ModulePhysics3D::CleanUp()
 
 	return true;
 }
+
+
+*/
 
 // =============================================
 //TODO 4: Uncomment the definition of the Debug Drawer

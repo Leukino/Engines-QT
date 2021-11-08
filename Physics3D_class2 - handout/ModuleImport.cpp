@@ -3,7 +3,6 @@
 #include "ModuleImport.h"
 
 //assimp
-#include "ModuleEngine.h"
 #include "Assimp/include/mesh.h"
 #include "Assimp/include/cimport.h"
 #include "Assimp/include/scene.h"
@@ -17,6 +16,15 @@
 #pragma comment (lib, "Devil/libx86/devIL.lib")
 #pragma comment (lib, "Devil/libx86/ILU.lib")
 #pragma comment (lib, "Devil/libx86/ILUT.lib")
+
+
+void Import::TextureImport::InitializeDevil() {
+	ilInit();
+	iluInit();
+	ilutInit();
+	ilutRenderer(ILUT_OPENGL);
+	LOG("Initialized DevIL");
+}
 
 GLuint LoadVertexToGL(aiVector3D* vertices, size_t numVertices) {
 
