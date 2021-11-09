@@ -35,12 +35,13 @@ namespace Import {
 
 	namespace MeshImport {
 		//Assimp
-		void MeshImport();
+		void MeshImport(const char* file);
 		extern vector<Mesh*> importedMeshes;
 	}
 	namespace TextureImport {
 		//Devil
-		uint TextureImport(char* file);
+		//uint TextureImport(char* file);
+		GLuint textureToGL(const char* path);
 		void InitializeDevil();
 		extern Texture importedTexture;
 	}

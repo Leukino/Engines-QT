@@ -47,6 +47,8 @@ bool ModuleEngine::Start()
 	ImGui_ImplSDL2_InitForOpenGL(App->window->window, App->renderer3D->context);
 	ImGui_ImplOpenGL3_Init(NULL);
 
+	temporalTextureID = Import::TextureImport::textureToGL("Game/Assets/Baker_house.png");
+
 	return ret;
 }
 

@@ -1,14 +1,15 @@
-#include "Globals.h"
 #include "Application.h"
 #include "ModuleWindow.h"
 #include "ModuleCamera3D.h"
 #include "ModuleRenderer3D.h"
 #include "SDL\include\SDL_opengl.h"
-#include "ModuleEngine.h"
 
 #include "ModuleImport.h"
 
-
+#include "Component.h"
+#include "ComponentMesh.h"
+#include "ComponentTexture.h"
+#include "ModuleEngine.h"
 
 #pragma comment (lib, "glu32.lib")    /* link OpenGL Utility lib     */
 #pragma comment (lib, "opengl32.lib") /* link Microsoft OpenGL lib   */
@@ -110,6 +111,9 @@ bool ModuleRenderer3D::Init()
 
 	Import::TextureImport::InitializeDevil();
 
+	Import::MeshImport::MeshImport("Assets/BakerHouse.fbx");
+
+
 	// Projection matrix for
 	OnResize(SCREEN_WIDTH, SCREEN_HEIGHT);
 	/////////////
@@ -129,6 +133,7 @@ bool ModuleRenderer3D::Init()
 // PreUpdate: clear buffer
 update_status ModuleRenderer3D::PreUpdate(float dt)
 {
+
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glLoadIdentity();
 
@@ -166,7 +171,7 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 	//////////
 
 
-	App->scene_intro->RenderImgui();
+	App->engine->RenderImgui();
 	SDL_GL_SwapWindow(App->window->window);
 	return UPDATE_CONTINUE;
 }
@@ -197,7 +202,9 @@ void ModuleRenderer3D::OnResize(int width, int height)
 
 void ModuleRenderer3D::RenderMesh(Mesh* mesh, uint id) {
 
-
+	//glEnableClientState(GL_VERTEX_ARRAY);
+	//glEnableClientState(GL_NORMAL_ARRAY);
+	//glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 
 
 

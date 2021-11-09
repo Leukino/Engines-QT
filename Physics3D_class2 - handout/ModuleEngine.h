@@ -5,6 +5,8 @@
 #include <vector>
 #include <string>
 
+class GameObject;
+
 class ModuleEngine : public Module
 {
 public:
@@ -52,5 +54,11 @@ public:
     bool borderless = false;
     bool full_desktop = false;
     bool debug;
+
+public:
+    uint temporalTextureID;
+
+    std::vector<GameObject*> game_objects;
+
 };
 

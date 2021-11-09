@@ -1,12 +1,22 @@
 #include "Application.h"
 #include "ModuleRenderer3D.h"
 #include "ModuleImport.h"
-#include "stb_image.h"
+//#include "stb_image.h"
+
+#include "ModuleEngine.h"
+#include "GameObject.h"
+#include "ComponentMesh.h"
+#include "ComponentTexture.h"
+ 
 //assimp
 #include "Assimp/include/mesh.h"
 #include "Assimp/include/cimport.h"
 #include "Assimp/include/scene.h"
 #include "Assimp/include/postprocess.h"
+
+#define STB_IMAGE_IMPLEMENTATION
+#include "stb_image.h"
+
 //devil
 #include "Devil/include/ilut.h"
 #include "Devil/include/ilu.h"
@@ -16,7 +26,6 @@
 #pragma comment (lib, "Devil/libx86/devIL.lib")
 #pragma comment (lib, "Devil/libx86/ILU.lib")
 #pragma comment (lib, "Devil/libx86/ILUT.lib")
-
 
 void Import::TextureImport::InitializeDevil() {
 	ilInit();
@@ -101,13 +110,14 @@ GLuint textCoordToGL(aiVector3D* coord, size_t numTextCoor)
 	return textCoordID;
 }
 
-GLuint textureToGL(const char* path) //<-image texture path
+GLuint Import::TextureImport::textureToGL(const char* path) //<-image texture path
 {
 	GLuint textureID;
 	int height;
 	int width;
 	int compPerPixel;
 	unsigned char* pixels = stbi_load(path, &width, &height, &compPerPixel, STBI_rgb);
+	LOG("%lf", pixels);
 	GLint internalFormat = GL_RGBA;
 	if (compPerPixel == 3) internalFormat = GL_RGB;
 
@@ -126,3 +136,84 @@ GLuint textureToGL(const char* path) //<-image texture path
 
 } 
 
+void Import::MeshImport::MeshImport(const char* file) {
+
+
+	const aiScene* scene = aiImportFile(file, aiProcessPreset_TargetRealtime_MaxQuality);
+
+	if (scene != nullptr && scene->HasMeshes())
+	{
+		string tempName = "Game Object "; 
+		string stringSize = to_string(App->engine->game_objects.size());
+		tempName += stringSize;
+		GameObject* tempGameObj = new GameObject(tempName);
+
+		// Use scene->mNumMeshes to iterate on scene->mMeshes array
+		for (int i = 0; i < scene->mNumMeshes; i++)
+		{
+			Mesh* tempMesh = new Mesh();
+			std::string tmpString = "";
+			tmpString.append("New_Obj ");
+
+			ComponentMesh* tempComponentMesh = new ComponentMesh(tempGameObj);
+
+			tempMesh->sizeOf[Mesh::VERTEX] = scene->mMeshes[i]->mNumVertices;
+			tempMesh->vertices = new float[tempMesh->sizeOf[Mesh::VERTEX] * 3];
+			memcpy(tempMesh->vertices, scene->mMeshes[i]->mVertices, sizeof(float) * tempMesh->sizeOf[Mesh::VERTEX] * 3);
+			LOG("New mesh with %d vertices", tempMesh->sizeOf[Mesh::VERTEX]);
+
+			if (scene->mMeshes[i]->HasFaces())
+			{
+				tempMesh->sizeOf[Mesh::INDEX] = scene->mMeshes[i]->mNumFaces * 3;
+				tempMesh->indices = new uint[tempMesh->sizeOf[Mesh::INDEX]];
+				for (uint f = 0; f < scene->mMeshes[i]->mNumFaces; ++f)
+				{
+					if (scene->mMeshes[i]->mFaces[f].mNumIndices != 3)
+					{
+						LOG("WARNING, geometery face with != 3 indices!");
+					}
+					else
+					{
+						memcpy(&tempMesh->indices[f * 3], scene->mMeshes[i]->mFaces[f].mIndices, 3 * sizeof(uint));
+					}
+				}
+				LOG("With %d indices", tempMesh->sizeOf[Mesh::INDEX]);
+			}
+
+			if (scene->mMeshes[i]->HasNormals())
+			{
+				tempMesh->sizeOf[Mesh::NORMAL] = scene->mMeshes[i]->mNumVertices;
+				tempMesh->normals = new float[tempMesh->sizeOf[Mesh::NORMAL] * 3];
+				memcpy(tempMesh->normals, scene->mMeshes[i]->mNormals, sizeof(float) * tempMesh->sizeOf[Mesh::NORMAL] * 3);
+			}
+
+			if (scene->mMeshes[i]->HasTextureCoords(0))
+			{
+				tempMesh->sizeOf[Mesh::TEXTURE] = scene->mMeshes[i]->mNumVertices;
+				tempMesh->texCoords = new float[scene->mMeshes[i]->mNumVertices * 2];
+
+				for (int j = 0; j < tempMesh->sizeOf[Mesh::TEXTURE]; j++)
+				{
+					tempMesh->texCoords[j * 2] = scene->mMeshes[i]->mTextureCoords[0][j].x;
+					tempMesh->texCoords[j * 2 + 1] = scene->mMeshes[i]->mTextureCoords[0][j].y;
+				}
+			}
+			tempComponentMesh->SetMesh(tempMesh);
+			tempComponentMesh->SetPath(file);
+
+			tempGameObj->AddComponent(tempComponentMesh);
+
+
+
+			App->renderer3D->SetUpBuffers(tempMesh);
+			importedMeshes.push_back(tempMesh);
+		}
+
+		App->engine->AddGameObject(tempGameObj);
+		aiReleaseImport(scene);
+	}
+	else
+	{
+		LOG("Error loading scene %s", file);
+	}
+}

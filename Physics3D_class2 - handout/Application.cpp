@@ -2,18 +2,18 @@
 #include "Module.h"
 #include "ModuleWindow.h"
 #include "ModuleInput.h"
+#include "ModuleEngine.h"
 #include "ModuleRenderer3D.h"
 #include "ModuleCamera3D.h"
-#include "ModuleEngine.h"
 
 Application::Application()
 {
 	window = new ModuleWindow(this);
 	input = new ModuleInput(this);
 	//audio = new ModuleAudio(this, true);
-	scene_intro = new ModuleEngine(this);
 	renderer3D = new ModuleRenderer3D(this);
 	camera = new ModuleCamera3D(this);
+	engine = new ModuleEngine(this);
 	//physics = new ModulePhysics3D(this);
 
 	// The order of calls is very important!
@@ -22,7 +22,7 @@ Application::Application()
 	// 
 	// Module Editor
 	// Main Modules
-	AddModule(scene_intro);
+	AddModule(engine);
 	AddModule(window);
 	AddModule(camera);
 	AddModule(input);
@@ -49,6 +49,7 @@ Application::~Application()
 bool Application::Init()
 {
 	bool ret = true;
+	App = this;
 
 	// Call Init() in all modules
 	p2List_item<Module*>* item = list_modules.getFirst();
@@ -161,3 +162,5 @@ void Application::AddModule(Module* mod)
 {
 	list_modules.add(mod);
 }
+
+Application* App = nullptr;
