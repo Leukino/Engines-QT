@@ -1,4 +1,6 @@
-﻿  ModuleEngine.cpp
-E:\github repos\Engines-QT\Physics3D_class2 - handout\ModuleEngine.cpp(276,8): warning C4101: 'title': unreferenced local variable
-E:\github repos\Engines-QT\Physics3D_class2 - handout\ModuleEngine.cpp(292,21): warning C4018: '<': signed/unsigned mismatch
+﻿  ModuleImport.cpp
+E:\github repos\Engines-QT\Physics3D_class2 - handout\ModuleImport.cpp(40,27): warning C4244: 'argument': conversion from 'GLuint' to 'GLfloat', possible loss of data
+E:\github repos\Engines-QT\Physics3D_class2 - handout\ModuleImport.cpp(52,20): warning C4018: '<': signed/unsigned mismatch
+E:\github repos\Engines-QT\Physics3D_class2 - handout\ModuleImport.cpp(92,20): warning C4018: '<': signed/unsigned mismatch
+E:\github repos\Engines-QT\Physics3D_class2 - handout\ModuleImport.cpp(95,39): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
   3D Physics.vcxproj -> E:\github repos\Engines-QT\Physics3D_class2 - handout\Debug\3D Physics - class2 Handout.exe
