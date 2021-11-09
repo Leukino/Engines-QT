@@ -7,6 +7,10 @@
 #include "Assimp/include/cimport.h"
 #include "Assimp/include/scene.h"
 #include "Assimp/include/postprocess.h"
+
+#define STB_IMAGE_IMPLEMENTATION
+#include "stb_image.h"
+
 //devil
 #include "Devil/include/ilut.h"
 #include "Devil/include/ilu.h"

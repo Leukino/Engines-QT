@@ -26,7 +26,7 @@ public:
 	ModuleCamera3D* camera;
 	//ModulePhysics3D* physics;
 
-private:
+public:
 
 	uint					frame_count = 0;
 	Timer					startup_time;
@@ -36,7 +36,7 @@ private:
 	uint					prev_last_sec_frame_count = 0;
 	uint					framerate_cap = 0;
 	int						capped_ms = -1;
-	int						framerateCap = 144; // Max amount of FPS
+	int						framerateCap = 240; // Max amount of FPS
 	int						totalBars = 100; // Number of bars that appear in the histogram
 
 	std::vector<float> fpsVec;

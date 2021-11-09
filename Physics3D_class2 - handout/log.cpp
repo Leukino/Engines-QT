@@ -1,7 +1,7 @@
 #pragma once
-#include "Globals.h"
 #include "Application.h"
 #include "ModuleEngine.h"
+#include "Globals.h"
 
 
 void log(const char file[], int line, const char* format, ...)
@@ -19,5 +19,6 @@ void log(const char file[], int line, const char* format, ...)
 
 	
 	std::string log_text = std::string(tmp_string2);
+		
 	
 }
