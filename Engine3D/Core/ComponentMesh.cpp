@@ -11,6 +11,7 @@
 #include "ImGui/imgui.h"
 #include "Geometry/Sphere.h"
 #include "par_shapes.h"
+#include <fstream>
 
 
 ComponentMesh::ComponentMesh(GameObject* parent) : Component(parent) {}
@@ -240,6 +241,52 @@ void ComponentMesh::OnGui()
 		ImGui::Checkbox("Draw vertex normals", &drawVertexNormals);
 		ImGui::Text("AABB position: %f %f %f", centerPoint.x, centerPoint.y, centerPoint.z);
 		/*if (ImGui::Button("Reload AABB"))*/
+		if (ImGui::Button("Save file poggers!!!!1"))
+			SaveMesh();
 			
 	}
+}
+ 
+void ComponentMesh::SaveMesh() 
+{
+	std::ofstream saveFile;
+	saveFile.open(meshPath + ".msh", std::ios::in | std::ios::app | std::ios::binary);
+	if (saveFile.is_open()) {
+		/*int indiceSize = indices.size() * sizeof(uint);
+		int verticesSize = vertices.size() * sizeof(float) * 3;
+		int normalsSize = normals.size() * sizeof(float) * 3;
+		int textCoordsSize = texCoords.size() * sizeof(float) * 2;
+		int faceNormalsSize = faceNormals.size() * sizeof(float) * 3;
+		int faceCentersSize = faceCenters.size() * sizeof(float) * 3;
+
+		uint sizes[6] = { vertices.size(), normals.size(), texCoords.size(), indices.size(), faceNormals.size(), faceCenters.size() };
+		uint size = sizeof(sizes) + indiceSize
+			+ verticesSize
+			+ normalsSize
+			+ textCoordsSize
+			+ faceNormalsSize
+			+ faceCentersSize;
+
+		char* fileBuffer = new char[size];
+		char* cursor = fileBuffer;
+
+		uint bytes = sizeof(sizes);
+		memcpy(cursor, sizes, bytes);
+		cursor += bytes;
+
+		newFile.write(fileBuffer, sizeof(fileBuffer));*/
+
+		saveFile.write((char*)&indices[0], indices.size() * sizeof(float) * 3);
+	}
+	saveFile.close();
+
+	std::ifstream openFile;
+	openFile.open(meshPath + ".msh", std::ios::in | std::ios::app | std::ios::binary);
+	if (openFile.is_open())
+	{
+		
+	}
+
+	std::string logg = "Successfully saved mesh information in " + meshPath + ".msh";
+	LOG(logg.c_str());
 }

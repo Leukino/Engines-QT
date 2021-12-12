@@ -12,6 +12,7 @@
 
 #include <vector>
 #include <queue>
+#include <string>
 #include "SDL/include/SDL_opengl.h"
 #include "Math/float2.h"
 
@@ -82,7 +83,9 @@ bool ModuleImport::LoadGeometry(const char* path) {
 			GameObject* newGameObject = App->scene->CreateGameObject(name);
 			ComponentMesh* mesh = newGameObject->CreateComponent<ComponentMesh>();
 			assimpMesh = scene->mMeshes[i];
-			
+			std::string meshPath = path;
+			meshPath.erase(meshPath.end() - 4, meshPath.end());
+			mesh->meshPath = meshPath;
 			if (scene->HasMaterials()) {
 				texture = scene->mMaterials[assimpMesh->mMaterialIndex];
 
