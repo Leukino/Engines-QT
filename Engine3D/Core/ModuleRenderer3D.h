@@ -29,12 +29,14 @@ public:
 
 	Light lights[MAX_LIGHTS];
 	SDL_GLContext context;
-
+	int drawCalls = 0;
+	int drawnObjects = 0;
 	bool depthTestEnabled;
 	bool cullFace;
 	bool useLighting;
 	bool useTexture;
 	bool wireframeMode;
+	bool renderAABB;
 	bool vsyncActive;
 
 };

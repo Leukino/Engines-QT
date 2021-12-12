@@ -221,6 +221,7 @@ void ModuleCamera3D::OnGui()
 		{
 			projectionIsDirty = true;
 		}
+		ImGui::Text("Frustrum: Max distance: %f \nMin distance: %f", cameraFrustum.farPlaneDistance, cameraFrustum.nearPlaneDistance);
 	}
 }
 

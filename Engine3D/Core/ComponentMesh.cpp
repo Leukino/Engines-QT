@@ -4,6 +4,7 @@
 #include "SDL/include/SDL_opengl.h"
 #include "Application.h"
 #include "ModuleRenderer3D.h"
+#include "ModuleCamera3D.h"
 #include "ComponentMaterial.h"
 #include "ComponentTransform.h"
 #include "GameObject.h"
@@ -119,8 +120,11 @@ void ComponentMesh::GenerateBounds()
 	localAABB.Enclose(&vertices[0], vertices.size());
 		
 	Sphere sphere;	
-	sphere.r = 0.f;
-	sphere.pos = localAABB.CenterPoint();
+	float3 position = owner->GetComponent<ComponentTransform>()->GetPosition();
+	float3 scale = owner->GetComponent<ComponentTransform>()->GetScale();
+	position = float3(position.x * scale.x, position.y * scale.y, position.z * scale.z);
+	sphere.r = 0.f * scale.Normalize();
+	sphere.pos = position*2;
 	sphere.Enclose(localAABB);
 
 	radius = sphere.r;
@@ -164,7 +168,6 @@ float3 ComponentMesh::GetCenterPointInWorldCoords() const
 
 bool ComponentMesh::Update(float dt)
 {
-
 	drawWireframe || App->renderer3D->wireframeMode ? glPolygonMode(GL_FRONT_AND_BACK, GL_LINE) : glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
 	glBindTexture(GL_TEXTURE_2D, 0);
@@ -180,19 +183,33 @@ bool ComponentMesh::Update(float dt)
 	glBindBuffer(GL_ARRAY_BUFFER, this->vertexBufferId);
 	glVertexPointer(3, GL_FLOAT, 0, NULL);
 
+	GenerateBounds();
+
 	if (ComponentMaterial* material = owner->GetComponent<ComponentMaterial>())
 	{	
 		drawWireframe || !App->renderer3D->useTexture || App->renderer3D->wireframeMode ? 0 : glBindTexture(GL_TEXTURE_2D, material->GetTextureId());
 	}
 
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->indexBufferId);
+	if (App->camera->cameraFrustum.Contains(centerPoint))
+	{
+		//-- Draw --//
 
-	//-- Draw --//
-	glPushMatrix();
-	glMultMatrixf(owner->transform->transformMatrix.Transposed().ptr());
-	glColor3f(1.0f, 1.0f, 1.0f);
-	glDrawElements(GL_TRIANGLES, this->numIndices, GL_UNSIGNED_INT, NULL);
-	glPopMatrix();
+		glPushMatrix();
+		glMultMatrixf(owner->transform->transformMatrix.Transposed().ptr());
+		glColor3f(1.0f, 1.0f, 1.0f);
+		glDrawElements(GL_TRIANGLES, this->numIndices, GL_UNSIGNED_INT, NULL);
+		glPopMatrix();
+		App->renderer3D->drawCalls += this->numIndices;
+		App->renderer3D->drawnObjects++;
+	}
+
+	if (App->renderer3D->renderAABB)
+	{
+		float3 point = localAABB.CenterPoint();
+		glColor3f(1.f, 0.f, 0.f);
+		
+	}
 	//-- UnBind Buffers--//
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -221,7 +238,8 @@ void ComponentMesh::OnGui()
 		ImGui::DragFloat("Normal draw scale", &normalScale);
 		ImGui::Checkbox("Draw face normals", &drawFaceNormals);
 		ImGui::Checkbox("Draw vertex normals", &drawVertexNormals);
+		ImGui::Text("AABB position: %f %f %f", centerPoint.x, centerPoint.y, centerPoint.z);
+		/*if (ImGui::Button("Reload AABB"))*/
+			
 	}
 }
-
-

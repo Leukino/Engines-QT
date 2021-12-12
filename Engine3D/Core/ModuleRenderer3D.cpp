@@ -145,7 +145,8 @@ bool ModuleRenderer3D::Start()
 update_status ModuleRenderer3D::PreUpdate(float dt)
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
+	drawCalls = 0;
+	drawnObjects = 0;
 	// Recalculate matrix -------------
 	App->camera->CalculateViewMatrix();
 
@@ -207,6 +208,14 @@ void ModuleRenderer3D::OnGui() {
 		if (ImGui::Checkbox("Wireframe Mode", &wireframeMode)) {
 			wireframeMode ? glPolygonMode(GL_FRONT_AND_BACK, GL_LINE) : glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 		}
+
+		if (ImGui::Checkbox("Render AABB", &renderAABB))
+		{
+			renderAABB ? true : false;
+		}
+		ImGui::Text("Draw Calls: %d", drawCalls);
+		ImGui::Text("Drawn objects: %d", drawnObjects);
+		
 	}
 }
 void ModuleRenderer3D::OnLoad(const JSONReader& reader)

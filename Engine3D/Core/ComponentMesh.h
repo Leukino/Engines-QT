@@ -54,7 +54,7 @@ public:
 	bool drawVertexNormals = false;
 	bool drawFaceNormals = false;
 	float normalScale = 1.f;
-	
+	uint drawCalls = 0;
 private:
 
 	//Bounding sphere
