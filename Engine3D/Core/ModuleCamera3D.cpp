@@ -6,6 +6,7 @@
 #include "ComponentTransform.h"
 #include "ComponentMesh.h"
 #include "GameObject.h"
+#include "ModuleRenderer3D.h"
 
 ModuleCamera3D::ModuleCamera3D(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
@@ -221,7 +222,7 @@ void ModuleCamera3D::OnGui()
 		{
 			projectionIsDirty = true;
 		}
-		ImGui::Text("Frustrum: Max distance: %f \nMin distance: %f", cameraFrustum.farPlaneDistance, cameraFrustum.nearPlaneDistance);
+		ImGui::Text("Frustrum: Max distance: %f \nMin distance: %f \nDraw Calls: %d", cameraFrustum.farPlaneDistance, cameraFrustum.nearPlaneDistance, App->renderer3D->drawnObjects);
 	}
 }
 
