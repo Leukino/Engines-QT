@@ -327,10 +327,10 @@ void ModuleEditor::MenuBar() {
 
         /* ---- FILE ---- */
         if (ImGui::BeginMenu("File")) {
-            if (ImGui::MenuItem("Save", "Ctrl + S")) //DO SOMETHING
-            {
+            //if (ImGui::MenuItem("Save", "Ctrl + S")) //DO SOMETHING
+            //{
 
-            }
+            //}
             ImGui::Separator();
             if (ImGui::MenuItem("Exit", "(Alt+F4)")) App->closeEngine = true;
             ImGui::EndMenu();
