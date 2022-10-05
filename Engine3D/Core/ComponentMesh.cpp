@@ -205,17 +205,51 @@ bool ComponentMesh::Update(float dt)
 		App->renderer3D->drawnObjects++;
 	}
 
-	if (App->renderer3D->renderAABB)
-	{
-		float3 point = localAABB.CenterPoint();
-		glColor3f(1.f, 0.f, 0.f);
-		
-	}
-	//-- UnBind Buffers--//
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindBuffer(GL_TEXTURE_COORD_ARRAY, 0);
 	glBindTexture(GL_TEXTURE_2D, 0);
+
+	if (App->renderer3D->renderAABB)
+	{
+		float3 pos = owner->GetComponent<ComponentTransform>()->GetPosition();
+		float3 point = localAABB.CenterPoint();
+		glColor3f(3.f, 3.f, 3.f);
+		glBegin(GL_LINES);
+		//x Axis
+		
+		glVertex3f(localAABB.MinX() + pos.x, localAABB.MinY() + pos.y, localAABB.MinZ() + pos.z);
+		glVertex3f(localAABB.MaxX() + pos.x, localAABB.MinY() + pos.y, localAABB.MinZ() + pos.z);
+		glVertex3f(localAABB.MinX() + pos.x, localAABB.MaxY() + pos.y, localAABB.MinZ() + pos.z);
+		glVertex3f(localAABB.MaxX() + pos.x, localAABB.MaxY() + pos.y, localAABB.MinZ() + pos.z);
+		glVertex3f(localAABB.MinX() + pos.x, localAABB.MaxY() + pos.y, localAABB.MaxZ() + pos.z);
+		glVertex3f(localAABB.MaxX() + pos.x, localAABB.MaxY() + pos.y, localAABB.MaxZ() + pos.z);
+		glVertex3f(localAABB.MinX() + pos.x, localAABB.MinY() + pos.y, localAABB.MaxZ() + pos.z);
+		glVertex3f(localAABB.MaxX() + pos.x, localAABB.MinY() + pos.y, localAABB.MaxZ() + pos.z);
+
+		glVertex3f(localAABB.MinX() + pos.x, localAABB.MinY() + pos.y, localAABB.MinZ() + pos.z);
+		glVertex3f(localAABB.MinX() + pos.x, localAABB.MaxY() + pos.y, localAABB.MinZ() + pos.z);
+		glVertex3f(localAABB.MaxX() + pos.x, localAABB.MinY() + pos.y, localAABB.MinZ() + pos.z);
+		glVertex3f(localAABB.MaxX() + pos.x, localAABB.MaxY() + pos.y, localAABB.MinZ() + pos.z);
+		glVertex3f(localAABB.MaxX() + pos.x, localAABB.MinY() + pos.y, localAABB.MaxZ() + pos.z);
+		glVertex3f(localAABB.MaxX() + pos.x, localAABB.MaxY() + pos.y, localAABB.MaxZ() + pos.z);
+		glVertex3f(localAABB.MinX() + pos.x, localAABB.MinY() + pos.y, localAABB.MaxZ() + pos.z);
+		glVertex3f(localAABB.MinX() + pos.x, localAABB.MaxY() + pos.y, localAABB.MaxZ() + pos.z);
+
+		glVertex3f(localAABB.MinX() + pos.x, localAABB.MinY() + pos.y, localAABB.MinZ() + pos.z);
+		glVertex3f(localAABB.MinX() + pos.x, localAABB.MinY() + pos.y, localAABB.MaxZ() + pos.z);
+		glVertex3f(localAABB.MaxX() + pos.x, localAABB.MinY() + pos.y, localAABB.MinZ() + pos.z);
+		glVertex3f(localAABB.MaxX() + pos.x, localAABB.MinY() + pos.y, localAABB.MaxZ() + pos.z);
+		glVertex3f(localAABB.MaxX() + pos.x, localAABB.MaxY() + pos.y, localAABB.MinZ() + pos.z);
+		glVertex3f(localAABB.MaxX() + pos.x, localAABB.MaxY() + pos.y, localAABB.MaxZ() + pos.z);
+		glVertex3f(localAABB.MinX() + pos.x, localAABB.MaxY() + pos.y, localAABB.MinZ() + pos.z);
+		glVertex3f(localAABB.MinX() + pos.x, localAABB.MaxY() + pos.y, localAABB.MaxZ() + pos.z);
+
+		glEnd();
+		
+	}
+	//-- UnBind Buffers--//
+	
 
 	//--Disables States--//
 	glDisableClientState(GL_VERTEX_ARRAY);
@@ -240,7 +274,8 @@ void ComponentMesh::OnGui()
 		ImGui::Checkbox("Draw face normals", &drawFaceNormals);
 		ImGui::Checkbox("Draw vertex normals", &drawVertexNormals);
 		ImGui::Text("AABB position: %f %f %f", centerPoint.x, centerPoint.y, centerPoint.z);
-		/*if (ImGui::Button("Reload AABB"))*/
+		if (ImGui::Button("Reload AABB"))
+			GenerateBounds();
 		if (ImGui::Button("Save file poggers!!!!1"))
 			SaveMesh();
 			
