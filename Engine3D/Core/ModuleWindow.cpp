@@ -144,6 +144,10 @@ void ModuleWindow::OnLoad(const JSONReader& reader)
 		LOAD_JSON_BOOL(fulldesktop)
 		LOAD_JSON_BOOL(borderless)
 		LOAD_JSON_BOOL(resizable)
+			LOAD_JSON_FLOAT(width)
+			LOAD_JSON_FLOAT(height)
+			if (width < 0 && height < 0)
+				SDL_SetWindowSize(window, width, height);
 	}
 }
 
@@ -154,8 +158,11 @@ void ModuleWindow::OnSave(JSONWriter& writer) const
 	SAVE_JSON_BOOL(fullscreen)
 	SAVE_JSON_BOOL(fulldesktop)
 	SAVE_JSON_BOOL(borderless)
-	SAVE_JSON_BOOL(resizable)	
+	SAVE_JSON_BOOL(resizable)
+	SAVE_JSON_FLOAT(width)
+	SAVE_JSON_FLOAT(height)
 	writer.EndObject();
+	
 }
 
 void ModuleWindow::SetTitle(const char* title)

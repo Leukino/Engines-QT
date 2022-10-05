@@ -576,7 +576,7 @@ void ModuleEditor::UpdateWindowStatus() {
 
     if (showSceneWindow) {
 
-        ImGui::Begin("Scene", &showSceneWindow, ImGuiWindowFlags_NoScrollWithMouse);
+        ImGui::Begin("Scene", &showSceneWindow, ImGuiWindowFlags_NoScrollWithMouse | ImGuiWindowFlags_NoScrollbar);
 
         ImVec2 viewportSize = ImGui::GetCurrentWindow()->Size;
         if (viewportSize.x != lastViewportSize.x || viewportSize.y != lastViewportSize.y)

@@ -111,7 +111,7 @@ update_status ModuleCamera3D::Update(float dt)
 			if (App->editor->gameobjectSelected != nullptr)
 			{
 				const float newDeltaX = (float)dx * cameraSensitivity;
-				const float newDeltaY = (float)dy * cameraSensitivity;
+				const float newDeltaY = -(float)dy * cameraSensitivity;
 
 				reference = App->editor->gameobjectSelected->transform->GetPosition();
 				Quat orbitMat = Quat::RotateY(newDeltaX * .1f);								
