@@ -47,9 +47,20 @@ public:
 	ComponentTransform* transform = nullptr;
 	std::vector<GameObject*> children;
 	std::vector<Component*> components;
-	
+	std::vector<Action> actions;
+
 	bool active = true;
 	bool isSelected = false;
 
 };
 
+class Action {
+
+	union actionType
+	{
+		int intAction;
+		float floatAction;
+		std::string stringAction;
+	};
+
+};
