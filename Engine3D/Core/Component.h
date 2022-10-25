@@ -4,6 +4,7 @@
 #include <vector>
 #include <string>
 #include "GameObject.h"
+#include "State.h"
 
 class Component {
 
@@ -24,8 +25,8 @@ public:
 	virtual bool Enable() { return active = true; };
 	virtual bool Disable() { return active = false; };
 	virtual void OnGui() { }
-	virtual Action StoreAction() {}
-	virtual Action UndoAction() {}
+	//virtual bool StoreAction() {}
+	//virtual bool UndoAction() {}
 
 public:
 

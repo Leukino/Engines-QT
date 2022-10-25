@@ -53,7 +53,7 @@ void GameObject::OnGui()
 	{
 		ImGui::Text("%s", name.c_str());
 		ImGui::Separator();
-
+		
 		for (Component* component : components)
 		{
 			component->OnGui();

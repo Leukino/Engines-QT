@@ -1,9 +1,10 @@
 #pragma once
 #include "Module.h"
 #include "Globals.h"
-
+#include <vector>
 #include "ImGui/imgui.h"
 #include <string>
+#include "State.h"
 
 //Forward declaration
 class GameObject;
@@ -72,6 +73,7 @@ public:
 
 	ImVec2 lastViewportSize;
 
-
+	std::vector<State> actions;
 
 };
+

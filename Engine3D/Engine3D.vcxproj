@@ -68,6 +68,7 @@
     <ClCompile Include="Core\ModuleWindow.cpp" />
     <ClCompile Include="Core\par_shapes.cpp" />
     <ClCompile Include="Core\PerfTimer.cpp" />
+    <ClCompile Include="Core\State.cpp" />
     <ClCompile Include="Core\Timer.cpp" />
     <ClCompile Include="Core\ComponentTransform.cpp" />
     <ClCompile Include="Core\ModuleViewportFrameBuffer.cpp" />
@@ -244,6 +245,7 @@
     <ClInclude Include="Core\rapidjson-1.1.0\include\rapidjson\stream.h" />
     <ClInclude Include="Core\rapidjson-1.1.0\include\rapidjson\stringbuffer.h" />
     <ClInclude Include="Core\rapidjson-1.1.0\include\rapidjson\writer.h" />
+    <ClInclude Include="Core\State.h" />
     <ClInclude Include="Core\Timer.h" />
     <ClInclude Include="Core\ComponentTransform.h" />
     <ClInclude Include="Core\ModuleViewportFrameBuffer.h" />
@@ -280,7 +282,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>

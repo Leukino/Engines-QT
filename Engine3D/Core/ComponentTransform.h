@@ -4,6 +4,8 @@
 #include "Math/float3.h"
 #include "Math/float4x4.h"
 #include "Math/Quat.h"
+#include "State.h"
+class State;
 
 class ComponentTransform : public Component {
 
@@ -26,6 +28,9 @@ public:
 	void OnParentMoved();
 
 	void RecomputeGlobalMatrix();
+
+	/*State StoreAction();
+	State UndoAction();*/
 	
 	float4x4 transformMatrix;
 	float4x4 transformMatrixLocal;

@@ -4,7 +4,7 @@
 #include "ModuleScene.h"
 #include "glew.h"
 #include "ImGui/imgui.h"
-
+#include "ModuleEditor.h"
 ComponentTransform::ComponentTransform(GameObject* parent) : Component(parent) {
 	
 	position = float3::zero;
@@ -31,6 +31,20 @@ void ComponentTransform::OnGui()
 {
 	if (ImGui::CollapsingHeader("Transform"))
 	{
+		ImGui::Text("Elements in stack: %d", App->editor->actions.size());
+		if (ImGui::Button("Store position"))
+		{
+			App->editor->actions.push_back(State(owner, this, position.x));
+		}
+		if (ImGui::Button("Get position"))
+		{
+			if (App->editor->actions.size() > 0) {
+				SetPosition(math::float3(App->editor->actions.back().value_float, position.y, position.z));
+				App->editor->actions.pop_back();
+			}
+		}
+
+
 		float3 newPosition = position;
 		if (ImGui::DragFloat3("Location", &newPosition[0]))
 		{
@@ -52,6 +66,7 @@ void ComponentTransform::OnGui()
 		{
 			SetScale(newScale);
 		}
+		
 	}
 }
 
@@ -100,3 +115,8 @@ void ComponentTransform::RecomputeGlobalMatrix()
 		transformMatrix = transformMatrixLocal;
 	}
 }
+
+//State ComponentTransform::StoreAction() 
+//{
+//	
+//}
