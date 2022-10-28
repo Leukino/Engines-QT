@@ -13,6 +13,7 @@ ComponentTransform::ComponentTransform(GameObject* parent) : Component(parent) {
 
 	transformMatrix.SetIdentity();
 	transformMatrixLocal.SetIdentity();
+	this->type = "Transform";
 }
 
 

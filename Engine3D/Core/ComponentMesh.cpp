@@ -14,10 +14,13 @@
 #include <fstream>
 
 
-ComponentMesh::ComponentMesh(GameObject* parent) : Component(parent) {}
+ComponentMesh::ComponentMesh(GameObject* parent) : Component(parent) {
+	this->type = "Mesh";
+}
 
 ComponentMesh::ComponentMesh(GameObject* parent, Shape shape) : Component(parent)
 {
+	this->type = "Mesh";
 	switch (shape)
 	{
 	case Shape::CUBE:

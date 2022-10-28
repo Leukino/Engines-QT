@@ -13,6 +13,27 @@ public:
 
 	ComponentTransform(GameObject* parent);
 
+	/*virtual std::string GetType() {
+		Component* c = nullptr;
+		if (dynamic_cast<ComponentTransform*>(c) == nullptr)
+			return std::string("Transform");
+	}*/
+
+	/*std::string GetType() {
+		Component* c = nullptr;
+		if (typeid(*c) == typeid(ComponentTransform))
+			return std::string("Transform");
+	}*/
+
+	std::string GetType() {
+		Component* c = nullptr;
+		auto* trans = dynamic_cast<ComponentTransform*>(c);
+		if (trans)
+			return std::string("Transform");
+		return std::string("unknown_type");
+	}
+	
+
 	bool Update(float dt) override;
 	void OnGui() override;
 

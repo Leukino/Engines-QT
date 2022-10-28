@@ -393,6 +393,8 @@ void ModuleEditor::MenuBar() {
                 showConsoleWindow = !showConsoleWindow;
             if (ImGui::MenuItem("Textures")) 
                 showTextures = !showTextures;
+            if (ImGui::MenuItem("History"))
+                showTextures = !showTextures;
 
             ImGui::Separator();
             if (ImGui::MenuItem("Configuration")) 
@@ -452,6 +454,25 @@ void ModuleEditor::UpdateWindowStatus() {
                 }
             }
             ImGui::PopID();
+        }
+        ImGui::End();
+    }
+    if (showHistory)
+    {
+        ImGui::Begin("History", &showHistory);
+        int size = App->editor->actions.size();
+        for (auto& t : App->editor->actions)
+        {
+            ImGui::Text("History %d\nGameobject: %s\nComponent: %s\n", size, t.go->name.c_str(),t.comp->type);
+            if (t.type == t.BOOL)
+                ImGui::Text("Bool: %d", t.value_bool);
+            if (t.type == t.INT)
+                ImGui::Text("Int: %d", t.value_int);
+            if (t.type == t.FLOAT)
+                ImGui::Text("Float: %f", t.value_float);
+            if (t.type == t.STRING)
+                ImGui::Text("String: %s", t.value_string);
+            ImGui::Text("\n\n");
         }
         ImGui::End();
     }

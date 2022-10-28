@@ -29,7 +29,7 @@ public:
 	//virtual bool UndoAction() {}
 
 public:
-
+	char* type = "unknown_type";
 	GameObject* owner = nullptr;
 	bool active = true;
 };

@@ -22,6 +22,12 @@ public:
 	ComponentMesh(GameObject* parent, Shape shape);
 	~ComponentMesh();
 
+	virtual std::string GetType() {
+		Component* c;
+		if (dynamic_cast<ComponentMesh*>(c) == nullptr)
+			return std::string("Mesh");
+	}
+
 	void CopyParMesh(par_shapes_mesh* parMesh);
 
 	void GenerateBuffers();
