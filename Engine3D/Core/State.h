@@ -23,6 +23,7 @@ public:
 
 	GameObject* go;
 	Component* comp;
+	char* keyword = "Unknown";
 	value_type type;
 	bool value_bool = false;
 	int value_int = 0;

@@ -50,8 +50,10 @@ public:
 
 	void RecomputeGlobalMatrix();
 
-	/*State StoreAction();
-	State UndoAction();*/
+	void DrawGizmo();
+
+	//State StoreAction();
+	bool UndoAction();
 	
 	float4x4 transformMatrix;
 	float4x4 transformMatrixLocal;

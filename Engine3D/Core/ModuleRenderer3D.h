@@ -37,6 +37,7 @@ public:
 	bool useTexture;
 	bool wireframeMode;
 	bool renderAABB;
+	bool drawGizmo;
 	bool vsyncActive;
 
 };

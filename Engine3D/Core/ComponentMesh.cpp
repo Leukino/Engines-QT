@@ -218,6 +218,8 @@ bool ComponentMesh::Update(float dt)
 		float3 pos = owner->GetComponent<ComponentTransform>()->GetPosition();
 		float3 point = localAABB.CenterPoint();
 		glColor3f(3.f, 3.f, 3.f);
+		if (this->owner->isSelected)
+			glColor3f(0.f, 3.f, 0.f);
 		glBegin(GL_LINES);
 		//x Axis
 		

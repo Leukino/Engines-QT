@@ -4,6 +4,7 @@
 #include "ModuleFileSystem.h"
 #include "ComponentTransform.h"
 #include "ImGui/imgui.h"
+#include "ModuleEditor.h"
 
 GameObject::GameObject() {
 
@@ -57,6 +58,29 @@ void GameObject::OnGui()
 		for (Component* component : components)
 		{
 			component->OnGui();
+		}
+		if (ImGui::Button("Undo Action")) // Manual click of ctrl + z
+		{
+			if (App->editor->actions.size() > 0)
+			{
+				for (Component* component : components)
+				{
+					if (strcmp(component->type, App->editor->actions.back().comp->type) == 0)
+					{
+						bool ret = component->UndoAction();
+						if (ret)
+						{
+							App->editor->actions.pop_back();
+							LOG("Successfully undone action")
+								break;
+						}
+						else
+							LOG("Error undoing action");
+					}
+				}
+			}
+			else
+				LOG("No actions have been done! (don't spam ctrl z pls he gets stressed)");
 		}
 	}
 }

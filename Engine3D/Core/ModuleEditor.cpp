@@ -103,7 +103,8 @@ update_status ModuleEditor::Update(float dt)
         MenuBar();
         ImGui::End();
     }
-
+    if (App->input->GetKey(SDL_SCANCODE_LCTRL) && App->input->GetKey(SDL_SCANCODE_Z) == KEY_DOWN)
+        Undo();
     //Update status of each window and shows ImGui elements
     UpdateWindowStatus();
 
@@ -335,7 +336,11 @@ void ModuleEditor::MenuBar() {
             if (ImGui::MenuItem("Exit", "(Alt+F4)")) App->closeEngine = true;
             ImGui::EndMenu();
         }
-
+        if (ImGui::BeginMenu("Edit")) {
+            ImGui::Separator();
+            if (ImGui::MenuItem("Undo Action", "Ctrl Z")) Undo();
+            ImGui::EndMenu();
+        }
         /* ---- GAMEOBJECTS ---- */
         if (ImGui::BeginMenu("GameObject")) {
 
@@ -621,4 +626,31 @@ void ModuleEditor::InspectorGameObject()
 ModuleEditor::Grid::~Grid()
 {
     glDeleteBuffers(1, &VAO);
+}
+
+void ModuleEditor::Undo()
+{
+        if (App->scene->root != gameobjectSelected)
+        {
+        if (App->editor->actions.size() > 0)
+        {
+            for (Component* component : gameobjectSelected->components)
+            {
+                if (strcmp(component->type, App->editor->actions.back().comp->type) == 0)
+                {
+                    bool ret = component->UndoAction();
+                    if (ret)
+                    {
+                        App->editor->actions.pop_back();
+                        LOG("Successfully undone action")
+                            break;
+                    }
+                    else
+                        LOG("Error undoing action");
+                }
+            }
+        }
+        else
+            LOG("No actions have been done! (don't spam ctrl z pls he gets stressed)");
+        }
 }

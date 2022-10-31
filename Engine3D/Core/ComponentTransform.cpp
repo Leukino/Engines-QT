@@ -5,6 +5,8 @@
 #include "glew.h"
 #include "ImGui/imgui.h"
 #include "ModuleEditor.h"
+#include "ModuleRenderer3D.h"
+
 ComponentTransform::ComponentTransform(GameObject* parent) : Component(parent) {
 	
 	position = float3::zero;
@@ -25,6 +27,8 @@ bool ComponentTransform::Update(float dt) {
 		owner->PropagateTransform();
 		isDirty = false;
 	}
+	if (App->renderer3D->drawGizmo)
+		DrawGizmo();
 	return true;
 }
 
@@ -121,3 +125,25 @@ void ComponentTransform::RecomputeGlobalMatrix()
 //{
 //	
 //}
+
+bool ComponentTransform::UndoAction() { return true; }
+
+void ComponentTransform::DrawGizmo()
+{
+	float ORG[3] = { position.x,position.y,position.z };
+
+	float XP[3] = { position.x+1,position.y,position.z }, XN[3] = { -1+position.x,position.y,position.z },
+		YP[3] = { position.x,1+position.y,position.z }, YN[3] = { position.x,-1+position.y,position.z },
+		ZP[3] = { position.x,position.y,1+position.z }, ZN[3] = { position.x,position.y,-1+position.z};
+	glBegin(GL_LINE_LOOP);
+	glColor3f(1, 0, 0);   // X axis is red.
+	glVertex3fv(ORG);
+	glVertex3fv(XP);
+	glColor3f(0, 1, 0);   // Y axis is green.
+	glVertex3fv(ORG);
+	glVertex3fv(YP);
+	glColor3f(0, 0, 1);   // z axis is blue.
+	glVertex3fv(ORG);
+	glVertex3fv(ZP);
+	glEnd();
+}

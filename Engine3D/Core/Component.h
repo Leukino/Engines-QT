@@ -25,8 +25,8 @@ public:
 	virtual bool Enable() { return active = true; };
 	virtual bool Disable() { return active = false; };
 	virtual void OnGui() { }
-	//virtual bool StoreAction() {}
-	//virtual bool UndoAction() {}
+	virtual bool StoreAction() { return false; }
+	virtual bool UndoAction() { return false; }
 
 public:
 	char* type = "unknown_type";
