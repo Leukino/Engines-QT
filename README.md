@@ -30,6 +30,5 @@ Some more features:
 - You can see the previous stored actions in the History tab. 
 
 - Undo action Ctrl Z (works only in Transform component for the moment)
-
 You can store the desired component information, by clicking Store Position. Then, whenever you want, you can Undo the action and revert to the previous stored position. It won't matter whether it's the selected gameobject or not. 
 
