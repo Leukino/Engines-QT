@@ -32,3 +32,4 @@ Some more features:
 - Undo action Ctrl Z (works only in Transform component for the moment)
 You can store the desired component information, by clicking Store Position. Then, whenever you want, you can Undo the action and revert to the previous stored position. It won't matter whether it's the selected gameobject or not. 
 
+The engine executable is located in Engine3D/Game/Engine3D.exe
