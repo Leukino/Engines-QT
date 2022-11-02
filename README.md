@@ -17,6 +17,8 @@ Some more features:
 
 - You can select objects in the Hierarchy tab (default Root has child gameobjects)
 
+- You can see the console messages in the Console tab
+
 - You can create new objects in the GameObject -- Create empty gameobject tab
 
 - You can change the texture of the selected object with the Textures tab
