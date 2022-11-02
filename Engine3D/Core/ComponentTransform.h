@@ -53,7 +53,7 @@ public:
 	void DrawGizmo();
 
 	//State StoreAction();
-	bool UndoAction();
+	bool UndoAction(State* state);
 	
 	float4x4 transformMatrix;
 	float4x4 transformMatrixLocal;

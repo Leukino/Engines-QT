@@ -38,6 +38,7 @@ ModuleEditor::ModuleEditor(Application* app, bool start_enabled) : Module(app, s
     showGameWindow = true;
     showSceneWindow = true;
     showTextures = true;
+    showHistory = true;
 
     currentColor = { 1.0f, 1.0f, 1.0f, 1.0f };
     
@@ -399,7 +400,7 @@ void ModuleEditor::MenuBar() {
             if (ImGui::MenuItem("Textures")) 
                 showTextures = !showTextures;
             if (ImGui::MenuItem("History"))
-                showTextures = !showTextures;
+                showHistory = !showHistory;
 
             ImGui::Separator();
             if (ImGui::MenuItem("Configuration")) 
@@ -634,11 +635,11 @@ void ModuleEditor::Undo()
         {
         if (App->editor->actions.size() > 0)
         {
-            for (Component* component : gameobjectSelected->components)
+            for (Component* component : App->editor->actions.back().go->components)
             {
                 if (strcmp(component->type, App->editor->actions.back().comp->type) == 0)
                 {
-                    bool ret = component->UndoAction();
+                    bool ret = component->UndoAction(&App->editor->actions.back());
                     if (ret)
                     {
                         App->editor->actions.pop_back();

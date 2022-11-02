@@ -5,7 +5,7 @@
 #include <string>
 #include "GameObject.h"
 #include "State.h"
-
+class State;
 class Component {
 
 public:
@@ -26,7 +26,7 @@ public:
 	virtual bool Disable() { return active = false; };
 	virtual void OnGui() { }
 	virtual bool StoreAction() { return false; }
-	virtual bool UndoAction() { return false; }
+	virtual bool UndoAction(State* state) { return false; }
 
 public:
 	char* type = "unknown_type";

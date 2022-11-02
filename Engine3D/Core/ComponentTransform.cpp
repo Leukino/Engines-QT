@@ -39,15 +39,15 @@ void ComponentTransform::OnGui()
 		ImGui::Text("Elements in stack: %d", App->editor->actions.size());
 		if (ImGui::Button("Store position"))
 		{
-			App->editor->actions.push_back(State(owner, this, position.x));
+			App->editor->actions.push_back(State(owner, this, position.x, "PosX"));
+			App->editor->actions.push_back(State(owner, this, position.y, "PosY"));
+			App->editor->actions.push_back(State(owner, this, position.z, "PosZ"));
 		}
-		if (ImGui::Button("Get position"))
+
+		/*if (ImGui::Button("Get position"))
 		{
-			if (App->editor->actions.size() > 0) {
-				SetPosition(math::float3(App->editor->actions.back().value_float, position.y, position.z));
-				App->editor->actions.pop_back();
-			}
-		}
+			
+		}*/
 
 
 		float3 newPosition = position;
@@ -126,7 +126,19 @@ void ComponentTransform::RecomputeGlobalMatrix()
 //	
 //}
 
-bool ComponentTransform::UndoAction() { return true; }
+bool ComponentTransform::UndoAction(State* state) { 
+	if (state->go == this->owner)
+	{
+		if (strcmp(state->keyword, "PosX") == 0)
+			SetPosition(math::float3(App->editor->actions.back().value_float, position.y, position.z));
+		else if (strcmp(state->keyword, "PosY") == 0)
+			SetPosition(math::float3(position.x, App->editor->actions.back().value_float, position.z));
+		else if (strcmp(state->keyword, "PosZ") == 0)
+			SetPosition(math::float3(position.x, position.y, App->editor->actions.back().value_float));
+		return true;
+	}
+	return false;
+}
 
 void ComponentTransform::DrawGizmo()
 {

@@ -67,7 +67,7 @@ void GameObject::OnGui()
 				{
 					if (strcmp(component->type, App->editor->actions.back().comp->type) == 0)
 					{
-						bool ret = component->UndoAction();
+						bool ret = component->UndoAction(&App->editor->actions.back());
 						if (ret)
 						{
 							App->editor->actions.pop_back();
