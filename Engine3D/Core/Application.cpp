@@ -147,7 +147,10 @@ void Application::FinishUpdate()
 	}
 
 	uint32 last_frame_ms = frame_time.Read();
-
+	if (cap < 2)
+		return;
+	if (last_frame_ms < (float)(1000 / cap))
+		SDL_Delay((float)(1000 / cap) - last_frame_ms);
 }
 
 void Application::OnGui()
