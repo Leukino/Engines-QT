@@ -13,6 +13,7 @@
 #include "ModuleTextures.h"
 #include "ComponentMaterial.h"
 #include "ComponentMesh.h"
+#include "ComponentTransform.h"
 
 //Tools
 
@@ -21,6 +22,7 @@
 #include "ImGui/imgui_impl_opengl3.h"
 #include "ImGui/imgui_impl_sdl.h"
 #include "ImGui/imgui_internal.h"
+#include "ImGui/ImGuizmo.h"
 #include "glew.h"
 #include <gl/GL.h>
 
@@ -99,6 +101,8 @@ update_status ModuleEditor::PreUpdate(float dt) {
 update_status ModuleEditor::Update(float dt)
 {
     DrawGrid();
+    if (gameobjectSelected != nullptr)
+    ImGuizmo::DrawCubes(App->camera->viewMatrix.ptr(), App->camera->cameraFrustum.ProjectionMatrix().ptr(), App->editor->gameobjectSelected->GetComponent<ComponentTransform>()->transformMatrix.ptr(), 1);
     //Creating MenuBar item as a root for docking windows
     if (DockingRootItem("Viewport", ImGuiWindowFlags_MenuBar)) {
         MenuBar();
