@@ -7,6 +7,10 @@
 #include "ComponentMesh.h"
 #include "GameObject.h"
 #include "ModuleRenderer3D.h"
+#include "ModuleScene.h"
+#include "ImGui/imgui_internal.h"
+#include "ImGui/imgui_impl_opengl3.h"
+#include "ImGui/imgui_impl_sdl.h"
 
 ModuleCamera3D::ModuleCamera3D(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
@@ -90,11 +94,16 @@ update_status ModuleCamera3D::Update(float dt)
 		newPos += right * speed;
 	if(App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) 
 		newPos -= right * speed;
+		if (App->input->GetMouseZ() > 0)
+			newPos += front * speed * 2;
+		if (App->input->GetMouseZ() < 0)
+			newPos -= front * speed * 2;
 
-	if (App->input->GetMouseZ() > 0) 
-		newPos += front * speed * 2;
-	if (App->input->GetMouseZ() < 0) 
-		newPos -= front * speed * 2;
+	if (App->input->GetMouseButton(SDL_BUTTON_MIDDLE))
+	{
+		newPos += right * App->input->GetMouseXMotion() * (speed/10);
+		newPos += up * App->input->GetMouseYMotion() * (speed/10);
+	}
 
 	position += newPos;
 
