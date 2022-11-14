@@ -6,6 +6,9 @@
 #include "ImGui/imgui.h"
 #include "ModuleEditor.h"
 #include "ModuleRenderer3D.h"
+#include "ImGui/ImGuizmo.h"
+#include "ModuleCamera3D.h"
+
 
 ComponentTransform::ComponentTransform(GameObject* parent) : Component(parent) {
 	
@@ -20,6 +23,28 @@ ComponentTransform::ComponentTransform(GameObject* parent) : Component(parent) {
 
 
 bool ComponentTransform::Update(float dt) {
+
+	if (owner->isSelected)
+	{
+		ImGuizmo::Enable(true);
+		ImGuiIO& io = ImGui::GetIO();
+		float4x4 cameraView = App->camera->cameraFrustum.ViewMatrix();
+		cameraView.Transposed();
+		float4x4 cameraProj = App->camera->cameraFrustum.ProjectionMatrix();
+		cameraProj.Transposed();
+
+		//cameraView.Inverse();
+
+		ImGuizmo::SetOrthographic(false);
+		ImGuizmo::SetDrawlist();
+		float windowWidth = (float)ImGui::GetWindowWidth();
+		float windowHeight = (float)ImGui::GetWindowHeight();
+		ImGuizmo::SetRect(ImGui::GetWindowPos().x, ImGui::GetWindowPos().y, windowWidth, windowHeight);
+		//ImGuizmo::SetRect(0, 0, io.DisplaySize.x, io.DisplaySize.y);
+		ImGuizmo::Manipulate(cameraView.ptr(), cameraProj.ptr(),
+			ImGuizmo::OPERATION::TRANSLATE, ImGuizmo::LOCAL, transformMatrix.Transposed().ptr());
+		isDirty = true;
+	}
 	if (isDirty)
 	{
 		transformMatrixLocal = float4x4::FromTRS(position, rotation, scale);
