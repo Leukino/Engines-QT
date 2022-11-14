@@ -43,8 +43,8 @@ Application::Application()
 	AddModule(import);
 	
 	// Scenes
-	AddModule(viewportBuffer);
 	AddModule(scene);
+	AddModule(viewportBuffer);
 	AddModule(editor);
 
 	// Renderer last!

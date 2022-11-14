@@ -617,6 +617,31 @@ void ModuleEditor::UpdateWindowStatus() {
         }
         lastViewportSize = viewportSize;
         ImGui::Image((ImTextureID)App->viewportBuffer->texture, viewportSize, ImVec2(0, 1), ImVec2(1, 0));
+
+        //display imguizmo
+
+        if (gameobjectSelected != nullptr)
+        {
+            ImGuizmo::Enable(true);
+            ImGuiIO& io = ImGui::GetIO();
+            float4x4 temp = App->camera->cameraFrustum.ViewMatrix();
+            float4x4 cameraView = temp.Transposed();
+            float4x4 temp2 = App->camera->cameraFrustum.ProjectionMatrix();
+            float4x4 cameraProj = temp2.Transposed();
+
+            //cameraView.Inverse();
+
+            ImGuizmo::SetOrthographic(false);
+            ImGuizmo::SetDrawlist();
+            float windowWidth = (float)ImGui::GetWindowWidth();
+            float windowHeight = (float)ImGui::GetWindowHeight();
+            ImGuizmo::SetRect(ImGui::GetWindowPos().x, ImGui::GetWindowPos().y, windowWidth, windowHeight);
+            //ImGuizmo::SetRect(0, 0, io.DisplaySize.x, io.DisplaySize.y);
+            ImGuizmo::Manipulate(cameraView.ptr(), cameraProj.ptr(),
+                ImGuizmo::OPERATION::TRANSLATE, ImGuizmo::LOCAL, 
+                gameobjectSelected->transform->transformMatrix.Transposed().ptr());
+        }
+
         ImGui::End();
     }
     
