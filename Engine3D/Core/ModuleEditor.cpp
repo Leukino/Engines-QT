@@ -637,9 +637,21 @@ void ModuleEditor::UpdateWindowStatus() {
             float windowHeight = (float)ImGui::GetWindowHeight();
             ImGuizmo::SetRect(ImGui::GetWindowPos().x, ImGui::GetWindowPos().y, windowWidth, windowHeight);
             //ImGuizmo::SetRect(0, 0, io.DisplaySize.x, io.DisplaySize.y);
+
+            float deltaMatrix[16];
             ImGuizmo::Manipulate(cameraView.ptr(), cameraProj.ptr(),
                 ImGuizmo::OPERATION::TRANSLATE, ImGuizmo::LOCAL, 
-                gameobjectSelected->transform->transformMatrix.Transposed().ptr());
+                gameobjectSelected->transform->transformMatrix.Transposed().ptr(), deltaMatrix);
+
+            float4x4 lastTransform = float4x4(
+                deltaMatrix[0], deltaMatrix[4], deltaMatrix[8], deltaMatrix[12],
+                deltaMatrix[1], deltaMatrix[5], deltaMatrix[9], deltaMatrix[13],
+                deltaMatrix[2], deltaMatrix[6], deltaMatrix[10], deltaMatrix[14],
+                deltaMatrix[3], deltaMatrix[7], deltaMatrix[11], deltaMatrix[15]);
+
+            //lastTransform.Mul(gameobjectSelected->transform->transformMatrix);
+            gameobjectSelected->transform->transformMatrix = lastTransform.Mul(gameobjectSelected->transform->transformMatrix);
+
         }
 
         ImGui::End();
