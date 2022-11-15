@@ -5,7 +5,7 @@
 #include "ImGui/imgui.h"
 #include <string>
 #include "State.h"
-
+#include "ImGui/ImGuizmo.h"
 //Forward declaration
 class GameObject;
 class ComponentTransform;
@@ -78,5 +78,6 @@ public:
 
 	std::vector<State> actions;
 
+	ImGuizmo::OPERATION op = ImGuizmo::OPERATION::TRANSLATE;
 };
 

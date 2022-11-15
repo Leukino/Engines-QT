@@ -214,10 +214,6 @@ void ModuleRenderer3D::OnGui() {
 		{
 			renderAABB ? true : false;
 		}
-		if (ImGui::Checkbox("Render Gizmo", &drawGizmo))
-		{
-			drawGizmo ? true : false;
-		}
 		ImGui::Text("Draw Calls: %d", drawCalls);
 		ImGui::Text("Drawn objects: %d", drawnObjects);
 		

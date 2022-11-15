@@ -22,7 +22,7 @@
 #include "ImGui/imgui_impl_opengl3.h"
 #include "ImGui/imgui_impl_sdl.h"
 #include "ImGui/imgui_internal.h"
-#include "ImGui/ImGuizmo.h"
+
 #include "glew.h"
 #include <gl/GL.h>
 
@@ -102,8 +102,7 @@ update_status ModuleEditor::PreUpdate(float dt) {
 update_status ModuleEditor::Update(float dt)
 {
     DrawGrid();
-    if (gameobjectSelected != nullptr)
-    ImGuizmo::DrawCubes(App->camera->viewMatrix.ptr(), App->camera->cameraFrustum.ProjectionMatrix().ptr(), App->editor->gameobjectSelected->GetComponent<ComponentTransform>()->transformMatrix.ptr(), 1);
+    //if (gameobjectSelected != nullptr)
     //Creating MenuBar item as a root for docking windows
     if (DockingRootItem("Viewport", ImGuiWindowFlags_MenuBar)) {
         MenuBar();
@@ -344,7 +343,7 @@ void ModuleEditor::MenuBar() {
         }
         if (ImGui::BeginMenu("Edit")) {
             ImGui::Separator();
-            if (ImGui::MenuItem("Undo Action", "Ctrl Z")) Undo();
+            
             ImGui::EndMenu();
         }
         /* ---- GAMEOBJECTS ---- */
@@ -483,6 +482,8 @@ void ModuleEditor::UpdateWindowStatus() {
                 ImGui::Text("Float: %f", t.value_float);
             if (t.type == t.STRING)
                 ImGui::Text("String: %s", t.value_string);
+            if (t.type == t.VEC3)
+                ImGui::Text("Vec3: %f %f %f ", t.value_vec3.At(0), t.value_vec3.At(1), t.value_vec3.At(2));
             ImGui::Text("\n\n");
         }
         ImGui::End();
@@ -609,6 +610,7 @@ void ModuleEditor::UpdateWindowStatus() {
     if (showSceneWindow) {
 
         ImGui::Begin("Scene", &showSceneWindow, ImGuiWindowFlags_NoScrollWithMouse | ImGuiWindowFlags_NoScrollbar);
+        if (ImGui::MenuItem("Undo Action", "Ctrl Z")) Undo();
         ImVec2 viewportSize = ImGui::GetCurrentWindow()->Size;
         if (viewportSize.x != lastViewportSize.x || viewportSize.y != lastViewportSize.y)
         {
@@ -620,8 +622,14 @@ void ModuleEditor::UpdateWindowStatus() {
 
         //display imguizmo
 
-        if (gameobjectSelected != nullptr)
+        if (gameobjectSelected != nullptr && !gameobjectSelected->transform->usingManual)
         {
+            if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT)
+                op = ImGuizmo::OPERATION::TRANSLATE;
+            if (App->input->GetKey(SDL_SCANCODE_E) == KEY_REPEAT)
+                op = ImGuizmo::OPERATION::ROTATE;
+            if (App->input->GetKey(SDL_SCANCODE_R) == KEY_REPEAT)
+                op = ImGuizmo::OPERATION::SCALE;
             ImGuizmo::Enable(true);
             ImGuiIO& io = ImGui::GetIO();
             float4x4 temp = App->camera->cameraFrustum.ViewMatrix();
@@ -640,7 +648,7 @@ void ModuleEditor::UpdateWindowStatus() {
 
             float deltaMatrix[16];
             ImGuizmo::Manipulate(cameraView.ptr(), cameraProj.ptr(),
-                ImGuizmo::OPERATION::TRANSLATE, ImGuizmo::LOCAL, 
+                op, ImGuizmo::LOCAL, 
                 gameobjectSelected->transform->transformMatrix.Transposed().ptr(), deltaMatrix);
 
             float4x4 lastTransform = float4x4(
@@ -649,11 +657,17 @@ void ModuleEditor::UpdateWindowStatus() {
                 deltaMatrix[2], deltaMatrix[6], deltaMatrix[10], deltaMatrix[14],
                 deltaMatrix[3], deltaMatrix[7], deltaMatrix[11], deltaMatrix[15]);
 
-            //lastTransform.Mul(gameobjectSelected->transform->transformMatrix);
-            gameobjectSelected->transform->transformMatrix = lastTransform.Mul(gameobjectSelected->transform->transformMatrix);
-
+            float4x4 tr = lastTransform.Mul(gameobjectSelected->transform->transformMatrixLocal);
+            //gameobjectSelected->transform->transformMatrix = lastTransform.Mul(gameobjectSelected->transform->transformMatrix);
+            float3 matrixTranslation;
+            Quat matrixRotation;
+            float3 matrixScale;
+            tr.Decompose(matrixTranslation, matrixRotation, matrixScale);
+            gameobjectSelected->transform->SetPosition(matrixTranslation);
+            gameobjectSelected->transform->SetRotation(matrixRotation.ToEulerXYZ());
+            gameobjectSelected->transform->SetScale(matrixScale);
         }
-
+        
         ImGui::End();
     }
     

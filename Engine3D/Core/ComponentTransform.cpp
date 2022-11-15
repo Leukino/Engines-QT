@@ -30,8 +30,6 @@ bool ComponentTransform::Update(float dt) {
 		owner->PropagateTransform();
 		isDirty = false;
 	}
-	if (App->renderer3D->drawGizmo)
-		DrawGizmo();
 	return true;
 }
 
@@ -39,24 +37,25 @@ void ComponentTransform::OnGui()
 {
 	if (ImGui::CollapsingHeader("Transform"))
 	{
-		ImGui::Text("Elements in stack: %d", App->editor->actions.size());
-		if (ImGui::Button("Store position"))
+		usingManual = false;
+		if (ImGui::Button("Store info"))
 		{
-			App->editor->actions.push_back(State(owner, this, position.x, "PosX"));
-			App->editor->actions.push_back(State(owner, this, position.y, "PosY"));
-			App->editor->actions.push_back(State(owner, this, position.z, "PosZ"));
+			App->editor->actions.push_back(State(owner, this, position, "Pos"));
+			App->editor->actions.push_back(State(owner, this, rotationEuler, "Rot"));
+			App->editor->actions.push_back(State(owner, this, scale, "Sca"));
 		}
-
 		/*if (ImGui::Button("Get position"))
 		{
 			
 		}*/
 
-
+		/*if (ImGuizmo::IsUsing())
+			return;*/
 		float3 newPosition = position;
 		if (ImGui::DragFloat3("Location", &newPosition[0]))
 		{
 			SetPosition(newPosition);
+			usingManual = true;
 		}
 		float3 newRotationEuler;
 		newRotationEuler.x = RADTODEG * rotationEuler.x;
@@ -68,12 +67,16 @@ void ComponentTransform::OnGui()
 			newRotationEuler.y = DEGTORAD * newRotationEuler.y;
 			newRotationEuler.z = DEGTORAD * newRotationEuler.z;
 			SetRotation(newRotationEuler);
+			usingManual = true;
 		}
 		float3 newScale = scale;
 		if (ImGui::DragFloat3("Scale", &(newScale[0])))
 		{
 			SetScale(newScale);
+			usingManual = true;
 		}
+		ImGui::Text("Elements in stack: %d", App->editor->actions.size());
+		
 		
 	}
 }
@@ -132,33 +135,14 @@ void ComponentTransform::RecomputeGlobalMatrix()
 bool ComponentTransform::UndoAction(State* state) { 
 	if (state->go == this->owner)
 	{
-		if (strcmp(state->keyword, "PosX") == 0)
-			SetPosition(math::float3(App->editor->actions.back().value_float, position.y, position.z));
-		else if (strcmp(state->keyword, "PosY") == 0)
-			SetPosition(math::float3(position.x, App->editor->actions.back().value_float, position.z));
-		else if (strcmp(state->keyword, "PosZ") == 0)
-			SetPosition(math::float3(position.x, position.y, App->editor->actions.back().value_float));
+		if (strcmp(state->keyword, "Pos") == 0)
+			SetPosition(App->editor->actions.back().value_vec3);
+		if (strcmp(state->keyword, "Rot") == 0)
+			SetRotation(App->editor->actions.back().value_vec3);
+		if (strcmp(state->keyword, "Sca") == 0)
+			SetScale(App->editor->actions.back().value_vec3);
+		usingManual = true;
 		return true;
 	}
 	return false;
-}
-
-void ComponentTransform::DrawGizmo()
-{
-	float ORG[3] = { position.x,position.y,position.z };
-
-	float XP[3] = { position.x+1,position.y,position.z }, XN[3] = { -1+position.x,position.y,position.z },
-		YP[3] = { position.x,1+position.y,position.z }, YN[3] = { position.x,-1+position.y,position.z },
-		ZP[3] = { position.x,position.y,1+position.z }, ZN[3] = { position.x,position.y,-1+position.z};
-	glBegin(GL_LINE_LOOP);
-	glColor3f(1, 0, 0);   // X axis is red.
-	glVertex3fv(ORG);
-	glVertex3fv(XP);
-	glColor3f(0, 1, 0);   // Y axis is green.
-	glVertex3fv(ORG);
-	glVertex3fv(YP);
-	glColor3f(0, 0, 1);   // z axis is blue.
-	glVertex3fv(ORG);
-	glVertex3fv(ZP);
-	glEnd();
 }

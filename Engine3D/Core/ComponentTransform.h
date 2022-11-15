@@ -50,17 +50,16 @@ public:
 
 	void RecomputeGlobalMatrix();
 
-	void DrawGizmo();
-
 	//State StoreAction();
 	bool UndoAction(State* state);
 	
 	float4x4 transformMatrix;
 	float4x4 transformMatrixLocal;
+	bool isDirty = false;
+	bool usingManual = false;
 
 private:
 	
-	bool isDirty = false;
 
 	float3 position;
 	Quat rotation;

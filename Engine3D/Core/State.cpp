@@ -1,10 +1,6 @@
 #include "State.h"
 #include "GameObject.h"
 
-
-
-
-
 State::State(GameObject* gameobject, Component* component, bool value, char* keyword_) : go(gameobject), comp(component), value_bool(value), keyword(keyword_) {
 	this->type = BOOL;
 }
@@ -16,6 +12,9 @@ State::State(GameObject* gameobject, Component* component, float value, char* ke
 }
 State::State(GameObject* gameobject, Component* component, std::string value, char* keyword_) : go(gameobject), comp(component), value_string(value), keyword(keyword_) {
 	this->type = STRING;
+}
+State::State(GameObject* gameobject, Component* component, math::float3 value, char* keyword_) : go(gameobject), comp(component), value_vec3(value), keyword(keyword_) {
+	this->type = VEC3;
 }
 State::~State() {
 
