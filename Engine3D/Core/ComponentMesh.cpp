@@ -128,10 +128,11 @@ void ComponentMesh::GenerateBounds()
 	float3 scale = owner->GetComponent<ComponentTransform>()->GetScale();
 	position = float3(position.x * scale.x, position.y * scale.y, position.z * scale.z);
 	sphere.r = 0.f * scale.Normalize();
-	sphere.pos = position*2;
+	sphere.pos = position;
 	sphere.Enclose(localAABB);
+	localAABB.TransformAsAABB(owner->transform->transformMatrix);
 	radius = sphere.r;
-	centerPoint = sphere.pos;
+	centerPoint = localAABB.CenterPoint();
 }
 
 void ComponentMesh::DrawNormals() const
@@ -224,7 +225,7 @@ bool ComponentMesh::Update(float dt)
 		glBegin(GL_LINES);
 
 		math::AABB boundingBox = AABB(localAABB);
-		boundingBox.TransformAsAABB(owner->transform->transformMatrixLocal);
+		//boundingBox.TransformAsAABB(owner->transform->transformMatrix);
 
 		//x Axis
 

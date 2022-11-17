@@ -658,13 +658,17 @@ void ModuleEditor::UpdateWindowStatus() {
                 deltaMatrix[3], deltaMatrix[7], deltaMatrix[11], deltaMatrix[15]);
 
             float4x4 tr = lastTransform.Mul(gameobjectSelected->transform->transformMatrixLocal);
+            //lastTransform.Mul()
             //gameobjectSelected->transform->transformMatrix = lastTransform.Mul(gameobjectSelected->transform->transformMatrix);
             float3 matrixTranslation;
             Quat matrixRotation;
             float3 matrixScale;
             tr.Decompose(matrixTranslation, matrixRotation, matrixScale);
+            if (op == ImGuizmo::TRANSLATE)
             gameobjectSelected->transform->SetPosition(matrixTranslation);
+            if (op == ImGuizmo::ROTATE)
             gameobjectSelected->transform->SetRotation(matrixRotation.ToEulerXYZ());
+            if (op == ImGuizmo::SCALE)
             gameobjectSelected->transform->SetScale(matrixScale);
         }
         
