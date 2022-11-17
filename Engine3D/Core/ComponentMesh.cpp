@@ -12,6 +12,7 @@
 #include "Geometry/Sphere.h"
 #include "par_shapes.h"
 #include <fstream>
+#include "MathGeoLib/include/Geometry/Plane.h"
 
 
 ComponentMesh::ComponentMesh(GameObject* parent) : Component(parent) {
@@ -122,7 +123,6 @@ void ComponentMesh::GenerateBounds()
 	
 	localAABB.SetNegativeInfinity();
 	localAABB.Enclose(&vertices[0], vertices.size());
-		
 	Sphere sphere;	
 	float3 position = owner->GetComponent<ComponentTransform>()->GetPosition();
 	float3 scale = owner->GetComponent<ComponentTransform>()->GetScale();
@@ -130,7 +130,6 @@ void ComponentMesh::GenerateBounds()
 	sphere.r = 0.f * scale.Normalize();
 	sphere.pos = position*2;
 	sphere.Enclose(localAABB);
-
 	radius = sphere.r;
 	centerPoint = sphere.pos;
 }
@@ -215,40 +214,46 @@ bool ComponentMesh::Update(float dt)
 
 	if (App->renderer3D->renderAABB)
 	{
-		float3 pos = owner->GetComponent<ComponentTransform>()->GetPosition();
+		//float3 pos = owner->GetComponent<ComponentTransform>()->GetPosition();
+		float4x4 pos = owner->GetComponent<ComponentTransform>()->transformMatrix;
+		//float3 point = localAABB.CenterPoint();
 		float3 point = localAABB.CenterPoint();
 		glColor3f(3.f, 3.f, 3.f);
 		if (this->owner->isSelected)
 			glColor3f(0.f, 3.f, 0.f);
 		glBegin(GL_LINES);
+
+		math::AABB boundingBox = AABB(localAABB);
+		boundingBox.TransformAsAABB(owner->transform->transformMatrixLocal);
+
 		//x Axis
-		
-		glVertex3f(localAABB.MinX() + pos.x, localAABB.MinY() + pos.y, localAABB.MinZ() + pos.z);
-		glVertex3f(localAABB.MaxX() + pos.x, localAABB.MinY() + pos.y, localAABB.MinZ() + pos.z);
-		glVertex3f(localAABB.MinX() + pos.x, localAABB.MaxY() + pos.y, localAABB.MinZ() + pos.z);
-		glVertex3f(localAABB.MaxX() + pos.x, localAABB.MaxY() + pos.y, localAABB.MinZ() + pos.z);
-		glVertex3f(localAABB.MinX() + pos.x, localAABB.MaxY() + pos.y, localAABB.MaxZ() + pos.z);
-		glVertex3f(localAABB.MaxX() + pos.x, localAABB.MaxY() + pos.y, localAABB.MaxZ() + pos.z);
-		glVertex3f(localAABB.MinX() + pos.x, localAABB.MinY() + pos.y, localAABB.MaxZ() + pos.z);
-		glVertex3f(localAABB.MaxX() + pos.x, localAABB.MinY() + pos.y, localAABB.MaxZ() + pos.z);
 
-		glVertex3f(localAABB.MinX() + pos.x, localAABB.MinY() + pos.y, localAABB.MinZ() + pos.z);
-		glVertex3f(localAABB.MinX() + pos.x, localAABB.MaxY() + pos.y, localAABB.MinZ() + pos.z);
-		glVertex3f(localAABB.MaxX() + pos.x, localAABB.MinY() + pos.y, localAABB.MinZ() + pos.z);
-		glVertex3f(localAABB.MaxX() + pos.x, localAABB.MaxY() + pos.y, localAABB.MinZ() + pos.z);
-		glVertex3f(localAABB.MaxX() + pos.x, localAABB.MinY() + pos.y, localAABB.MaxZ() + pos.z);
-		glVertex3f(localAABB.MaxX() + pos.x, localAABB.MaxY() + pos.y, localAABB.MaxZ() + pos.z);
-		glVertex3f(localAABB.MinX() + pos.x, localAABB.MinY() + pos.y, localAABB.MaxZ() + pos.z);
-		glVertex3f(localAABB.MinX() + pos.x, localAABB.MaxY() + pos.y, localAABB.MaxZ() + pos.z);
+		glVertex3f(boundingBox.MinX(), boundingBox.MinY(), boundingBox.MinZ());
+		glVertex3f(boundingBox.MaxX(), boundingBox.MinY(), boundingBox.MinZ());
+		glVertex3f(boundingBox.MinX(), boundingBox.MaxY(), boundingBox.MinZ());
+		glVertex3f(boundingBox.MaxX(), boundingBox.MaxY(), boundingBox.MinZ());
+		glVertex3f(boundingBox.MinX(), boundingBox.MaxY(), boundingBox.MaxZ());
+		glVertex3f(boundingBox.MaxX(), boundingBox.MaxY(), boundingBox.MaxZ());
+		glVertex3f(boundingBox.MinX(), boundingBox.MinY(), boundingBox.MaxZ());
+		glVertex3f(boundingBox.MaxX(), boundingBox.MinY(), boundingBox.MaxZ());
 
-		glVertex3f(localAABB.MinX() + pos.x, localAABB.MinY() + pos.y, localAABB.MinZ() + pos.z);
-		glVertex3f(localAABB.MinX() + pos.x, localAABB.MinY() + pos.y, localAABB.MaxZ() + pos.z);
-		glVertex3f(localAABB.MaxX() + pos.x, localAABB.MinY() + pos.y, localAABB.MinZ() + pos.z);
-		glVertex3f(localAABB.MaxX() + pos.x, localAABB.MinY() + pos.y, localAABB.MaxZ() + pos.z);
-		glVertex3f(localAABB.MaxX() + pos.x, localAABB.MaxY() + pos.y, localAABB.MinZ() + pos.z);
-		glVertex3f(localAABB.MaxX() + pos.x, localAABB.MaxY() + pos.y, localAABB.MaxZ() + pos.z);
-		glVertex3f(localAABB.MinX() + pos.x, localAABB.MaxY() + pos.y, localAABB.MinZ() + pos.z);
-		glVertex3f(localAABB.MinX() + pos.x, localAABB.MaxY() + pos.y, localAABB.MaxZ() + pos.z);
+		glVertex3f(boundingBox.MinX(), boundingBox.MinY(), boundingBox.MinZ());
+		glVertex3f(boundingBox.MinX(), boundingBox.MaxY(), boundingBox.MinZ());
+		glVertex3f(boundingBox.MaxX(), boundingBox.MinY(), boundingBox.MinZ());
+		glVertex3f(boundingBox.MaxX(), boundingBox.MaxY(), boundingBox.MinZ());
+		glVertex3f(boundingBox.MaxX(), boundingBox.MinY(), boundingBox.MaxZ());
+		glVertex3f(boundingBox.MaxX(), boundingBox.MaxY(), boundingBox.MaxZ());
+		glVertex3f(boundingBox.MinX(), boundingBox.MinY(), boundingBox.MaxZ());
+		glVertex3f(boundingBox.MinX(), boundingBox.MaxY(), boundingBox.MaxZ());
+				   					  					  
+		glVertex3f(boundingBox.MinX(), boundingBox.MinY(), boundingBox.MinZ());
+		glVertex3f(boundingBox.MinX(), boundingBox.MinY(), boundingBox.MaxZ());
+		glVertex3f(boundingBox.MaxX(), boundingBox.MinY(), boundingBox.MinZ());
+		glVertex3f(boundingBox.MaxX(), boundingBox.MinY(), boundingBox.MaxZ());
+		glVertex3f(boundingBox.MaxX(), boundingBox.MaxY(), boundingBox.MinZ());
+		glVertex3f(boundingBox.MaxX(), boundingBox.MaxY(), boundingBox.MaxZ());
+		glVertex3f(boundingBox.MinX(), boundingBox.MaxY(), boundingBox.MinZ());
+		glVertex3f(boundingBox.MinX(), boundingBox.MaxY(), boundingBox.MaxZ());
 
 		glEnd();
 		
