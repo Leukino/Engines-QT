@@ -610,16 +610,26 @@ void ModuleEditor::UpdateWindowStatus() {
     if (showSceneWindow) {
 
         ImGui::Begin("Scene", &showSceneWindow, ImGuiWindowFlags_NoScrollWithMouse | ImGuiWindowFlags_NoScrollbar);
-        if (ImGui::MenuItem("Undo Action", "Ctrl Z")) Undo();
         ImVec2 viewportSize = ImGui::GetCurrentWindow()->Size;
+        ImVec2 viewportPos = ImGui::GetCurrentWindow()->Pos;
         if (viewportSize.x != lastViewportSize.x || viewportSize.y != lastViewportSize.y)
         {
             App->camera->aspectRatio = viewportSize.x / viewportSize.y;
             App->camera->RecalculateProjection();
         }
+        lastViewportPos = viewportPos;
         lastViewportSize = viewportSize;
+
+        glColor3f(1.5f, 3.f, 1.5f);
+        glBegin(GL_LINES);
+        glVertex3f(0, 0, 0);
+        LineSegment line = App->camera->RayFromCamera();
+        glVertex3f(line.b.x, line.b.y, line.b.z);
+        glEnd();
+
         ImGui::Image((ImTextureID)App->viewportBuffer->texture, viewportSize, ImVec2(0, 1), ImVec2(1, 0));
 
+        if (ImGui::MenuItem("Undo Action", "Ctrl Z")) Undo();
         //display imguizmo
 
         if (gameobjectSelected != nullptr && !gameobjectSelected->transform->usingManual)

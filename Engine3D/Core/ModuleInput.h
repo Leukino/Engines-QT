@@ -74,4 +74,8 @@ private:
 
 public:
 	const char* filePath;
+
+	friend class ModuleCamera3D;
+	float mouse_rel_x;
+	float mouse_rel_y;
 };

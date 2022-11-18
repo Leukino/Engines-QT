@@ -4,7 +4,7 @@
 #include "Math/float3.h"
 #include "Math/float4x4.h"
 #include "Geometry/Frustum.h"
-
+#include "MathGeoLib/include/Geometry/LineSegment.h"
 class ModuleCamera3D : public Module
 {
 public:
@@ -19,9 +19,10 @@ public:
 	void CalculateViewMatrix();
 	void RecalculateProjection();
 	void OnGui() override;
+	LineSegment RayFromCamera();
 	void OnSave(JSONWriter& writer) const override;
 	void OnLoad(const JSONReader& reader) override;
-
+	
 	float3 right, up, front, position, reference;
 	Frustum cameraFrustum;
 	float4x4 viewMatrix;

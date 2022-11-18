@@ -92,6 +92,8 @@ update_status ModuleCamera3D::Update(float dt)
 
 	bool hasRotated = false;
 
+
+
 	if(App->input->GetMouseButton(SDL_BUTTON_RIGHT) == KEY_REPEAT)
 	{
 	if(App->input->GetKey(SDL_SCANCODE_Q) == KEY_REPEAT) 
@@ -172,6 +174,8 @@ update_status ModuleCamera3D::Update(float dt)
 		}
 	}
 
+
+
 	!hasRotated ? lastDeltaX = lastDeltaY = 0.f : 0.f;
 
 	return UPDATE_CONTINUE;
@@ -233,6 +237,12 @@ void ModuleCamera3D::OnGui()
 		}
 		ImGui::Text("Frustrum: Max distance: %f \nMin distance: %f \nDraw Calls: %d", cameraFrustum.farPlaneDistance, cameraFrustum.nearPlaneDistance, App->renderer3D->drawnObjects);
 	}
+}
+
+LineSegment ModuleCamera3D::RayFromCamera()
+{
+	float2 pos = float2(App->input->mouse_rel_x, App->input->mouse_rel_y);
+	return LineSegment(cameraFrustum.UnProjectLineSegment(pos.x, pos.y));
 }
 
 void ModuleCamera3D::OnSave(JSONWriter& writer) const

@@ -74,6 +74,7 @@ public:
 
 	GameObject* gameobjectSelected;
 
+	ImVec2 lastViewportPos;
 	ImVec2 lastViewportSize;
 
 	std::vector<State> actions;

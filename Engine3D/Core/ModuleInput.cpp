@@ -9,6 +9,8 @@
 #include "ModuleFileSystem.h"
 #include "ComponentMaterial.h"
 #include "ImGui/imgui_impl_sdl.h"
+#include "ModuleWindow.h"
+#include "SDL/include/SDL.h"
 
 #define MAX_KEYS 300
 
@@ -47,19 +49,19 @@ update_status ModuleInput::PreUpdate(float dt)
 	SDL_PumpEvents();
 
 	const Uint8* keys = SDL_GetKeyboardState(NULL);
-	
-	for(int i = 0; i < MAX_KEYS; ++i)
+
+	for (int i = 0; i < MAX_KEYS; ++i)
 	{
-		if(keys[i] == 1)
+		if (keys[i] == 1)
 		{
-			if(keyboard[i] == KEY_IDLE)
+			if (keyboard[i] == KEY_IDLE)
 				keyboard[i] = KEY_DOWN;
 			else
 				keyboard[i] = KEY_REPEAT;
 		}
 		else
 		{
-			if(keyboard[i] == KEY_REPEAT || keyboard[i] == KEY_DOWN)
+			if (keyboard[i] == KEY_REPEAT || keyboard[i] == KEY_DOWN)
 				keyboard[i] = KEY_UP;
 			else
 				keyboard[i] = KEY_IDLE;
@@ -71,7 +73,9 @@ update_status ModuleInput::PreUpdate(float dt)
 	mouse_x /= SCREEN_SIZE;
 	mouse_y /= SCREEN_SIZE;
 	mouse_z = 0;
-
+	
+	
+	
 	for(int i = 0; i < 5; ++i)
 	{
 		if(buttons & SDL_BUTTON(i))
@@ -91,7 +95,8 @@ update_status ModuleInput::PreUpdate(float dt)
 	}
 
 	mouse_x_motion = mouse_y_motion = 0;
-
+	ImVec2 pos = App->editor->lastViewportPos;
+	ImVec2 size = App->editor->lastViewportSize;
 	bool quit = false;
 	SDL_Event event;
 	while(SDL_PollEvent(&event))
@@ -107,6 +112,10 @@ update_status ModuleInput::PreUpdate(float dt)
 				mouse_x = event.motion.x / SCREEN_SIZE;
 				mouse_y = event.motion.y / SCREEN_SIZE;
 
+				mouse_rel_x = (((mouse_x - pos.x) / (size.x))-0.5f)*2.0f;
+				if (mouse_rel_x < -1.0f) mouse_rel_x = -1.0f; if (mouse_rel_x > 1.0f) mouse_rel_x = 1.0f;
+				mouse_rel_y = -(((mouse_y - pos.y) / (size.y)) - 0.5f) * 2.0f;
+				if (mouse_rel_y < -1.0f) mouse_rel_y = -1.0f; if (mouse_rel_y > 1.0f) mouse_rel_y = 1.0f;
 				mouse_x_motion = event.motion.xrel / SCREEN_SIZE;
 				mouse_y_motion = event.motion.yrel / SCREEN_SIZE;
 			break;
@@ -197,5 +206,15 @@ void ModuleInput::OnGui() {
 		ImGui::Text("Y: ");
 		ImGui::SameLine();
 		ImGui::TextColored(ImVec4(1, 1, 0, 1), "%i", mouse_y);
+
+		ImGui::Text("Relative Mouse Position");
+
+		ImGui::Text("X: ");
+		ImGui::SameLine();
+		ImGui::TextColored(ImVec4(1, 1, 0, 1), "%f", mouse_rel_x);
+		ImGui::SameLine();
+		ImGui::Text("Y: ");
+		ImGui::SameLine();
+		ImGui::TextColored(ImVec4(1, 1, 0, 1), "%f", mouse_rel_y);
 	}
 }
