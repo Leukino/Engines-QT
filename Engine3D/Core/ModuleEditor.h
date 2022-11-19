@@ -33,11 +33,11 @@ public:
 	update_status Update(float dt) override;
 	update_status PostUpdate(float dt) override;
 	bool CleanUp();
-	
+
 	void CreateGridBuffer();
 	void DrawGrid();
-
 	//Docking Helper functions
+
 	bool DockingRootItem(char* id, ImGuiWindowFlags winFlags);
 	void BeginDock(char* dockSpaceId, ImGuiDockNodeFlags dockFlags, ImVec2 size = { .0f, .0f });
 
@@ -52,6 +52,7 @@ public:
 	void InspectorGameObject();
 
 	void Undo();
+	GameObject* SelectGameObject();
 
 	//Window status control
 	bool showDemoWindow;

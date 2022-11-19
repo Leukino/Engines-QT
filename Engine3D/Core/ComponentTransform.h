@@ -44,6 +44,7 @@ public:
 	inline float3 GetPosition() const { return position; };
 	inline float3 GetRotation() const { return rotationEuler; };
 	inline float3 GetScale() const { return scale; };
+	
 
 	void NewAttachment();
 	void OnParentMoved();

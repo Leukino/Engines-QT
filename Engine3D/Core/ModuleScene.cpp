@@ -93,3 +93,4 @@ GameObject* ModuleScene::CreateGameObject(const std::string name, GameObject* pa
 		root->AttachChild(temp);
 	return temp;
 }
+

@@ -93,7 +93,7 @@ update_status ModuleEditor::PreUpdate(float dt) {
     ImGui_ImplSDL2_NewFrame(App->window->window);
     ImGui::NewFrame();
     ImGuizmo::BeginFrame();
-
+    
     return UPDATE_CONTINUE;
 
 }
@@ -101,6 +101,17 @@ update_status ModuleEditor::PreUpdate(float dt) {
 // PreUpdate: clear buffer
 update_status ModuleEditor::Update(float dt)
 {
+    if (App->input->GetMouseButton(SDL_BUTTON_LEFT)==KEY_UP)
+    {
+        GameObject* foundGo = SelectGameObject();
+            if (foundGo != nullptr)
+            {
+                if (gameobjectSelected != nullptr)
+                    gameobjectSelected->isSelected = false;
+                    gameobjectSelected = foundGo;
+                    gameobjectSelected->isSelected = true;
+            }
+    }
     DrawGrid();
     //if (gameobjectSelected != nullptr)
     //Creating MenuBar item as a root for docking windows
@@ -108,11 +119,11 @@ update_status ModuleEditor::Update(float dt)
         MenuBar();
         ImGui::End();
     }
-    if (App->input->GetKey(SDL_SCANCODE_LCTRL) && App->input->GetKey(SDL_SCANCODE_Z) == KEY_DOWN)
-        Undo();
+    
     //Update status of each window and shows ImGui elements
     UpdateWindowStatus();
-
+    if (App->input->GetKey(SDL_SCANCODE_LCTRL) && App->input->GetKey(SDL_SCANCODE_Z) == KEY_DOWN)
+        Undo();
     return UPDATE_CONTINUE;
 }
 
@@ -426,6 +437,8 @@ void ModuleEditor::MenuBar() {
     ImGui::EndMainMenuBar();
 }
 
+
+
 void ModuleEditor::UpdateWindowStatus() {
 
     //Demo
@@ -629,7 +642,7 @@ void ModuleEditor::UpdateWindowStatus() {
 
         ImGui::Image((ImTextureID)App->viewportBuffer->texture, viewportSize, ImVec2(0, 1), ImVec2(1, 0));
 
-        if (ImGui::MenuItem("Undo Action", "Ctrl Z")) Undo();
+        
         //display imguizmo
 
         if (gameobjectSelected != nullptr && !gameobjectSelected->transform->usingManual)
@@ -680,8 +693,8 @@ void ModuleEditor::UpdateWindowStatus() {
             gameobjectSelected->transform->SetRotation(matrixRotation.ToEulerXYZ());
             if (op == ImGuizmo::SCALE)
             gameobjectSelected->transform->SetScale(matrixScale);
+            
         }
-        
         ImGui::End();
     }
     
@@ -723,4 +736,46 @@ void ModuleEditor::Undo()
         else
             LOG("No actions have been done! (don't spam ctrl z pls he gets stressed)");
         }
+}
+
+GameObject* ModuleEditor::SelectGameObject()
+{
+    std::map<float, GameObject*> selectedItens = std::map<float, GameObject*>();
+    LineSegment ray = App->camera->RayFromCamera();
+
+    //fill itens list
+    for (uint i = 0; i < (uint)App->scene->root->children.size(); i++)
+    {
+        GameObject* ob = App->scene->root->children.at(i);
+        if (ob != nullptr)
+            if (ray.Intersects(ob->GetComponent<ComponentMesh>()->GetAABB()))
+            {
+                selectedItens.emplace(ray.Distance(ob->transform->GetPosition()), ob);
+                //LOG("Dude we found %s!!!", ob->name.c_str());
+            }
+    }
+
+    LOG("wooowowowowow %d", selectedItens.size());
+        float dist = 10000.0f;
+        std::pair<float, GameObject*> foundGo;
+    if (selectedItens.size() > 0)
+    {
+            
+        for (std::pair<float, GameObject*> element : selectedItens) 
+        {
+            if (element.first < dist)
+            {
+                dist = element.first;
+                foundGo = element;
+            }
+
+        }
+    }
+
+
+    /*for (std::pair<float, GameObject*> element : selectedItens)
+    {
+
+    }*/
+    return foundGo.second;
 }

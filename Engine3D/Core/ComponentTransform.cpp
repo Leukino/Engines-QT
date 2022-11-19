@@ -25,7 +25,7 @@ ComponentTransform::ComponentTransform(GameObject* parent) : Component(parent) {
 bool ComponentTransform::Update(float dt) {
 	if (isDirty)
 	{
-		transformMatrixLocal = float4x4::FromTRS(position, rotation, scale);
+		transformMatrixLocal = float4x4::FromTRS(position, rotation, scale); 
 		RecomputeGlobalMatrix();
 		owner->PropagateTransform();
 		isDirty = false;
@@ -141,7 +141,7 @@ bool ComponentTransform::UndoAction(State* state) {
 			SetRotation(App->editor->actions.back().value_vec3);
 		if (strcmp(state->keyword, "Sca") == 0)
 			SetScale(App->editor->actions.back().value_vec3);
-		usingManual = true;
+		isDirty = true;
 		return true;
 	}
 	return false;

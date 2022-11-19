@@ -36,6 +36,7 @@ public:
 	void DrawNormals() const;
 	float3 GetCenterPointInWorldCoords() const;
 	inline float GetSphereRadius() const { return radius; }
+	inline AABB GetAABB() const { return localAABB; }
 
 	bool Update(float dt) override;
 	void OnGui() override;
