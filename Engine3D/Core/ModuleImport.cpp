@@ -9,6 +9,7 @@
 #include "ComponentMesh.h"
 #include "ComponentMaterial.h"
 #include "GameObject.h"
+#include "ModuleEditor.h"
 
 #include <vector>
 #include <queue>
@@ -79,9 +80,17 @@ bool ModuleImport::LoadGeometry(const char* path) {
 			bool nameFound = false;
 			std::string name;
 			FindNodeName(scene, i, name);
-
-			GameObject* newGameObject = App->scene->CreateGameObject(name);
-			ComponentMesh* mesh = newGameObject->CreateComponent<ComponentMesh>();
+			GameObject* newGameObject = nullptr;
+			ComponentMesh* mesh;
+			if ((App->editor->gameobjectSelected != nullptr)&&(App->editor->gameobjectSelected->GetComponent<ComponentMesh>() != nullptr))
+			{
+				mesh = App->editor->gameobjectSelected->GetComponent<ComponentMesh>();
+			}
+			else
+			{
+				newGameObject = App->scene->CreateGameObject(name);
+				mesh = newGameObject->CreateComponent<ComponentMesh>();
+			}
 			assimpMesh = scene->mMeshes[i];
 			std::string meshPath = path;
 			meshPath.erase(meshPath.end() - 4, meshPath.end());
@@ -96,15 +105,23 @@ bool ModuleImport::LoadGeometry(const char* path) {
 						mesh->texturePath = "Assets/Textures/" + new_path;
 						if (!App->textures->Find(mesh->texturePath))
 						{
-							const TextureObject& textureObject = App->textures->Load(mesh->texturePath);							
-							ComponentMaterial* materialComp = newGameObject->CreateComponent<ComponentMaterial>();
+							const TextureObject& textureObject = App->textures->Load(mesh->texturePath);	
+							ComponentMaterial* materialComp;
+							if (newGameObject != nullptr)
+							materialComp = newGameObject->CreateComponent<ComponentMaterial>();
+							else
+								materialComp = App->editor->gameobjectSelected->CreateComponent<ComponentMaterial>();
 							materialComp->SetTexture(textureObject);
 							
 						}
 						else
 						{
 							const TextureObject& textureObject = App->textures->Get(mesh->texturePath);
-							ComponentMaterial* materialComp = newGameObject->CreateComponent<ComponentMaterial>();
+							ComponentMaterial* materialComp;
+							if (newGameObject != nullptr)
+								materialComp = newGameObject->CreateComponent<ComponentMaterial>();
+							else
+								materialComp = App->editor->gameobjectSelected->CreateComponent<ComponentMaterial>();
 							materialComp->SetTexture(textureObject);
 						}
 					}

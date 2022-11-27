@@ -7,6 +7,7 @@
 #include "ModuleCamera3D.h"
 #include "ComponentMaterial.h"
 #include "ComponentTransform.h"
+#include "ComponentMesh.h"
 #include "GameObject.h"
 #include "ImGui/imgui.h"
 #include "Geometry/Sphere.h"
@@ -122,6 +123,7 @@ void ComponentMesh::GenerateBounds()
 {
 	
 	localAABB.SetNegativeInfinity();
+	if (vertices.size() > 0)
 	localAABB.Enclose(&vertices[0], vertices.size());
 	Sphere sphere;	
 	float3 position = owner->GetComponent<ComponentTransform>()->GetPosition();
@@ -285,10 +287,6 @@ void ComponentMesh::OnGui()
 		ImGui::Checkbox("Draw face normals", &drawFaceNormals);
 		ImGui::Checkbox("Draw vertex normals", &drawVertexNormals);
 		ImGui::Text("AABB position: %f %f %f", centerPoint.x, centerPoint.y, centerPoint.z);
-		if (ImGui::Button("Reload AABB"))
-			GenerateBounds();
-		if (ImGui::Button("Save file poggers!!!!1"))
-			SaveMesh();
 			
 	}
 }

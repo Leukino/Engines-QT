@@ -3,6 +3,8 @@
 #include "ModuleScene.h"
 #include "ModuleFileSystem.h"
 #include "ComponentTransform.h"
+#include "ComponentMaterial.h"
+#include "ComponentMesh.h"
 #include "ImGui/imgui.h"
 #include "ModuleEditor.h"
 
@@ -59,7 +61,37 @@ void GameObject::OnGui()
 		{
 			component->OnGui();
 		}
-		if (ImGui::Button("Undo Action")) // Manual click of ctrl + z
+
+		ImGui::Separator();
+		const char* items[] = { "Transform", "Mesh", "Material" };
+		static int item_current_idx = 0;                                     // Here our selection data is an index.
+		const char* combo_label = items[item_current_idx];  // Label to preview before opening the combo (technically it could be anything)
+		if (ImGui::BeginCombo("combo 1", combo_label))
+		{
+			for (int n = 0; n < IM_ARRAYSIZE(items); n++)
+			{
+				const bool is_selected = (item_current_idx == n);
+				if (ImGui::Selectable(items[n], is_selected))
+					item_current_idx = n;
+
+				// Set the initial focus when opening the combo (scrolling + keyboard navigation focus)
+				if (is_selected)
+					ImGui::SetItemDefaultFocus();
+			}
+			ImGui::EndCombo();
+		}
+		if (ImGui::Button("Create Component"))
+		{
+			const char* cas = items[item_current_idx];
+			//Component* comp = nullptr;
+
+			if (strcmp(cas, "Mesh") == 0) {
+				CreateComponent<ComponentMesh>();
+			}
+			else if (strcmp(cas, "Material") == 0) { CreateComponent<ComponentMaterial>();}
+		}
+
+		/*if (ImGui::Button("Undo Action")) // Manual click of ctrl + z
 		{
 			if (App->editor->actions.size() > 0)
 			{
@@ -82,6 +114,8 @@ void GameObject::OnGui()
 			else
 				LOG("No actions have been done! (don't spam ctrl z pls he gets stressed)");
 		}
+		*/
+
 	}
 }
 

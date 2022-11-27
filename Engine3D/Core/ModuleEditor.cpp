@@ -101,22 +101,13 @@ update_status ModuleEditor::PreUpdate(float dt) {
 // PreUpdate: clear buffer
 update_status ModuleEditor::Update(float dt)
 {
-    if (App->input->GetMouseButton(SDL_BUTTON_LEFT)==KEY_UP)
-    {
-        GameObject* foundGo = SelectGameObject();
-            if (foundGo != nullptr)
-            {
-                if (gameobjectSelected != nullptr)
-                    gameobjectSelected->isSelected = false;
-                    gameobjectSelected = foundGo;
-                    gameobjectSelected->isSelected = true;
-            }
-    }
+    
     DrawGrid();
     //if (gameobjectSelected != nullptr)
     //Creating MenuBar item as a root for docking windows
     if (DockingRootItem("Viewport", ImGuiWindowFlags_MenuBar)) {
         MenuBar();
+        
         ImGui::End();
     }
     
@@ -528,7 +519,6 @@ void ModuleEditor::UpdateWindowStatus() {
 
 
         ImGui::Begin("Hierarchy", &showHierarchyWindow);
-
         //Just cleaning gameObjects(not textures,buffers...)
         if (ImGui::Button("Clear", { 60,20 })) 
         {
@@ -621,8 +611,9 @@ void ModuleEditor::UpdateWindowStatus() {
     }
 
     if (showSceneWindow) {
-
+        
         ImGui::Begin("Scene", &showSceneWindow, ImGuiWindowFlags_NoScrollWithMouse | ImGuiWindowFlags_NoScrollbar);
+        
         ImVec2 viewportSize = ImGui::GetCurrentWindow()->Size;
         ImVec2 viewportPos = ImGui::GetCurrentWindow()->Pos;
         if (viewportSize.x != lastViewportSize.x || viewportSize.y != lastViewportSize.y)
@@ -633,68 +624,80 @@ void ModuleEditor::UpdateWindowStatus() {
         lastViewportPos = viewportPos;
         lastViewportSize = viewportSize;
 
-        glColor3f(1.5f, 3.f, 1.5f);
-        glBegin(GL_LINES);
-        glVertex3f(0, 0, 0);
-        LineSegment line = App->camera->RayFromCamera();
-        glVertex3f(line.b.x, line.b.y, line.b.z);
-        glEnd();
-
         ImGui::Image((ImTextureID)App->viewportBuffer->texture, viewportSize, ImVec2(0, 1), ImVec2(1, 0));
 
         
         //display imguizmo
+            if (gameobjectSelected != nullptr && !gameobjectSelected->transform->usingManual)
+            {
+                if (App->input->GetMouseButton(SDL_BUTTON_RIGHT) != KEY_REPEAT)
+                {
+                if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT)
+                    op = ImGuizmo::OPERATION::TRANSLATE;
+                if (App->input->GetKey(SDL_SCANCODE_E) == KEY_REPEAT)
+                    op = ImGuizmo::OPERATION::ROTATE;
+                if (App->input->GetKey(SDL_SCANCODE_R) == KEY_REPEAT)
+                    op = ImGuizmo::OPERATION::SCALE;
+                }
+                ImGuizmo::Enable(true);
+                ImGuiIO& io = ImGui::GetIO();
+                float4x4 temp = App->camera->cameraFrustum.ViewMatrix();
+                float4x4 cameraView = temp.Transposed();
+                float4x4 temp2 = App->camera->cameraFrustum.ProjectionMatrix();
+                float4x4 cameraProj = temp2.Transposed();
 
-        if (gameobjectSelected != nullptr && !gameobjectSelected->transform->usingManual)
-        {
-            if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT)
-                op = ImGuizmo::OPERATION::TRANSLATE;
-            if (App->input->GetKey(SDL_SCANCODE_E) == KEY_REPEAT)
-                op = ImGuizmo::OPERATION::ROTATE;
-            if (App->input->GetKey(SDL_SCANCODE_R) == KEY_REPEAT)
-                op = ImGuizmo::OPERATION::SCALE;
-            ImGuizmo::Enable(true);
-            ImGuiIO& io = ImGui::GetIO();
-            float4x4 temp = App->camera->cameraFrustum.ViewMatrix();
-            float4x4 cameraView = temp.Transposed();
-            float4x4 temp2 = App->camera->cameraFrustum.ProjectionMatrix();
-            float4x4 cameraProj = temp2.Transposed();
+                //cameraView.Inverse();
 
-            //cameraView.Inverse();
+                ImGuizmo::SetOrthographic(false);
+                ImGuizmo::SetDrawlist();
+                float windowWidth = (float)ImGui::GetWindowWidth();
+                float windowHeight = (float)ImGui::GetWindowHeight();
+                ImGuizmo::SetRect(ImGui::GetWindowPos().x, ImGui::GetWindowPos().y, windowWidth, windowHeight);
+                //ImGuizmo::SetRect(0, 0, io.DisplaySize.x, io.DisplaySize.y);
 
-            ImGuizmo::SetOrthographic(false);
-            ImGuizmo::SetDrawlist();
-            float windowWidth = (float)ImGui::GetWindowWidth();
-            float windowHeight = (float)ImGui::GetWindowHeight();
-            ImGuizmo::SetRect(ImGui::GetWindowPos().x, ImGui::GetWindowPos().y, windowWidth, windowHeight);
-            //ImGuizmo::SetRect(0, 0, io.DisplaySize.x, io.DisplaySize.y);
+                float deltaMatrix[16];
+                ImGuizmo::Manipulate(cameraView.ptr(), cameraProj.ptr(),
+                    op, ImGuizmo::LOCAL,
+                    gameobjectSelected->transform->transformMatrix.Transposed().ptr(), deltaMatrix);
 
-            float deltaMatrix[16];
-            ImGuizmo::Manipulate(cameraView.ptr(), cameraProj.ptr(),
-                op, ImGuizmo::LOCAL, 
-                gameobjectSelected->transform->transformMatrix.Transposed().ptr(), deltaMatrix);
+                float4x4 lastTransform = float4x4(
+                    deltaMatrix[0], deltaMatrix[4], deltaMatrix[8], deltaMatrix[12],
+                    deltaMatrix[1], deltaMatrix[5], deltaMatrix[9], deltaMatrix[13],
+                    deltaMatrix[2], deltaMatrix[6], deltaMatrix[10], deltaMatrix[14],
+                    deltaMatrix[3], deltaMatrix[7], deltaMatrix[11], deltaMatrix[15]);
 
-            float4x4 lastTransform = float4x4(
-                deltaMatrix[0], deltaMatrix[4], deltaMatrix[8], deltaMatrix[12],
-                deltaMatrix[1], deltaMatrix[5], deltaMatrix[9], deltaMatrix[13],
-                deltaMatrix[2], deltaMatrix[6], deltaMatrix[10], deltaMatrix[14],
-                deltaMatrix[3], deltaMatrix[7], deltaMatrix[11], deltaMatrix[15]);
+                float4x4 tr = lastTransform.Mul(gameobjectSelected->transform->transformMatrixLocal);
+                //lastTransform.Mul()
+                //gameobjectSelected->transform->transformMatrix = lastTransform.Mul(gameobjectSelected->transform->transformMatrix);
+                float3 matrixTranslation;
+                Quat matrixRotation;
+                float3 matrixScale;
+                tr.Decompose(matrixTranslation, matrixRotation, matrixScale);
+                if (op == ImGuizmo::TRANSLATE)
+                    gameobjectSelected->transform->SetPosition(matrixTranslation);
+                if (op == ImGuizmo::ROTATE)
+                    gameobjectSelected->transform->SetRotation(matrixRotation.ToEulerXYZ());
+                if (op == ImGuizmo::SCALE)
+                    gameobjectSelected->transform->SetScale(matrixScale);
 
-            float4x4 tr = lastTransform.Mul(gameobjectSelected->transform->transformMatrixLocal);
-            //lastTransform.Mul()
-            //gameobjectSelected->transform->transformMatrix = lastTransform.Mul(gameobjectSelected->transform->transformMatrix);
-            float3 matrixTranslation;
-            Quat matrixRotation;
-            float3 matrixScale;
-            tr.Decompose(matrixTranslation, matrixRotation, matrixScale);
-            if (op == ImGuizmo::TRANSLATE)
-            gameobjectSelected->transform->SetPosition(matrixTranslation);
-            if (op == ImGuizmo::ROTATE)
-            gameobjectSelected->transform->SetRotation(matrixRotation.ToEulerXYZ());
-            if (op == ImGuizmo::SCALE)
-            gameobjectSelected->transform->SetScale(matrixScale);
-            
-        }
+            }
+            if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_UP && ImGui::IsWindowFocused())
+            {
+                GameObject* foundGo = SelectGameObject();
+                if (foundGo)
+                {
+                    if (gameobjectSelected != nullptr)
+                        gameobjectSelected->isSelected = false;
+                    gameobjectSelected = foundGo;
+                    gameobjectSelected->isSelected = true;
+                }
+                else
+                {
+                    if (gameobjectSelected)
+                        gameobjectSelected->isSelected = false;
+                    gameobjectSelected = nullptr;
+                }
+            }
         ImGui::End();
     }
     
@@ -740,33 +743,43 @@ void ModuleEditor::Undo()
 
 GameObject* ModuleEditor::SelectGameObject()
 {
-    std::map<float, GameObject*> selectedItens = std::map<float, GameObject*>();
+    std::vector<GameObject*> selectedObjects;
+    std::vector<float> selectedDistances;
+
+    //std::map<float, GameObject*> selectedItens = std::map<float, GameObject*>();
     LineSegment ray = App->camera->RayFromCamera();
 
     //fill itens list
-    for (uint i = 0; i < (uint)App->scene->root->children.size(); i++)
+    for (int i = 0; i < (int)App->scene->root->children.size(); ++i)
     {
         GameObject* ob = App->scene->root->children.at(i);
         if (ob != nullptr)
-            if (ray.Intersects(ob->GetComponent<ComponentMesh>()->GetAABB()))
+        {
+            AABB aabb = AABB();
+            if (ob->GetComponent<ComponentMesh>()!= nullptr)
+            aabb = ob->GetComponent<ComponentMesh>()->GetAABB();
+            if (ray.Intersects(aabb))
             {
-                selectedItens.emplace(ray.Distance(ob->transform->GetPosition()), ob);
-                //LOG("Dude we found %s!!!", ob->name.c_str());
+                //selectedItens.emplace(ray.Distance(ob->transform->GetPosition()), ob);
+                selectedObjects.push_back(ob);
+                selectedDistances.push_back(ray.Distance(ob->GetComponent<ComponentMesh>()->GetAABB().CenterPoint()));
+                
             }
+        }
     }
 
-    LOG("wooowowowowow %d", selectedItens.size());
-        float dist = 10000.0f;
-        std::pair<float, GameObject*> foundGo;
-    if (selectedItens.size() > 0)
+    //LOG("wooowowowowow %d", selectedObjects.size());
+
+    float dist = App->camera->cameraFrustum.farPlaneDistance;
+    GameObject* foundGo = nullptr;
+    if (selectedObjects.size() > 0)
     {
-            
-        for (std::pair<float, GameObject*> element : selectedItens) 
+        for (int i = 0; i < selectedObjects.size(); ++i) 
         {
-            if (element.first < dist)
+            if (selectedDistances.at(i) < dist)
             {
-                dist = element.first;
-                foundGo = element;
+                dist = selectedDistances.at(i);
+                foundGo = selectedObjects.at(i);
             }
 
         }
@@ -777,5 +790,7 @@ GameObject* ModuleEditor::SelectGameObject()
     {
 
     }*/
-    return foundGo.second;
+    if (foundGo)
+    LOG("Selected gameobject: %s", foundGo->name.c_str());
+    return foundGo;
 }
