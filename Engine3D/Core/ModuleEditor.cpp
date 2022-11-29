@@ -115,9 +115,6 @@ update_status ModuleEditor::Update(float dt)
     UpdateWindowStatus();
     if (App->input->GetKey(SDL_SCANCODE_LCTRL) && App->input->GetKey(SDL_SCANCODE_Z) == KEY_DOWN)
         Undo();
-
-    if (App->input->GetKey(SDL_SCANCODE_LCTRL) && App->input->GetKey(SDL_SCANCODE_S) == KEY_DOWN)
-        App->scene->SaveScene(std::string("SavedScene.scn"));
     return UPDATE_CONTINUE;
 }
 
@@ -338,10 +335,10 @@ void ModuleEditor::MenuBar() {
 
         /* ---- FILE ---- */
         if (ImGui::BeginMenu("File")) {
-            if (ImGui::MenuItem("Save", "Ctrl + S")) //DO SOMETHING
-            {
-                App->scene->SaveScene(std::string("SavedScene.scn"));
-            }
+            //if (ImGui::MenuItem("Save", "Ctrl + S")) //DO SOMETHING
+            //{
+
+            //}
             ImGui::Separator();
             if (ImGui::MenuItem("Exit", "(Alt+F4)")) App->closeEngine = true;
             ImGui::EndMenu();
@@ -516,7 +513,6 @@ void ModuleEditor::UpdateWindowStatus() {
         ImGui::End();
 
     }
-
 
     //Hierarchy
     if (showHierarchyWindow) {

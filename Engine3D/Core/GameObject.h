@@ -2,7 +2,7 @@
 
 #include <vector>
 #include <string>
-#include "Module.h"
+
 class Component;
 class ComponentTransform;
 
@@ -42,10 +42,8 @@ public:
 	void AttachChild(GameObject* child);
 	void RemoveChild(GameObject* child);
 	void PropagateTransform();
-	void OnSave(JSONWriter& writer);
 
 	std::string name;
-	std::string uuid;
 	GameObject* parent = nullptr;
 	ComponentTransform* transform = nullptr;
 	std::vector<GameObject*> children;

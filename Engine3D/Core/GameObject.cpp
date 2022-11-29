@@ -7,22 +7,21 @@
 #include "ComponentMesh.h"
 #include "ImGui/imgui.h"
 #include "ModuleEditor.h"
-#include "uuid_generator.h"
 
 GameObject::GameObject() {
 
 	name = name + ("GameObject");
 	parent = nullptr;
+
 	transform = CreateComponent<ComponentTransform>();
-	uuid = uuidgen::generate_uuid();
-	
+
 	active = true;
 }
 
 GameObject::GameObject(const std::string name) : name(name) 
 {
 	transform = CreateComponent<ComponentTransform>();
-	uuid = uuidgen::generate_uuid();
+
 	active = true;
 }
 
@@ -117,8 +116,6 @@ void GameObject::OnGui()
 		}
 		*/
 
-		ImGui::Separator();
-		ImGui::Text("%s", uuid.c_str());
 	}
 }
 
@@ -160,35 +157,4 @@ void GameObject::PropagateTransform()
 	{
 		go->transform->OnParentMoved();
 	}
-}
-
-void GameObject::OnSave(JSONWriter& writer)
-{
-	writer.String(name.c_str());
-	const char* uuid_ = uuid.c_str();
-	const char* parentUuid_ = parent->uuid.c_str();
-
-
-	writer.StartObject();
-	SAVE_JSON_STRING(uuid_);
-		SAVE_JSON_STRING(parentUuid_);
-		if (children.empty())
-			writer.EndObject();
-		for (uint c = 0; c < children.size(); c++)
-		{
-			const char* childrenUuid_ = children[c]->uuid.c_str();
-
-			SAVE_JSON_STRING(childrenUuid_);
-			writer.EndObject();
-			children[c]->OnSave(writer);
-		}
-
-	//writer.EndObject();
-
-	/*for (size_t j = 0; j < objects[i]->components.size(); j++)
-	{
-		objects[i]->components[j]->OnSave(writer);
-	}*/
-
-	return;
 }
