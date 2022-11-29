@@ -1,0 +1,11 @@
+{
+    "Baker_house": {
+        "uuid_": "07b0e8e8-a60b-4f44-8981-fc16ab008872",
+        "parentUuid_": "eb289d65-24da-410d-8611-20d4292c06d1",
+        "childrenUuid_": "ed5e5420-cca5-4ef7-9ca0-5f571722fec2"
+    },
+    "Chimney": {
+        "uuid_": "ed5e5420-cca5-4ef7-9ca0-5f571722fec2",
+        "parentUuid_": "07b0e8e8-a60b-4f44-8981-fc16ab008872"
+    }
+}

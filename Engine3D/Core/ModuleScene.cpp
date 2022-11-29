@@ -98,7 +98,7 @@ GameObject* ModuleScene::CreateGameObject(const std::string name, GameObject* pa
 
 bool ModuleScene::SaveScene(std::string path)
 {
-	/*rapidjson::StringBuffer sb;
+	rapidjson::StringBuffer sb;
 	JSONWriter writer(sb);
 
 	std::vector<GameObject*> objects = root->children;
@@ -106,21 +106,7 @@ bool ModuleScene::SaveScene(std::string path)
 	writer.StartObject();
 	for (size_t i = 0; i < objects.size(); i++)
 	{
-
-		writer.String("urmom");
-		writer.StartObject();
-		SAVE_JSON_FLOAT(1.0f)
-		SAVE_JSON_FLOAT(2.0f)
-		SAVE_JSON_FLOAT(3.0f)
-		SAVE_JSON_FLOAT(4.0f)
-		SAVE_JSON_FLOAT(5.0f)
-		writer.EndObject();
-
-		for (size_t j = 0; j < objects[i]->components.size(); j++)
-		{
-			objects[i]->components[j]->OnSave(writer)
-		}
-		
+		objects[i]->OnSave(writer);
 	}
 	writer.EndObject();
 
@@ -131,7 +117,7 @@ bool ModuleScene::SaveScene(std::string path)
 	else
 	{
 		LOG("Scene not saved.");
-	}*/
+	}
 	return false;
 }
 

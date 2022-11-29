@@ -715,6 +715,9 @@
     <ClInclude Include="Core\ImGui\ImGuizmo.h">
       <Filter>ExternalLibraries\ImGui</Filter>
     </ClInclude>
+    <ClInclude Include="Core\uuid_generator.h">
+      <Filter>Engine\Tools</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="ExternalLibraries">

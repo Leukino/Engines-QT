@@ -5,6 +5,9 @@
 #include <string>
 #include "GameObject.h"
 #include "State.h"
+#include "Module.h"
+
+
 class State;
 class Component {
 
@@ -27,8 +30,8 @@ public:
 	virtual void OnGui() { }
 	virtual bool StoreAction() { return false; }
 	virtual bool UndoAction(State* state) { return false; }
-	//virtual bool OnLoad(JSONReader& reader) { return false; }
-	//virtual bool OnSave(JSONWriter& writer) { return false; }
+	virtual bool OnLoad(JSONReader& reader) { return false; }
+	virtual bool OnSave(JSONWriter& writer) { return false; }
 
 public:
 	char* type = "unknown_type";
