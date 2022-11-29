@@ -251,6 +251,7 @@
     <ClInclude Include="Core\Timer.h" />
     <ClInclude Include="Core\ComponentTransform.h" />
     <ClInclude Include="Core\ModuleViewportFrameBuffer.h" />
+    <ClInclude Include="Core\uuid_generator.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Core\Assimp\include\color4.inl" />
