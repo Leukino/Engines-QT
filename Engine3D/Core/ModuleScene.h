@@ -17,6 +17,9 @@ public:
 
 	GameObject* CreateGameObject(GameObject* parent = nullptr);	
 	GameObject* CreateGameObject(const std::string name, GameObject* parent = nullptr);	
+
+	bool SaveScene(std::string path);
+	bool LoadScene(std::string path);
 	
 public:
 	
