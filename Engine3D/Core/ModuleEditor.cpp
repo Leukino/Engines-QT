@@ -14,6 +14,7 @@
 #include "ComponentMaterial.h"
 #include "ComponentMesh.h"
 #include "ComponentTransform.h"
+#include "ModuleFileSystem.h"
 
 //Tools
 
@@ -338,11 +339,21 @@ void ModuleEditor::MenuBar() {
 
         /* ---- FILE ---- */
         if (ImGui::BeginMenu("File")) {
-            if (ImGui::MenuItem("Save", "Ctrl + S")) //DO SOMETHING
+            if (ImGui::MenuItem("Open", "Ctrl + O")) //DO SOMETHING
             {
-                App->scene->SaveScene(std::string("SavedScene.scn"));
+                //std::string filePath = App->fileSystem->LoadFileExplorer();
             }
             ImGui::Separator();
+            if (ImGui::MenuItem("Save", "Ctrl + S")) //DO SOMETHING
+            {
+                std::string savePath = App->fileSystem->SaveFileExplorer();
+                if (!savePath.empty())           
+                    App->scene->SaveScene(savePath);
+                else
+                    App->scene->SaveScene(std::string("SavedScene.scn"));
+            }
+            ImGui::Separator();
+
             if (ImGui::MenuItem("Exit", "(Alt+F4)")) App->closeEngine = true;
             ImGui::EndMenu();
         }

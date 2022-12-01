@@ -10,6 +10,12 @@
 #include "Assimp/include/cfileio.h"
 #include "Assimp/include/types.h"
 
+#include <commdlg.h>
+#include "glew.h"
+#include "SDL/include/SDL.h"
+#include "SDL/include/SDL_syswm.h"
+#include "ModuleWindow.h"
+
 #pragma comment( lib, "Core/PhysFS/libx86/physfs.lib" )
 
 ModuleFileSystem::ModuleFileSystem(Application* app, bool start_enabled) : Module(app, start_enabled)
@@ -253,6 +259,7 @@ PathNode ModuleFileSystem::GetAllFiles(const char* directory, std::vector<std::s
 	return root;
 }
 */
+
 void ModuleFileSystem::GetRealDir(std::string path, std::string& output) const
 {	
 	uint i = 0;
@@ -300,6 +307,63 @@ bool ModuleFileSystem::HasExtension(const char* path, std::vector<std::string> e
 			return true;
 	}
 	return false;
+}
+
+std::string ModuleFileSystem::LoadFileExplorer()
+{
+	OPENFILENAMEA ofn;
+	CHAR szFile[260] = { 0 };
+	ZeroMemory(&ofn, sizeof(OPENFILENAMEA));
+
+	SDL_SysWMinfo systemInfo;
+	SDL_VERSION(&systemInfo.version);
+	SDL_GetWindowWMInfo(App->window->window, &systemInfo);
+
+	ofn.lStructSize = sizeof(OPENFILENAMEA);
+	ofn.hwndOwner = systemInfo.info.win.window;
+	ofn.lpstrFile = szFile;
+	ofn.nMaxFile = sizeof(szFile);
+	ofn.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST | OFN_NOCHANGEDIR;
+	if (GetOpenFileNameA(&ofn) == TRUE)
+	{
+		LOG("Found file %s", ofn.lpstrFile);
+		return ofn.lpstrFile;
+	}
+	return std::string();
+}
+
+std::string ModuleFileSystem::SaveFileExplorer()
+{
+	OPENFILENAMEA ofn;
+	CHAR szFile[260] = { 0 };
+	ZeroMemory(&ofn, sizeof(OPENFILENAMEA));
+
+	SDL_SysWMinfo systemInfo;
+	SDL_VERSION(&systemInfo.version);
+	SDL_GetWindowWMInfo(App->window->window, &systemInfo);
+
+	ofn.lStructSize = sizeof(OPENFILENAMEA);
+	ofn.hwndOwner = systemInfo.info.win.window;
+	ofn.lpstrFile = szFile;
+	ofn.nMaxFile = sizeof(szFile);
+	ofn.lpstrInitialDir = systemBasePath.c_str();
+	ofn.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST | OFN_NOCHANGEDIR;
+	if (GetSaveFileNameA(&ofn) == TRUE)
+	{
+		std::string path;
+		std::string file;
+		std::string extension;
+		SplitFilePath(ofn.lpstrFile, &path, &file, &extension);
+
+		std::string pathR = GetPathRelativeToAssets(path.c_str());
+		//path.replace(0, )
+
+		pathR += file + "." + "scn";
+		LOG("System base path: %s", pathR.c_str());
+		LOG("Saved file %s", pathR.c_str());
+		return NormalizePath(pathR.c_str());
+	}
+	return std::string(); 
 }
 
 std::string ModuleFileSystem::NormalizePath(const char * full_path) const

@@ -50,6 +50,9 @@ public:
 	bool HasExtension(const char* path, std::string extension) const;
 	bool HasExtension(const char* path, std::vector<std::string> extensions) const;
 
+	std::string LoadFileExplorer();
+	std::string SaveFileExplorer();
+
 	std::string NormalizePath(const char* path) const;
 	void SplitFilePath(const char* full_path, std::string* path, std::string* file = nullptr, std::string* extension = nullptr) const;
 
