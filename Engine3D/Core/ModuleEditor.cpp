@@ -342,6 +342,7 @@ void ModuleEditor::MenuBar() {
             if (ImGui::MenuItem("Open", "Ctrl + O")) //DO SOMETHING
             {
                 //std::string filePath = App->fileSystem->LoadFileExplorer();
+                App->scene->LoadScene("Ladguillos.scn");
             }
             ImGui::Separator();
             if (ImGui::MenuItem("Save", "Ctrl + S")) //DO SOMETHING
@@ -547,7 +548,9 @@ void ModuleEditor::UpdateWindowStatus() {
         }
         std::stack<GameObject*> S;
         std::stack<uint> indents;
-        S.push(App->scene->root);
+        if (App->scene->root)
+        {
+            S.push(App->scene->root);
         indents.push(0);
         while (!S.empty())
         {
@@ -616,6 +619,7 @@ void ModuleEditor::UpdateWindowStatus() {
 
                 ImGui::TreePop();
             }
+        }
         }
         ImGui::End();
     }
@@ -776,9 +780,11 @@ GameObject* ModuleEditor::SelectGameObject()
             if (ray.Intersects(aabb))
             {
                 //selectedItens.emplace(ray.Distance(ob->transform->GetPosition()), ob);
-                selectedObjects.push_back(ob);
-                selectedDistances.push_back(ray.Distance(ob->GetComponent<ComponentMesh>()->GetAABB().CenterPoint()));
-                
+                if (ob->GetComponent<ComponentMesh>() != nullptr)
+                {
+                    selectedObjects.push_back(ob);
+                    selectedDistances.push_back(ray.Distance(ob->GetComponent<ComponentMesh>()->GetAABB().CenterPoint()));
+                }
             }
         }
     }

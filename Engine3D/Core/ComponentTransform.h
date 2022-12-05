@@ -51,6 +51,9 @@ public:
 
 	void RecomputeGlobalMatrix();
 
+	bool OnLoad(JSONReader& reader);
+	bool OnSave(JSONWriter& writer);
+
 	//State StoreAction();
 	bool UndoAction(State* state);
 	

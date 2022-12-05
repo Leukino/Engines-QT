@@ -127,6 +127,16 @@ void ComponentTransform::RecomputeGlobalMatrix()
 	}
 }
 
+bool ComponentTransform::OnLoad(JSONReader& reader)
+{
+	return false;
+}
+
+bool ComponentTransform::OnSave(JSONWriter& writer)
+{
+	return false;
+}
+
 //State ComponentTransform::StoreAction() 
 //{
 //	

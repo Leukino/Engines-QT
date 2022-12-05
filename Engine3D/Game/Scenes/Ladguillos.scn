@@ -1,10 +1,26 @@
 {
     "Chimney": {
-        "uuid_": "7b813826-cc5e-42ab-bba4-9d3c7aaab9bf",
-        "parentUuid_": "33eaad04-9e18-473b-9b9a-204a7cdc5a29"
+        "uuid_": "93f31657-828a-43dd-8aa1-76c41fbc00b8",
+        "Transform": {
+            "a": "Transform"
+        },
+        "Mesh": {
+            "a": "Mesh"
+        },
+        "Material": {
+            "a": "Material"
+        }
     },
     "Baker_house": {
-        "uuid_": "5309b8d6-c93d-470d-b06a-e574bc81f55c",
-        "parentUuid_": "33eaad04-9e18-473b-9b9a-204a7cdc5a29"
+        "uuid_": "328fd67c-63fb-4365-8cab-1c41d8336018",
+        "Transform": {
+            "a": "Transform"
+        },
+        "Mesh": {
+            "a": "Mesh"
+        },
+        "Material": {
+            "a": "Material"
+        }
     }
 }

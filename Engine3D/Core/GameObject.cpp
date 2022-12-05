@@ -171,7 +171,18 @@ void GameObject::OnSave(JSONWriter& writer)
 
 	writer.StartObject();
 	SAVE_JSON_STRING(uuid_);
-		SAVE_JSON_STRING(parentUuid_);
+	if (parent->name.compare("Root") != 0)
+	SAVE_JSON_STRING(parentUuid_);
+
+	for (auto& component : components)
+	{
+		writer.String(component->type);
+		writer.StartObject();
+		component->OnSave(writer);
+		writer.EndObject();
+	}
+
+
 		if (children.empty())
 			writer.EndObject();
 		for (uint c = 0; c < children.size(); c++)
@@ -191,4 +202,19 @@ void GameObject::OnSave(JSONWriter& writer)
 	}*/
 
 	return;
+}
+
+void GameObject::OnLoad(JSONReader& reader)
+{
+	const auto& config = reader;
+	LOAD_JSON_STRING(name);
+	LOG("")
+
+	//components
+	/*if (reader.HasMember("camera"))
+	{
+		const auto& config = reader["camera"];
+		LOAD_JSON_FLOAT(verticalFOV);
+		LOAD_JSON_FLOAT(nearPlaneDistance);
+	}*/
 }

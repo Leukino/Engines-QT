@@ -43,6 +43,7 @@ public:
 	void RemoveChild(GameObject* child);
 	void PropagateTransform();
 	void OnSave(JSONWriter& writer);
+	void OnLoad(JSONReader& reader);
 
 	std::string name;
 	std::string uuid;

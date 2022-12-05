@@ -1,10 +1,13 @@
 {
-    "Chimney": {
-        "uuid_": "93999847-9df6-4508-ba10-2b4035b107e2",
-        "parentUuid_": "c9b16663-a57d-4796-b00a-737c5ea3891c"
-    },
     "Baker_house": {
-        "uuid_": "f7a426ac-3cd2-4df0-926a-5da32fe0cfbb",
-        "parentUuid_": "c9b16663-a57d-4796-b00a-737c5ea3891c"
+        "uuid_": "c586fcff-a38d-48aa-983c-56c7cac9076f",
+        "childrenUuid_": "f05d1e7e-c4da-4d61-9ac9-381a5912ece5"
+    },
+    "Cylinder": {
+        "uuid_": "f05d1e7e-c4da-4d61-9ac9-381a5912ece5",
+        "parentUuid_": "c586fcff-a38d-48aa-983c-56c7cac9076f"
+    },
+    "Chimney": {
+        "uuid_": "49e4cb7a-0c18-4421-a5a6-a643b649af0d"
     }
 }

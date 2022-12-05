@@ -359,8 +359,8 @@ std::string ModuleFileSystem::SaveFileExplorer()
 		//path.replace(0, )
 
 		pathR += file + "." + "scn";
-		LOG("System base path: %s", pathR.c_str());
-		LOG("Saved file %s", pathR.c_str());
+		//LOG("System base path: %s", pathR.c_str());
+		//LOG("Saved file %s", pathR.c_str());
 		return NormalizePath(pathR.c_str());
 	}
 	return std::string(); 

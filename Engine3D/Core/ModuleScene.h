@@ -19,11 +19,12 @@ public:
 
 	GameObject* CreateGameObject(GameObject* parent = nullptr);	
 	GameObject* CreateGameObject(const std::string name, GameObject* parent = nullptr);	
-
+	GameObject* FindGameObject(std::string name);
+	GameObject* FindGameObjectByUuid(std::string uuid);
 	bool SaveScene(std::string path);
 	bool LoadScene(std::string path);
 	
 public:
 	
-	GameObject* root;
+	GameObject* root = nullptr;
 };
