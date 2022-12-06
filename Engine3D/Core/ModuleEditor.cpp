@@ -538,6 +538,7 @@ void ModuleEditor::UpdateWindowStatus() {
         //Just cleaning gameObjects(not textures,buffers...)
         if (ImGui::Button("Clear", { 60,20 })) 
         {
+               
             App->editor->gameobjectSelected = nullptr;
             App->scene->CleanUp(); //Clean GameObjects 
         }
@@ -545,6 +546,13 @@ void ModuleEditor::UpdateWindowStatus() {
         if (ImGui::Button("New", { 60,20 }))
         {
             App->scene->CreateGameObject();
+        }
+        ImGui::SameLine();
+        if (ImGui::Button("Delete Selected", { 60,20 }))
+        {
+            App->scene->root->RemoveChild(gameobjectSelected);
+            gameobjectSelected = nullptr;
+
         }
         std::stack<GameObject*> S;
         std::stack<uint> indents;
@@ -635,6 +643,7 @@ void ModuleEditor::UpdateWindowStatus() {
         
         ImVec2 viewportSize = ImGui::GetCurrentWindow()->Size;
         ImVec2 viewportPos = ImGui::GetCurrentWindow()->Pos;
+        viewportPos.y += 28.0f;
         if (viewportSize.x != lastViewportSize.x || viewportSize.y != lastViewportSize.y)
         {
             App->camera->aspectRatio = viewportSize.x / viewportSize.y;

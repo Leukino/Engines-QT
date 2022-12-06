@@ -62,7 +62,8 @@ bool ModuleImport::LoadGeometry(const char* path) {
 	uint bytesFile = App->fileSystem->Load(path, &buffer);
 
 	if (buffer == nullptr) {
-		std::string normPathShort = "Assets/Models/" + App->fileSystem->SetNormalName(path);
+		std::string normalizedPath = App->fileSystem->NormalizePath(path);
+		std::string normPathShort = "Assets/Models/" + App->fileSystem->SetNormalName(normalizedPath.c_str());
 		bytesFile = App->fileSystem->Load(normPathShort.c_str(), &buffer);
 	}
 	if (buffer != nullptr) {
@@ -92,8 +93,11 @@ bool ModuleImport::LoadGeometry(const char* path) {
 				mesh = newGameObject->CreateComponent<ComponentMesh>();
 			}
 			assimpMesh = scene->mMeshes[i];
-			std::string meshPath = path;
-			meshPath.erase(meshPath.end() - 4, meshPath.end());
+			//std::string meshPath = path;
+			
+			//meshPath.erase(meshPath.end() - 4, meshPath.end());
+			std::string meshPath = App->fileSystem->GetPathRelativeToAssets(path);
+			meshPath = App->fileSystem->NormalizePath(meshPath.c_str());
 			mesh->meshPath = meshPath;
 			if (scene->HasMaterials()) {
 				texture = scene->mMaterials[assimpMesh->mMaterialIndex];
@@ -101,8 +105,15 @@ bool ModuleImport::LoadGeometry(const char* path) {
 				if (texture != nullptr) {
 					aiGetMaterialTexture(texture, aiTextureType_DIFFUSE, assimpMesh->mMaterialIndex, &texturePath);
 					std::string new_path(texturePath.C_Str());
+					std::string nam;
+					std::string ext;
+					App->fileSystem->SplitFilePath(new_path.c_str(), nullptr, &nam, &ext);
+					nam += "." + ext;
+					new_path = "Assets/Textures/" + nam;
+					//new_path = App->fileSystem->GetPathRelativeToAssets(new_path.c_str());
+					//new_path = App->fileSystem->NormalizePath(new_path.c_str());
 					if (new_path.size() > 0) {
-						mesh->texturePath = "Assets/Textures/" + new_path;
+						mesh->texturePath = new_path;
 						if (!App->textures->Find(mesh->texturePath))
 						{
 							const TextureObject& textureObject = App->textures->Load(mesh->texturePath);	

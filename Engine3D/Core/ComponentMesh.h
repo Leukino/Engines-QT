@@ -41,6 +41,9 @@ public:
 	bool Update(float dt) override;
 	void OnGui() override;
 
+	bool OnLoad(JSONReader& reader);
+	bool OnSave(JSONWriter& writer);
+
 	void SaveMesh();
 
 	uint vertexBufferId = 0, indexBufferId = 0, textureBufferId = 0;

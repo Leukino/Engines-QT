@@ -206,9 +206,40 @@ void GameObject::OnSave(JSONWriter& writer)
 
 void GameObject::OnLoad(JSONReader& reader)
 {
-	const auto& config = reader;
+	auto& config = reader;
 	LOAD_JSON_STRING(name);
-	LOG("")
+	uuid = reader.HasMember("uuid_") ? reader["uuid_"].GetString() : "Unknown_UUID";
+
+	for (rapidjson::Value::MemberIterator itr = reader.MemberBegin(); itr != reader.MemberEnd(); ++itr)
+	{
+		if (itr->name == "Mesh")
+		{
+			ComponentMesh* comp = CreateComponent<ComponentMesh>();
+			comp->OnLoad(itr->value);
+		}
+		if (itr->name == "Material")
+		{
+			CreateComponent<ComponentMaterial>();
+		}
+	}
+
+	/*if (reader.HasMember("Transform"))
+	{
+
+
+	}*/
+
+
+
+	//for (rapidjson::Value::MemberIterator itr = reader.MemberBegin(); itr != reader.MemberEnd(); ++itr)
+	//{
+	//	// create gameobjects
+	//	std::string name = itr->name.GetString();
+	//	//if (itr->value.HasMember(""))
+
+	//}
+
+	//LOG("")
 
 	//components
 	/*if (reader.HasMember("camera"))

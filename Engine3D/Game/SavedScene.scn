@@ -1,10 +1,20 @@
 {
     "Chimney": {
-        "uuid_": "d7216d1a-e167-472a-a01f-62aa03707fbe",
-        "parentUuid_": "aa3d39f3-8ea3-4ed3-ab66-1791beb9a650"
+        "uuid_": "11d2855b-e38b-4cea-8f35-61e3faad0c92",
+        "Transform": {},
+        "Mesh": {
+            "meshPath.c_str()": "Assets/Models/BakerHouse",
+            "texturePath.c_str()": "Assets/Textures/Baker_house.png"
+        },
+        "Material": {}
     },
     "Baker_house": {
-        "uuid_": "b6e9f539-4d85-49e8-b6a3-594dda6a0993",
-        "parentUuid_": "aa3d39f3-8ea3-4ed3-ab66-1791beb9a650"
+        "uuid_": "2dfcddbd-c3cc-4688-9551-6d31f5dc1116",
+        "Transform": {},
+        "Mesh": {
+            "meshPath.c_str()": "Assets/Models/BakerHouse",
+            "texturePath.c_str()": "Assets/Textures/Baker_house.png"
+        },
+        "Material": {}
     }
 }

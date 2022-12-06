@@ -188,7 +188,8 @@ bool ModuleScene::LoadScene(std::string path)
 				LOG("Found object poggers! %s", itr);
 				// create gameobjects
 				std::string name = itr->name.GetString();
-				CreateGameObject(name, root);
+				GameObject* temp = CreateGameObject(name, root);
+				temp->OnLoad(itr->value);
 				//if (itr->value.HasMember(""))
 
 			}

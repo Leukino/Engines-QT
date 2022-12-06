@@ -1,13 +1,47 @@
 {
-    "Baker_house": {
-        "uuid_": "c586fcff-a38d-48aa-983c-56c7cac9076f",
-        "childrenUuid_": "f05d1e7e-c4da-4d61-9ac9-381a5912ece5"
+    "helmet": {
+        "uuid_": "a2004338-cd70-43f3-b41f-8d04db5f46e6",
+        "Transform": {},
+        "Mesh": {
+            "meshPath": "",
+            "texturePath": ""
+        },
+        "Material": {}
     },
-    "Cylinder": {
-        "uuid_": "f05d1e7e-c4da-4d61-9ac9-381a5912ece5",
-        "parentUuid_": "c586fcff-a38d-48aa-983c-56c7cac9076f"
+    "helmet": {
+        "uuid_": "64884344-a2b6-4427-af3c-b40de0da5eaa",
+        "Transform": {},
+        "Mesh": {
+            "meshPath": "Assets/Models/halo_helmet.fbx",
+            "texturePath": "Assets/Textures/haloHelmet_diffuse.png"
+        },
+        "Material": {}
     },
     "Chimney": {
-        "uuid_": "49e4cb7a-0c18-4421-a5a6-a643b649af0d"
+        "uuid_": "fb25af34-4fb7-46e0-8103-c6d3c818b51e",
+        "Transform": {},
+        "Mesh": {
+            "meshPath": "Assets/Models/BakerHouse.fbx",
+            "texturePath": "Assets/Textures/Baker_house.png"
+        },
+        "Material": {}
+    },
+    "Baker_house": {
+        "uuid_": "96913445-e1a1-49dd-a1aa-6455535ec324",
+        "Transform": {},
+        "Mesh": {
+            "meshPath": "Assets/Models/BakerHouse.fbx",
+            "texturePath": "Assets/Textures/Baker_house.png"
+        },
+        "Material": {}
+    },
+    "Group37012": {
+        "uuid_": "34f8713c-723c-4676-b32c-9d863491b621",
+        "Transform": {},
+        "Mesh": {
+            "meshPath": "Assets/Models/nightmare.FBX",
+            "texturePath": "Assets/Textures/."
+        },
+        "Material": {}
     }
 }

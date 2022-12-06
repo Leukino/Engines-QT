@@ -14,7 +14,7 @@
 #include "par_shapes.h"
 #include <fstream>
 #include "MathGeoLib/include/Geometry/Plane.h"
-
+#include "ModuleImport.h"
 
 ComponentMesh::ComponentMesh(GameObject* parent) : Component(parent) {
 	this->type = "Mesh";
@@ -282,6 +282,8 @@ void ComponentMesh::OnGui()
 	{
 		ImGui::Text("Num vertices %d", numVertices);
 		ImGui::Text("Num faces %d", numIndices / 3);
+		ImGui::Text("Mesh path: %s", meshPath.c_str());
+		ImGui::Text("Texture path: %s", texturePath.c_str());
 		ImGui::Checkbox("Wireframe", &drawWireframe);
 		ImGui::DragFloat("Normal draw scale", &normalScale);
 		ImGui::Checkbox("Draw face normals", &drawFaceNormals);
@@ -290,6 +292,28 @@ void ComponentMesh::OnGui()
 			
 	}
 }
+
+bool ComponentMesh::OnSave(JSONWriter& writer)
+{
+	writer.String("meshPath"); writer.String(meshPath.c_str());
+	writer.String("texturePath"); writer.String(texturePath.c_str());
+	//SAVE_JSON_STRING(meshPath.c_str);
+	//SAVE_JSON_STRING(texturePath.c_str());
+
+	return true;
+}
+
+bool ComponentMesh::OnLoad(JSONReader& reader)
+{
+	if (reader.HasMember("meshPath"))
+	{
+		std::string str = reader["meshPath"].GetString();
+		App->import->LoadGeometry(str.c_str());
+	}
+
+	return true;
+}
+
  
 void ComponentMesh::SaveMesh() 
 {
