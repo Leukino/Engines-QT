@@ -652,6 +652,10 @@ void ModuleEditor::UpdateWindowStatus() {
             LOG("%d", App->pause);
         };
         ImGui::SameLine();
+        if (ImGui::Button("Tick")) {
+            
+        };
+        ImGui::SameLine();
         if (ImGui::Button("Stop")) {
             LOG("%d", App->pause);
         };

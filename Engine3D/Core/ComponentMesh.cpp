@@ -175,8 +175,6 @@ float3 ComponentMesh::GetCenterPointInWorldCoords() const
 bool ComponentMesh::Update(float dt)
 {
 
-	if (App->pause) 
-		return true;
 
 	drawWireframe || App->renderer3D->wireframeMode ? glPolygonMode(GL_FRONT_AND_BACK, GL_LINE) : glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
