@@ -1,0 +1,27 @@
+{
+    "helmet": {
+        "uuid_": "f1bb24ca-8146-4f05-a410-82f0f573ea3a",
+        "Transform": {
+            "Position": [
+                -3.509796142578125,
+                2.3070592880249025,
+                0.0
+            ],
+            "Rotation": [
+                2.9472463130950929,
+                0.22089159488677979,
+                -2.5800371170043947
+            ],
+            "Scale": [
+                2.080000638961792,
+                2.0799999237060549,
+                2.080000638961792
+            ]
+        },
+        "Mesh": {
+            "meshPath": "Assets/Models/halo_helmet.fbx",
+            "texturePath": "Assets/Textures/haloHelmet_diffuse.png"
+        },
+        "Material": {}
+    }
+}

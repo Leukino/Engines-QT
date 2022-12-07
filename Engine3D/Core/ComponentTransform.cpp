@@ -23,6 +23,9 @@ ComponentTransform::ComponentTransform(GameObject* parent) : Component(parent) {
 
 
 bool ComponentTransform::Update(float dt) {
+	if (App->pause)
+		return true;
+
 	if (isDirty)
 	{
 		transformMatrixLocal = float4x4::FromTRS(position, rotation, scale); 

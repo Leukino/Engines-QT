@@ -640,6 +640,22 @@ void ModuleEditor::UpdateWindowStatus() {
     if (showSceneWindow) {
         
         ImGui::Begin("Scene", &showSceneWindow, ImGuiWindowFlags_NoScrollWithMouse | ImGuiWindowFlags_NoScrollbar);
+
+        ImGui::Begin("Time", 0, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoDocking);
+        if (ImGui::Button("Play")) {
+            App->pause = false;
+            LOG("%d", App->pause);
+        };
+        ImGui::SameLine();
+        if (ImGui::Button("Pause")) {
+            App->pause = true;
+            LOG("%d", App->pause);
+        };
+        ImGui::SameLine();
+        if (ImGui::Button("Stop")) {
+            LOG("%d", App->pause);
+        };
+        ImGui::End();
         
         ImVec2 viewportSize = ImGui::GetCurrentWindow()->Size;
         ImVec2 viewportPos = ImGui::GetCurrentWindow()->Pos;
