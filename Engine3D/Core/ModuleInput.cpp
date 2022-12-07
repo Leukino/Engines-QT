@@ -145,7 +145,7 @@ update_status ModuleInput::PreUpdate(float dt)
 					LOG("Path of file dropped will be %s", filePath);
 					App->import->LoadGeometry(filePath);
 				}
-				else if (fileName.substr(fileName.find_last_of(".")) == ".jpg" || fileName.substr(fileName.find_last_of(".")) == ".png" || fileName.substr(fileName.find_last_of(".")) == ".PNG" || fileName.substr(fileName.find_last_of(".")) == ".JPG")
+				else if (fileName.substr(fileName.find_last_of(".")) == ".jpg" || fileName.substr(fileName.find_last_of(".")) == ".png" || fileName.substr(fileName.find_last_of(".")) == ".PNG" || fileName.substr(fileName.find_last_of(".")) == ".JPG" || fileName.substr(fileName.find_last_of(".")) == ".tga" || fileName.substr(fileName.find_last_of(".")) == ".TGA")
 				{
 					LOG("Path of file dropped will be %s", filePath);
 					std::string realFileName = fileName.substr(fileName.find_last_of("\\") + 1); 					
