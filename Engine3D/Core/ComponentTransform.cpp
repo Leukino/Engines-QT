@@ -54,6 +54,7 @@ void ComponentTransform::OnGui()
 
 		/*if (ImGuizmo::IsUsing())
 			return;*/
+
 		float3 newPosition = position;
 		if (ImGui::DragFloat3("Location", &newPosition[0]))
 		{
@@ -86,21 +87,31 @@ void ComponentTransform::OnGui()
 
 void ComponentTransform::SetPosition(const float3& newPosition)
 {
-	position = newPosition;
-	isDirty = true;
+	if (!App->pause)
+	{
+		position = newPosition;
+		isDirty = true;
+	}
+	
 }
 
 void ComponentTransform::SetRotation(const float3& newRotation)
 {
-	rotation = Quat::FromEulerXYZ(newRotation.x, newRotation.y, newRotation.z);
-	rotationEuler = newRotation;
-	isDirty = true;
+	if (!App->pause)
+	{
+		rotation = Quat::FromEulerXYZ(newRotation.x, newRotation.y, newRotation.z);
+		rotationEuler = newRotation;
+		isDirty = true;
+	}
 }
 
 void ComponentTransform::SetScale(const float3& newScale)
 {
-	scale = newScale;
-	isDirty = true;
+	if (!App->pause)
+	{
+		scale = newScale;
+		isDirty = true;
+	}
 }
 
 void ComponentTransform::NewAttachment()
