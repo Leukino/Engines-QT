@@ -2,7 +2,7 @@
 #include "Module.h"
 
 #include <string>
-
+class GameObject;
 class ComponentMesh;
 struct aiScene;
 
@@ -16,7 +16,7 @@ public:
 	update_status Update(float dt) override;
 	bool CleanUp() override;
 
-	bool LoadGeometry(const char* path);
+	bool LoadGeometry(const char* path, GameObject* parent = nullptr);
 
 	void FindNodeName(const aiScene* scene, const size_t i, std::string& name);
 

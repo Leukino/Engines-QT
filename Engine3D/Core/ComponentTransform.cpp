@@ -127,14 +127,45 @@ void ComponentTransform::RecomputeGlobalMatrix()
 	}
 }
 
-bool ComponentTransform::OnLoad(JSONReader& reader)
-{
-	return false;
-}
-
 bool ComponentTransform::OnSave(JSONWriter& writer)
 {
-	return false;
+	writer.String("Position"); 
+	writer.StartArray();
+	writer.Double(position.x); writer.Double(position.y); writer.Double(position.z);
+	writer.EndArray();
+	writer.String("Rotation");
+	writer.StartArray();
+	writer.Double(rotationEuler.x); writer.Double(rotationEuler.y); writer.Double(rotationEuler.z);
+	writer.EndArray();
+	writer.String("Scale");
+	writer.StartArray();
+	writer.Double(scale.x); writer.Double(scale.y); writer.Double(scale.z);
+	writer.EndArray();
+	return true;
+}
+
+bool ComponentTransform::OnLoad(JSONReader& reader)
+{
+	if (reader.HasMember("Position"))
+	{
+		auto& arr = reader["Position"].GetArray();
+		LOG("Position found %f %f %f", arr[0].GetDouble(), arr[1].GetDouble(), arr[2].GetDouble());
+		SetPosition(float3(arr[0].GetDouble(), arr[1].GetDouble(), arr[2].GetDouble()));
+	}
+	if (reader.HasMember("Rotation"))
+	{
+		auto& arr = reader["Rotation"].GetArray();
+		LOG("Rotation found %f %f %f", arr[0].GetDouble(), arr[1].GetDouble(), arr[2].GetDouble());
+		SetRotation(float3(arr[0].GetDouble(), arr[1].GetDouble(), arr[2].GetDouble()));
+	}
+	if (reader.HasMember("Scale"))
+	{
+		auto& arr = reader["Scale"].GetArray();
+		LOG("Scale found %f %f %f", arr[0].GetDouble(), arr[1].GetDouble(), arr[2].GetDouble());
+		SetScale(float3(arr[0].GetDouble(), arr[1].GetDouble(), arr[2].GetDouble()));
+	}
+
+	return true;
 }
 
 //State ComponentTransform::StoreAction() 

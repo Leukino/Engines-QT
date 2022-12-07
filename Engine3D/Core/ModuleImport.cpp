@@ -45,7 +45,7 @@ update_status ModuleImport::Update(float dt) {
 	return UPDATE_CONTINUE;
 }
 
-bool ModuleImport::LoadGeometry(const char* path) {
+bool ModuleImport::LoadGeometry(const char* path, GameObject* parent) {
 
 	//-- Own structure	
 	GameObject* root = nullptr;
@@ -73,19 +73,31 @@ bool ModuleImport::LoadGeometry(const char* path) {
 		scene = aiImportFile(path, aiProcessPreset_TargetRealtime_MaxQuality);
 	}
 
+	
 
 	if (scene != nullptr && scene->HasMeshes()) {
 		//Use scene->mNumMeshes to iterate on scene->mMeshes array
+		GameObject* newGameObject = nullptr;
+		if (parent)
+			newGameObject = parent;
 		for (size_t i = 0; i < scene->mNumMeshes; i++)
 		{		
 			bool nameFound = false;
 			std::string name;
 			FindNodeName(scene, i, name);
-			GameObject* newGameObject = nullptr;
+			
 			ComponentMesh* mesh;
-			if ((App->editor->gameobjectSelected != nullptr)&&(App->editor->gameobjectSelected->GetComponent<ComponentMesh>() != nullptr))
+			if (newGameObject != nullptr)
 			{
-				mesh = App->editor->gameobjectSelected->GetComponent<ComponentMesh>();
+				if (newGameObject->GetComponent<ComponentMesh>() != nullptr)
+				{
+					if (newGameObject->GetComponent<ComponentMesh>()->vertices.empty())
+						mesh = newGameObject->GetComponent<ComponentMesh>();
+					else
+					{
+						mesh = newGameObject->CreateComponent<ComponentMesh>();
+					}
+				}
 			}
 			else
 			{
@@ -99,6 +111,7 @@ bool ModuleImport::LoadGeometry(const char* path) {
 			std::string meshPath = App->fileSystem->GetPathRelativeToAssets(path);
 			meshPath = App->fileSystem->NormalizePath(meshPath.c_str());
 			mesh->meshPath = meshPath;
+			
 			if (scene->HasMaterials()) {
 				texture = scene->mMaterials[assimpMesh->mMaterialIndex];
 
@@ -116,14 +129,15 @@ bool ModuleImport::LoadGeometry(const char* path) {
 						mesh->texturePath = new_path;
 						if (!App->textures->Find(mesh->texturePath))
 						{
-							const TextureObject& textureObject = App->textures->Load(mesh->texturePath);	
+							const TextureObject& textureObject = App->textures->Load(mesh->texturePath);
 							ComponentMaterial* materialComp;
-							if (newGameObject != nullptr)
-							materialComp = newGameObject->CreateComponent<ComponentMaterial>();
-							else
-								materialComp = App->editor->gameobjectSelected->CreateComponent<ComponentMaterial>();
-							materialComp->SetTexture(textureObject);
-							
+							if (!newGameObject->GetComponent<ComponentMaterial>())
+							{
+								materialComp = newGameObject->CreateComponent<ComponentMaterial>();
+								materialComp->SetTexture(textureObject);
+							}
+							else if (!newGameObject->GetComponent<ComponentMaterial>()->textureName.empty())
+								newGameObject->GetComponent<ComponentMaterial>()->SetTexture(textureObject);
 						}
 						else
 						{
@@ -138,7 +152,7 @@ bool ModuleImport::LoadGeometry(const char* path) {
 					}
 				}
 			}
-	
+			
 			mesh->numVertices = assimpMesh->mNumVertices;
 			mesh->vertices.resize(assimpMesh->mNumVertices);
 			

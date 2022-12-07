@@ -209,18 +209,28 @@ void GameObject::OnLoad(JSONReader& reader)
 	auto& config = reader;
 	LOAD_JSON_STRING(name);
 	uuid = reader.HasMember("uuid_") ? reader["uuid_"].GetString() : "Unknown_UUID";
-
+	bool meshFound = false;
 	for (rapidjson::Value::MemberIterator itr = reader.MemberBegin(); itr != reader.MemberEnd(); ++itr)
 	{
-		if (itr->name == "Mesh")
+		if (itr->name == "Transform")
+		{
+			transform->OnLoad(itr->value);
+		}
+		if (itr->name == "Mesh" && !meshFound)
 		{
 			ComponentMesh* comp = CreateComponent<ComponentMesh>();
 			comp->OnLoad(itr->value);
+			meshFound = true;
 		}
-		if (itr->name == "Material")
+		/*if (itr->name == "Material")
 		{
-			CreateComponent<ComponentMaterial>();
-		}
+			if (!GetComponent<ComponentMaterial>())
+				CreateComponent<ComponentMaterial>();
+			else
+			{
+				GetComponent<ComponentMaterial>()->OnLoad(itr->value);
+			}
+		}*/
 	}
 
 	/*if (reader.HasMember("Transform"))

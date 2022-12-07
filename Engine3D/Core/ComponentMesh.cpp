@@ -297,6 +297,7 @@ bool ComponentMesh::OnSave(JSONWriter& writer)
 {
 	writer.String("meshPath"); writer.String(meshPath.c_str());
 	writer.String("texturePath"); writer.String(texturePath.c_str());
+
 	//SAVE_JSON_STRING(meshPath.c_str);
 	//SAVE_JSON_STRING(texturePath.c_str());
 
@@ -308,8 +309,9 @@ bool ComponentMesh::OnLoad(JSONReader& reader)
 	if (reader.HasMember("meshPath"))
 	{
 		std::string str = reader["meshPath"].GetString();
-		App->import->LoadGeometry(str.c_str());
+		App->import->LoadGeometry(str.c_str(), owner);
 	}
+	
 
 	return true;
 }

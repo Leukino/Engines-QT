@@ -18,9 +18,9 @@ public:
 		if (dynamic_cast<ComponentMaterial*>(c) == nullptr)
 			return std::string("Material");
 	}
+	std::string textureName;
 
 private:
 
-	std::string textureName;
 	uint textureId = 0, width = 0, height = 0;
 };
