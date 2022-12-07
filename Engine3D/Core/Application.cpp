@@ -180,12 +180,13 @@ update_status Application::Update()
 		ret = modules[i]->PreUpdate(dt);
 	}
 
+	
 	for (size_t i = 0; i < modules.size() && ret == UPDATE_CONTINUE; i++)
 	{
 		ret = modules[i]->Update(dt);
 	}
-
-
+	
+	
 	for (size_t i = 0; i < modules.size() && ret == UPDATE_CONTINUE; i++)
 	{
 		ret = modules[i]->PostUpdate(dt);

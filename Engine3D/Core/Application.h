@@ -81,6 +81,10 @@ public:
 
 
 
+	bool pause = false;
+
+
+
 private: 
 	std::vector<Module*> modules;
 
