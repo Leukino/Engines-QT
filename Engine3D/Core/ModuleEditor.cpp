@@ -783,18 +783,25 @@ GameObject* ModuleEditor::SelectGameObject()
         GameObject* ob = App->scene->root->children.at(i);
         if (ob != nullptr)
         {
-            AABB aabb = AABB();
-            if (ob->GetComponent<ComponentMesh>()!= nullptr)
-            aabb = ob->GetComponent<ComponentMesh>()->GetAABB();
-            if (ray.Intersects(aabb))
+            std::vector<AABB> aabbs;
+            for (uint i = 0; i < ob->GetComponents<ComponentMesh>().size(); ++i)
             {
-                //selectedItens.emplace(ray.Distance(ob->transform->GetPosition()), ob);
-                if (ob->GetComponent<ComponentMesh>() != nullptr)
+                std::vector<ComponentMesh*> components = ob->GetComponents<ComponentMesh>();
+                aabbs.push_back(components.at(i)->GetAABB());
+            }
+            for (AABB aabb : aabbs)
+            {
+                if (ray.Intersects(aabb)) // kinda disgusting, i know, but it is what it is 
                 {
-                    selectedObjects.push_back(ob);
-                    selectedDistances.push_back(ray.Distance(ob->GetComponent<ComponentMesh>()->GetAABB().CenterPoint()));
+                    //selectedItens.emplace(ray.Distance(ob->transform->GetPosition()), ob);
+                    if (ob->GetComponent<ComponentMesh>() != nullptr)
+                    {
+                        selectedObjects.push_back(ob);
+                        selectedDistances.push_back(ray.Distance(ob->GetComponent<ComponentMesh>()->GetAABB().CenterPoint()));
+                    }
                 }
             }
+            
         }
     }
 

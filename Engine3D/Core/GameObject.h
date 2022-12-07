@@ -37,6 +37,19 @@ public:
 		return component;
 	}
 
+	template<class T> std::vector<T*> GetComponents()
+	{
+		std::vector<T*> vec;
+		T* component = nullptr;
+		for (Component* c : components)
+		{
+			component = dynamic_cast<T*>(c);
+			if (component)
+				vec.push_back(component);
+		}
+		return vec;
+	}
+
 	void DeleteComponent(Component* component);
 	void AddComponent(Component* component);
 	void AttachChild(GameObject* child);
