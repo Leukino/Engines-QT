@@ -644,12 +644,12 @@ void ModuleEditor::UpdateWindowStatus() {
         ImGui::Begin("Time", 0, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoDocking);
         if (ImGui::Button("Play")) {
             App->pause = false;
-            LOG("%d", App->pause);
+            //LOG("%d", App->pause);
         };
         ImGui::SameLine();
         if (ImGui::Button("Pause")) {
             App->pause = true;
-            LOG("%d", App->pause);
+            //LOG("%d", App->pause);
         };
         ImGui::SameLine();
         if (ImGui::Button("Tick")) {
@@ -657,7 +657,7 @@ void ModuleEditor::UpdateWindowStatus() {
         };
         ImGui::SameLine();
         if (ImGui::Button("Stop")) {
-            LOG("%d", App->pause);
+            //LOG("%d", App->pause);
         };
         ImGui::End();
         

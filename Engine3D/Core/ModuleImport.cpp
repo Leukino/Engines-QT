@@ -87,18 +87,18 @@ bool ModuleImport::LoadGeometry(const char* path, GameObject* parent) {
 			FindNodeName(scene, i, name);
 			
 			ComponentMesh* mesh;
-			//if (newGameObject != nullptr)
-			//{
-			//	if (newGameObject->GetComponent<ComponentMesh>() != nullptr)
-			//	{
-			//		if (newGameObject->GetComponent<ComponentMesh>()->vertices.empty())
-			//			mesh = newGameObject->GetComponent<ComponentMesh>();
-			//		else
-			//		{
-			//			mesh = newGameObject->CreateComponent<ComponentMesh>();
-			//		}
-			//	}
-			//}
+			/*if (newGameObject != nullptr)
+			{
+				if (newGameObject->GetComponent<ComponentMesh>() != nullptr)
+				{
+					if (newGameObject->GetComponent<ComponentMesh>()->vertices.empty())
+						mesh = newGameObject->GetComponent<ComponentMesh>();
+					else
+					{
+						mesh = newGameObject->CreateComponent<ComponentMesh>();
+					}
+				}
+			}*/
 			//else
 			//{
 			newGameObject = App->scene->CreateGameObject(name);
