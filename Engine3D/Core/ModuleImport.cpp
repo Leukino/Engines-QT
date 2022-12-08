@@ -10,7 +10,7 @@
 #include "ComponentMaterial.h"
 #include "GameObject.h"
 #include "ModuleEditor.h"
-
+#include "ComponentTransform.h"
 #include <vector>
 #include <queue>
 #include <string>
@@ -113,6 +113,7 @@ bool ModuleImport::LoadGeometry(const char* path, GameObject* parent) {
 			mesh->meshPath = meshPath;
 			
 			if (scene->HasMaterials()) {
+				//texture = scene->mMaterials[assimpMesh->mMaterialIndex];
 				texture = scene->mMaterials[assimpMesh->mMaterialIndex];
 
 				if (texture != nullptr) {
@@ -158,6 +159,9 @@ bool ModuleImport::LoadGeometry(const char* path, GameObject* parent) {
 			
 			memcpy(&mesh->vertices[0], assimpMesh->mVertices, sizeof(float3) * assimpMesh->mNumVertices);
 			LOG("New mesh with %d vertices", assimpMesh->mNumVertices);
+			
+
+			
 
 			// -- Copying faces --//
 			if (assimpMesh->HasFaces()) {
@@ -195,6 +199,16 @@ bool ModuleImport::LoadGeometry(const char* path, GameObject* parent) {
 			mesh->GenerateBuffers();
 			mesh->GenerateBounds();
 			mesh->ComputeNormals();
+			aiVector3D pos;
+			aiQuaternion rot;
+			aiVector3D sca;
+			scene->mRootNode->mChildren[i]->mTransformation.Decompose(sca, rot, pos);
+			newGameObject->transform->SetPosition({ pos.x / 100, pos.y / 100, pos.z / 100 });
+
+			math::Quat qua = Quat(rot.x, rot.y, rot.z, rot.w);
+			math::float3 rot_euler = qua.ToEulerXYZ();
+			newGameObject->transform->SetRotation({ rot_euler.x , rot_euler.y, rot_euler.z});
+			newGameObject->transform->SetScale({ sca.x / 100, sca.y / 100, sca.z / 100 });
 		}
 		aiReleaseImport(scene);		
 		RELEASE_ARRAY(buffer);
