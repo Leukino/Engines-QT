@@ -24,8 +24,8 @@ bool ModuleScene::Start()
 	root = new GameObject("Root");
 
 	//Loading house and textures since beginning
-	App->import->LoadGeometry("Assets/Models/BakerHouse.fbx");
-	//App->import->LoadGeometry("Assets/Models/Street environment_V02.fbx");
+	//App->import->LoadGeometry("Assets/Models/BakerHouse.fbx");
+	App->import->LoadGeometry("Assets/Models/Street environment_V05.fbx");
 	//App->scene->LoadScene("Scenes/street_v3.scn");
 	return ret;
 }
