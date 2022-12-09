@@ -222,15 +222,15 @@ void GameObject::OnLoad(JSONReader& reader)
 			comp->OnLoad(itr->value);
 			//meshFound = true;
 		}
-		/*if (itr->name == "Material")
+		if (itr->name == "Material")
 		{
 			if (!GetComponent<ComponentMaterial>())
-				CreateComponent<ComponentMaterial>();
+				CreateComponent<ComponentMaterial>()->OnLoad(itr->value);
 			else
 			{
 				GetComponent<ComponentMaterial>()->OnLoad(itr->value);
 			}
-		}*/
+		}
 	}
 
 	/*if (reader.HasMember("Transform"))

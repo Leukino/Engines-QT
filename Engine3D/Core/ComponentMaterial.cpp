@@ -2,7 +2,9 @@
 #include "ModuleTextures.h"
 #include "ImGui/imgui.h"
 #include "ComponentMaterial.h"
-
+#include "GameObject.h"
+#include "Component.h"
+#include "ModuleFileSystem.h"
 ComponentMaterial::ComponentMaterial(GameObject* parent) : Component(parent) {
 	this->type = "Material";
 }
@@ -27,4 +29,28 @@ void ComponentMaterial::OnGui()
 		}
 	}
 }
+
+bool ComponentMaterial::OnSave(JSONWriter& writer)
+{
+	std::string file;
+	std::string ext;
+	App->fileSystem->SplitFilePath(textureName.c_str(), nullptr, &file, &ext);
+	file += "." + ext;
+	writer.String("TexturePath"); writer.String(file.c_str());
+	return false;
+}
+
+bool ComponentMaterial::OnLoad(JSONReader& reader)
+{
+	if (reader.HasMember("TexturePath"))
+	{
+		textureName = reader["TexturePath"].GetString();
+		const TextureObject& textureObject = App->textures->Load("Assets/Textures/" + textureName);
+		SetTexture(textureObject);
+
+	}
+	return false;
+}
+
+
 

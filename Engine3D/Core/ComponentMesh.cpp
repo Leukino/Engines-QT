@@ -300,6 +300,56 @@ bool ComponentMesh::OnSave(JSONWriter& writer)
 	writer.String("meshPath"); writer.String(meshPath.c_str());
 	writer.String("texturePath"); writer.String(texturePath.c_str());
 
+
+	// Really dirty, i know. But it is what it is
+	writer.String("NumVertices"); writer.Uint(numVertices);
+	writer.String("NumIndices"); writer.Uint(numIndices);
+	writer.String("NumNormalFaces"); writer.Uint(numNormalFaces);
+
+	writer.String("Vertices");
+	writer.StartArray();
+	for (uint i = 0; i < numVertices; ++i)
+	{
+		writer.Double(vertices[i].x); writer.Double(vertices[i].y); writer.Double(vertices[i].z);
+	}
+	writer.EndArray();
+
+	writer.String("Indices");
+	writer.StartArray();
+	for (uint i = 0; i < numIndices; ++i)
+	{
+		writer.Uint(indices[i]);
+	}
+	writer.EndArray();
+
+	writer.String("UVs");
+	writer.StartArray();
+	for (uint i = 0; i < numVertices; ++i)
+	{
+		writer.Double(texCoords[i].x); writer.Double(texCoords[i].y);
+	}
+	writer.EndArray();
+
+	/*writer.String("Normals");
+	writer.StartArray();
+	for (uint i = 0; i < numVertices; ++i)
+	{
+		writer.Double(normals[i].x); writer.Double(normals[i].y); writer.Double(normals[i].z);
+		
+	}
+	writer.EndArray();*/
+	
+	/*writer.String("FaceNormalsCenters");
+	writer.StartArray();
+	for (uint i = 0; i < numNormalFaces; ++i)
+	{
+		writer.Double(faceNormals[i].x); writer.Double(faceNormals[i].y); writer.Double(faceNormals[i].z);
+		writer.Double(faceCenters[i].x); writer.Double(faceCenters[i].y); writer.Double(faceCenters[i].z);
+		
+	}
+	writer.EndArray();*/
+
+
 	//SAVE_JSON_STRING(meshPath.c_str);
 	//SAVE_JSON_STRING(texturePath.c_str());
 
@@ -308,12 +358,51 @@ bool ComponentMesh::OnSave(JSONWriter& writer)
 
 bool ComponentMesh::OnLoad(JSONReader& reader)
 {
-	if (reader.HasMember("meshPath"))
+	if (reader.HasMember("NumVertices"))
+	{
+		if (reader.HasMember("Vertices"))
+		{
+			auto& arr = reader["Vertices"].GetArray();
+			numVertices = reader["NumVertices"].GetUint();
+			for (int i = 0; i < numVertices*3;)
+			{
+				vertices.push_back({ arr[i].GetFloat(), arr[i+1].GetFloat(), arr[i+2].GetFloat()});
+				i++;
+				i++;
+				i++;
+			}
+
+		}
+		if (reader.HasMember("Indices"))
+		{
+			auto& arr = reader["Indices"].GetArray();
+			numIndices = reader["NumIndices"].GetUint();
+			for (int i = 0; i < numIndices; ++i)
+			{
+				indices.push_back(arr[i].GetUint());
+			}
+		}
+		if (reader.HasMember("UVs"))
+		{
+			auto& arr = reader["UVs"].GetArray();
+			numVertices = reader["NumVertices"].GetUint();
+			for (int i = 0; i < numVertices*2;)
+			{
+				texCoords.push_back({ arr[i].GetFloat(), arr[i + 1].GetFloat() });
+				i++;
+				i++;
+			}
+		}
+		GenerateBuffers();
+		GenerateBounds();
+		ComputeNormals();
+	}
+	else if (reader.HasMember("meshPath"))
 	{
 		std::string str = reader["meshPath"].GetString();
 		App->import->LoadGeometry(str.c_str(), owner);
 	}
-	
+
 
 	return true;
 }

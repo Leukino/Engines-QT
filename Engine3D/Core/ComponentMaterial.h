@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Component.h"
-
+#include "Module.h"
 struct TextureObject;
 
 class ComponentMaterial : public Component {
@@ -18,7 +18,11 @@ public:
 		if (dynamic_cast<ComponentMaterial*>(c) == nullptr)
 			return std::string("Material");
 	}
+
 	std::string textureName;
+
+	bool OnLoad(JSONReader& reader);
+	bool OnSave(JSONWriter& writer);
 
 private:
 

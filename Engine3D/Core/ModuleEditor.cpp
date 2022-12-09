@@ -341,8 +341,9 @@ void ModuleEditor::MenuBar() {
         if (ImGui::BeginMenu("File")) {
             if (ImGui::MenuItem("Open", "Ctrl + O")) //DO SOMETHING
             {
-                std::string filePath = App->fileSystem->LoadFileExplorer();
-                App->scene->LoadScene(filePath);
+                std::string openPath = App->fileSystem->LoadFileExplorer();
+                if (!openPath.empty()) 
+                App->scene->LoadScene(openPath);
             }
             ImGui::Separator();
             if (ImGui::MenuItem("Save", "Ctrl + S")) //DO SOMETHING

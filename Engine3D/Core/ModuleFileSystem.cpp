@@ -323,11 +323,22 @@ std::string ModuleFileSystem::LoadFileExplorer()
 	ofn.hwndOwner = systemInfo.info.win.window;
 	ofn.lpstrFile = szFile;
 	ofn.nMaxFile = sizeof(szFile);
+	ofn.lpstrInitialDir = systemBasePath.c_str();
 	ofn.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST | OFN_NOCHANGEDIR;
 	if (GetOpenFileNameA(&ofn) == TRUE)
 	{
-		LOG("Found file %s", ofn.lpstrFile);
-		return ofn.lpstrFile;
+		std::string path;
+		std::string file;
+		std::string extension;
+		SplitFilePath(ofn.lpstrFile, &path, &file, &extension);
+
+		std::string pathR = GetPathRelativeToAssets(path.c_str());
+		//path.replace(0, )
+
+		pathR += file + "." + "scn";
+		//LOG("System base path: %s", pathR.c_str());
+		//LOG("Saved file %s", pathR.c_str());
+		return NormalizePath(pathR.c_str());
 	}
 	return std::string();
 }
