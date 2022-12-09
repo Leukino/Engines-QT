@@ -34,6 +34,9 @@ ComponentMesh::ComponentMesh(GameObject* parent, Shape shape) : Component(parent
 	case Shape::SPHERE:
 		CopyParMesh(par_shapes_create_parametric_sphere(20, 20));
 		break;
+	case Shape::PLANE:
+		CopyParMesh(par_shapes_create_plane(20, 20));
+		break;
 	}
 }
 
@@ -46,22 +49,26 @@ ComponentMesh::~ComponentMesh()
 
 void ComponentMesh::CopyParMesh(par_shapes_mesh* parMesh)
 {
+	
 	numVertices = parMesh->npoints;
 	numIndices = parMesh->ntriangles * 3;
 	numNormalFaces = parMesh->ntriangles;
 	vertices.resize(numVertices);
 	normals.resize(numVertices);
 	indices.resize(numIndices);
+	texCoords.resize(numVertices);
 	par_shapes_compute_normals(parMesh);
 	for (size_t i = 0; i < numVertices; ++i)
 	{
 		memcpy(&vertices[i], &parMesh->points[i * 3], sizeof(float) * 3);
 		memcpy(&normals[i], &parMesh->normals[i * 3], sizeof(float) * 3);
+		memcpy(&texCoords[i], &parMesh->tcoords[i * 2], sizeof(float) * 2);
 	}
 	for (size_t i = 0; i < indices.size(); ++i)
 	{
 		indices[i] = parMesh->triangles[i];
 	}
+	
 	memcpy(&normals[0], parMesh->normals, numVertices);
 
 	par_shapes_free_mesh(parMesh);
@@ -321,15 +328,16 @@ bool ComponentMesh::OnSave(JSONWriter& writer)
 		writer.Uint(indices[i]);
 	}
 	writer.EndArray();
-
-	writer.String("UVs");
-	writer.StartArray();
-	for (uint i = 0; i < numVertices; ++i)
+	if (!texCoords.empty())
 	{
-		writer.Double(texCoords[i].x); writer.Double(texCoords[i].y);
+		writer.String("UVs");
+		writer.StartArray();
+		for (uint i = 0; i < numVertices; ++i)
+		{
+			writer.Double(texCoords[i].x); writer.Double(texCoords[i].y);
+		}
+		writer.EndArray();
 	}
-	writer.EndArray();
-
 	/*writer.String("Normals");
 	writer.StartArray();
 	for (uint i = 0; i < numVertices; ++i)

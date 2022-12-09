@@ -390,6 +390,10 @@ void ModuleEditor::MenuBar() {
             }
 
             if (ImGui::BeginMenu("3D Objects")) {
+                if (ImGui::MenuItem("Plane")) {
+                    GameObject* newGameObject = App->scene->CreateGameObject("Plane");
+                    ComponentMesh* newMesh = new ComponentMesh(newGameObject, ComponentMesh::Shape::PLANE);
+                }
                 if (ImGui::MenuItem("Cube")) {
                     GameObject* newGameObject = App->scene->CreateGameObject("Cube");
                     ComponentMesh* newMesh = new ComponentMesh(newGameObject, ComponentMesh::Shape::CUBE);
