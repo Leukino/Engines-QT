@@ -5,9 +5,9 @@ It's a game engine, you can move the camera, add objects in scene, modify their 
 
 Controls:
 
-- wasd move camera
+- Right-click + wasd to move camera
 
-- e and q move camera up and down
+- Right-click + e and q move camera up and down
 
 - Right-click to rotate camera
 
@@ -41,8 +41,16 @@ Some more features:
 
 - You can save and load scenes.
 
+- Loaded scenes will keep components and hierarchy.
+
+- Meshes will be stored in the scene file.
+
 - Serialization of all GameObjects.
 
 - You can store the desired component information, by clicking Store Position. Then, whenever you want, you can Undo the action and revert to the previous stored position. It won't matter whether it's the selected gameobject or not. 
+
+- You can drag and drop models and textures to import them to the engine.
+
+- You can move, scale and rotate GameObjects thanks to the implemented Gizmo (you can change between translate, scale and rotation by pressing "w" "e" "r"). 
 
 The engine executable is located in Engine3D/Game/Engine3D.exe
