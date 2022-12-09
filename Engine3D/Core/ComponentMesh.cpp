@@ -199,7 +199,7 @@ bool ComponentMesh::Update(float dt)
 	}
 
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->indexBufferId);
-	if (App->camera->cameraFrustum.Contains(centerPoint))
+	if (App->camera->cameraFrustum.Intersects(GetAABB()))
 	{
 		//-- Draw --//
 

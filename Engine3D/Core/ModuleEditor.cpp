@@ -116,9 +116,27 @@ update_status ModuleEditor::Update(float dt)
     UpdateWindowStatus();
     if (App->input->GetKey(SDL_SCANCODE_LCTRL) && App->input->GetKey(SDL_SCANCODE_Z) == KEY_DOWN)
         Undo();
+    
+    if (App->input->GetKey(SDL_SCANCODE_LCTRL) && App->input->GetKey(SDL_SCANCODE_O) == KEY_DOWN)
+    {
+        std::string openPath = App->fileSystem->LoadFileExplorer();
+        if (!openPath.empty())
+            App->scene->LoadScene(openPath);
+    }
 
     if (App->input->GetKey(SDL_SCANCODE_LCTRL) && App->input->GetKey(SDL_SCANCODE_S) == KEY_DOWN)
-        App->scene->SaveScene(std::string("SavedScene.scn"));
+    {
+        std::string savePath = App->fileSystem->SaveFileExplorer();
+        if (!savePath.empty())
+            App->scene->SaveScene(savePath);
+        else
+            App->scene->SaveScene(std::string("SavedScene.scn"));
+    }
+    if (App->input->GetKey(SDL_SCANCODE_DELETE)== KEY_DOWN)
+    {
+        App->scene->root->RemoveChild(gameobjectSelected);
+        gameobjectSelected = nullptr;
+    }
     return UPDATE_CONTINUE;
 }
 
@@ -553,7 +571,6 @@ void ModuleEditor::UpdateWindowStatus() {
         {
             App->scene->root->RemoveChild(gameobjectSelected);
             gameobjectSelected = nullptr;
-
         }
         std::stack<GameObject*> S;
         std::stack<uint> indents;
