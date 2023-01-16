@@ -322,7 +322,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
       <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
-      <AdditionalLibraryDirectories>$(SolutionDir)\Core\Assimp\libx86;$(SolutionDir)\Core\SDL\libx86;$(SolutionDir)\Core\glew\libx86;$(SolutionDir)\Core\DevIL\libx86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)\Core\Assimp\libx86;$(SolutionDir)\Core\SDL\libx86;$(SolutionDir)\Core\glew\libx86;$(SolutionDir)\Core\DevIL\libx86;$(SolutionDir)\Core\Wwise\Release(StaticCRT)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>SDL2.lib;SDL2main.lib;assimp.lib;ILUT.lib;ILU.lib;DevIL.lib;glew32.lib;opengl32.lib;glu32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
@@ -335,7 +335,7 @@
       <SDLCheck>false</SDLCheck>
       <ExceptionHandling>false</ExceptionHandling>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
-      <AdditionalIncludeDirectories>$(SolutionDir)\Core\MathGeoLib\include;$(SolutionDir)\Core\glew\include;$(SolutionDir)\Core\JSONObject\include;$(SolutionDir)\Core\Wwise;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\Core\MathGeoLib\include;$(SolutionDir)\Core\glew\include;$(SolutionDir)\Core\JSONObject\include;$(SolutionDir)\Core\Wwise\Profile(StaticCRT)\lib;$(SolutionDir)\Core\Wwise\Release(StaticCRT)\lib;$(SolutionDir)\Core\Wwise\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>%(PreprocessorDefinitions);</PreprocessorDefinitions>
       <UndefinePreprocessorDefinitions>MATH_SSE;</UndefinePreprocessorDefinitions>
       <SupportJustMyCode>true</SupportJustMyCode>
@@ -346,8 +346,8 @@
       <OptimizeReferences>true</OptimizeReferences>
       <SubSystem>Windows</SubSystem>
       <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
-      <AdditionalLibraryDirectories>$(SolutionDir)\Core\Assimp\libx86;$(SolutionDir)\Core\SDL\libx86;$(SolutionDir)\Core\glew\libx86;$(SolutionDir)\Core\DevIL\libx86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>SDL2.lib;SDL2main.lib;assimp.lib;ILUT.lib;ILU.lib;DevIL.lib;glew32.lib;opengl32.lib;glu32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)\Core\Assimp\libx86;$(SolutionDir)\Core\SDL\libx86;$(SolutionDir)\Core\glew\libx86;$(SolutionDir)\Core\DevIL\libx86;$(SolutionDir)\Core\Wwise\Release(StaticCRT)\lib\;$(SolutionDir)\Core\Wwise\Profile(StaticCRT)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;assimp.lib;ILUT.lib;ILU.lib;DevIL.lib;glew32.lib;opengl32.lib;glu32.lib;AkStreamMgr.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

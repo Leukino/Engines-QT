@@ -780,6 +780,9 @@
     <Filter Include="Engine\Tools">
       <UniqueIdentifier>{3b33fd60-8311-4ddf-87d9-d36b91d2b082}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ExternalLibraries\wwise">
+      <UniqueIdentifier>{e77093f1-091a-4bba-b7bd-4524129d5665}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="Core\MathGeoLib\include\Geometry\QuadTree.inl">
