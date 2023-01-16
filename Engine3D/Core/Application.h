@@ -20,6 +20,7 @@ class ModuleViewportFrameBuffer;
 class ModuleImport;
 class ModuleFileSystem;
 class ModuleTextures;
+class ModuleAudio;
 
 class Application
 {
@@ -35,6 +36,7 @@ public:
 	ModuleImport* import { nullptr };
 	ModuleFileSystem* fileSystem { nullptr };
 	ModuleTextures* textures { nullptr };
+	ModuleAudio* audio { nullptr };
 
 	Application();
 	~Application();

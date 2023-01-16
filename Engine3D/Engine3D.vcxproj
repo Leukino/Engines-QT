@@ -73,6 +73,7 @@
     <ClCompile Include="Core\Timer.cpp" />
     <ClCompile Include="Core\ComponentTransform.cpp" />
     <ClCompile Include="Core\ModuleViewportFrameBuffer.cpp" />
+    <ClCompile Include="ModuleAudio.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Core\Application.h" />
@@ -252,6 +253,7 @@
     <ClInclude Include="Core\ComponentTransform.h" />
     <ClInclude Include="Core\ModuleViewportFrameBuffer.h" />
     <ClInclude Include="Core\uuid_generator.h" />
+    <ClInclude Include="ModuleAudio.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Core\Assimp\include\color4.inl" />
