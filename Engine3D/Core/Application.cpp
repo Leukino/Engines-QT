@@ -43,7 +43,7 @@ Application::Application()
 	AddModule(input);
 	AddModule(textures);
 	AddModule(import);
-	AddModule(audio);
+	//AddModule(audio);
 	
 	// Scenes
 	AddModule(scene);

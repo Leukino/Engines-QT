@@ -185,7 +185,7 @@
     <ClCompile Include="Core\ImGui\ImGuizmo.cpp">
       <Filter>ExternalLibraries\ImGui</Filter>
     </ClCompile>
-    <ClCompile Include="ModuleAudio.cpp">
+    <ClCompile Include="Core\ModuleAudio.cpp">
       <Filter>Engine\Modules</Filter>
     </ClCompile>
   </ItemGroup>
@@ -721,7 +721,7 @@
     <ClInclude Include="Core\uuid_generator.h">
       <Filter>Engine\Tools</Filter>
     </ClInclude>
-    <ClInclude Include="ModuleAudio.h">
+    <ClInclude Include="Core\ModuleAudio.h">
       <Filter>Engine\Modules</Filter>
     </ClInclude>
   </ItemGroup>
